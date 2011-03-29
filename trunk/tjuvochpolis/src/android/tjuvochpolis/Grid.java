@@ -2,8 +2,8 @@ package android.tjuvochpolis;
 
 public class Grid {
 
-	int height = 18;
-	int width = 21;
+	private int height = 18;
+	private int width = 21;
 	GridNode gridArray[][] = new GridNode[width][height];
 
 	public Grid() {
@@ -11,6 +11,8 @@ public class Grid {
 		for (int column = 0; column < width; column++) {
 			for (int row = 0; row < height; row++) {
 				gridArray[column][row] = new GridNode();
+				gridArray[column][row].setX(column);
+				gridArray[column][row].setY(row);
 			}
 		}
 
