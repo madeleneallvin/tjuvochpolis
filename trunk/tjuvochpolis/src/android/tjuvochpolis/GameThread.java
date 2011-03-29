@@ -22,7 +22,10 @@ public class GameThread extends Thread
     private int mCanvasHeight = 1;
 
     private int mCanvasWidth = 1;
-	
+    
+    Grid grid;
+    CopObject cop;
+	ThiefObject thief;
 	public GameThread(SurfaceHolder surfaceHolder, Context context)
 	{
 		// Grid, Gameobjects, etc.
@@ -30,6 +33,20 @@ public class GameThread extends Thread
 		mContext = context;
 		
 		//mGameState = new GameState();
+		
+		//albin och gustaf
+		
+		grid = new Grid();
+		
+		cop = new CopObject(grid.gridArray[4][4]);
+		thief = new ThiefObject(grid.gridArray[4][7]);
+		
+		grid.gridArray[4][4].setGameObject(cop);
+		grid.gridArray[4][7].setGameObject(thief);
+		
+		thief.moveTo(grid.gridArray[5][7]);
+		
+		//end of line
 	}
 	
 	/**
@@ -83,6 +100,9 @@ public class GameThread extends Thread
 		//ta bort när gamestate doDraw är aktiverat
 
 		canvas.drawColor(color);
+		cop.doDraw(canvas);
+		grid.gridArray[4][7].getGameObject().doDraw(canvas);
+		
 		//------------------------
 		
 		//mGameState.doDraw(canvas);
