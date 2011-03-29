@@ -17,36 +17,27 @@ public class GameThread extends Thread
 	
 	private Boolean mRun;
 	
-	//private GameState mGameState;
+	
+	
+	private GameState menuState = new MenuState();
+	
+	private GameState playState = new PlayState();
+	
+	private GameState currentState = menuState;
+	
+	// Eventuellt en background om thread själv ska rita bakgrunden
 
     private int mCanvasHeight = 1;
 
     private int mCanvasWidth = 1;
-    
-    Grid grid;
-    CopObject cop;
-	ThiefObject thief;
+	
 	public GameThread(SurfaceHolder surfaceHolder, Context context)
 	{
 		// Grid, Gameobjects, etc.
 		mSurfaceHolder = surfaceHolder;
 		mContext = context;
-		
+				
 		//mGameState = new GameState();
-		
-		//albin och gustaf
-		
-		grid = new Grid();
-		
-		cop = new CopObject(grid.gridArray[4][4]);
-		thief = new ThiefObject(grid.gridArray[4][7]);
-		
-		grid.gridArray[4][4].setGameObject(cop);
-		grid.gridArray[4][7].setGameObject(thief);
-		
-		thief.moveTo(grid.gridArray[5][7]);
-		
-		//end of line
 	}
 	
 	/**
@@ -62,26 +53,29 @@ public class GameThread extends Thread
     }
 	
 	@Override
-    public void run() {
-		int color = -16711681;
-        while (mRun) {
-        	Canvas c = null;
+    public void run()
+	{
+        while (mRun)
+        {
+        	Canvas canvas = null;
         	
-            try {
-                c = mSurfaceHolder.lockCanvas(null);
-                synchronized (mSurfaceHolder) {
-                    drawScreen(c, color);
-                    color--;
-                }
-            } finally {
-                // do this in a finally so that if an exception is thrown
-                // during the above, we don't leave the Surface in an
-                // inconsistent state
-                if (c != null) {
-                    mSurfaceHolder.unlockCanvasAndPost(c);
-                }
-            }
-
+			try {
+			    canvas = mSurfaceHolder.lockCanvas(null);
+			    synchronized (mSurfaceHolder) {
+			        
+		        	currentState.handleState(canvas);
+		        	currentState.nextState(this);
+			        
+			    }
+			} finally {
+			    // do this in a finally so that if an exception is thrown
+			    // during the above, we don't leave the Surface in an
+			    // inconsistent state
+			    if (canvas != null)
+			    {
+			        mSurfaceHolder.unlockCanvasAndPost(canvas);
+			    }
+			}      	
         }
 	}
 	
@@ -94,18 +88,20 @@ public class GameThread extends Thread
         }
     }
 
+	public GameState getPlayState() {
+		return playState;
+	}
 	
-	public void drawScreen(Canvas canvas, int color)
-	{
-		//ta bort när gamestate doDraw är aktiverat
+	public GameState getMenuState() {
+		return menuState;
+	}
 
-		canvas.drawColor(color);
-		cop.doDraw(canvas);
-		thief.doDraw(canvas);
-		
-		//------------------------
-		
-		//mGameState.doDraw(canvas);
+	public void setCurrentState(GameState currentState) {
+		this.currentState = currentState;
+	}
+
+	public GameState getCurrentState() {
+		return currentState;
 	}
 	
 

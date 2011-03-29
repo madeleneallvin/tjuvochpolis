@@ -19,7 +19,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	private OnTouchListener mListener = new OnTouchListener() {
 	   
 		public boolean onTouch(View v, MotionEvent event) {
-			// Skicka vidare eventet till gamethread -> gamestate
+			thread.getCurrentState().doTouch(v, event);
 			return false;
 		}
 	};
@@ -67,13 +67,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread.setSurfaceSize(width, height);
 
 	}
-	
-	public void onTouch(View v, MotionEvent event) 
-	{
-      // do something when the button is clicked
-    }
-
-
 	
 	public GameThread getThread()
 	{
