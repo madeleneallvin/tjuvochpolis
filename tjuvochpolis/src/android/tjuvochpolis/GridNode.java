@@ -2,12 +2,17 @@ package android.tjuvochpolis;
 
 public class GridNode {
 
-	private int id;
+	private int x;
+	private int y;
 	private GridNode upNode;
 	private GridNode downNode;
 	private GridNode leftNode;
 	private GridNode rightNode;
 	private int type; //kanske inte int 
+	private GameObject gameObject;
+	private boolean nodeState;
+	
+	
 	
 	void setUpNode(GridNode upNode) {
 		this.upNode = upNode;
@@ -39,11 +44,30 @@ public class GridNode {
 	int getType() {
 		return type;
 	}
-	void setId(int id) {
-		this.id = id;
+	
+	void setGameObject(GameObject gameObject) {
+		this.gameObject = gameObject;
 	}
-	int getId() {
-		return id;
+	GameObject getGameObject() {
+		return gameObject;
+	}
+	void setNodeState(boolean nodeState) {
+		this.nodeState = nodeState;
+	}
+	boolean isNodeState() {
+		return nodeState;
+	}
+	void setX(int x) {
+		this.x = x;
+	}
+	int getX() {
+		return x;
+	}
+	void setY(int y) {
+		this.y = y;
+	}
+	int getY() {
+		return y;
 	}
 	
 	
