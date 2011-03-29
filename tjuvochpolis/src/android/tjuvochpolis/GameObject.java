@@ -17,7 +17,9 @@ public abstract class GameObject {
 	public abstract void doDraw(Canvas canvas); 
 	
 	public void moveTo(GridNode newParent){
+		//parentNode.setGameObject(null);
 		parentNode = newParent;
+		//parentNode.setGameObject(this);
 		
 		
 	}

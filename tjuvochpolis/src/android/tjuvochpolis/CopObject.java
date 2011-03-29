@@ -16,7 +16,8 @@ public class CopObject extends GameObject{
 		// TODO Auto-generated method stub
 		Paint paint = new Paint();
 		paint.setColor(Color.BLUE); //bara tillfälligt
-		canvas.drawRect(parentNode.getX()*pixels,parentNode.getY()*pixels , 1*pixels, 1*pixels, paint); // måste sätta in getX, getY * # pixlar
+		canvas.drawCircle(parentNode.getX()*pixels+pixels/2, parentNode.getY()*pixels+pixels/2, pixels/2, paint);
+				//parentNode.getX()*pixels,  parentNode.getY()*pixels, parentNode.getX()*pixels+pixels, parentNode.getY()*pixels+pixels, paint); // måste sätta in getX, getY * # pixlar
 		
 		
 	}
