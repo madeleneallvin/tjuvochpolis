@@ -2,8 +2,11 @@ package android.tjuvochpolis;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.tjuvochpolis.GameThread;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback 
@@ -13,6 +16,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private GameThread thread;
 
+	private OnTouchListener mListener = new OnTouchListener() {
+	   
+		public boolean onTouch(View v, MotionEvent event) {
+			// Skicka vidare eventet till gamethread -> gamestate
+			return false;
+		}
+	};
 	
 	public GameView(Context context, AttributeSet atrbs)
 	{
@@ -24,6 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread = new GameThread(holder, context);
         
         setFocusable(true);
+        this.setOnTouchListener(mListener);
 
 	}
 	
@@ -56,6 +67,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		thread.setSurfaceSize(width, height);
 
 	}
+	
+	public void onTouch(View v, MotionEvent event) 
+	{
+      // do something when the button is clicked
+    }
+
+
 	
 	public GameThread getThread()
 	{
