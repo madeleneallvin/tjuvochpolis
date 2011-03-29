@@ -46,12 +46,15 @@ public class GameThread extends Thread
 	
 	@Override
     public void run() {
+		int color = -16711681;
         while (mRun) {
         	Canvas c = null;
+        	
             try {
                 c = mSurfaceHolder.lockCanvas(null);
                 synchronized (mSurfaceHolder) {
-                    drawScreen(c);
+                    drawScreen(c, color);
+                    color--;
                 }
             } finally {
                 // do this in a finally so that if an exception is thrown
@@ -75,10 +78,10 @@ public class GameThread extends Thread
     }
 
 	
-	public void drawScreen(Canvas canvas)
+	public void drawScreen(Canvas canvas, int color)
 	{
 		//ta bort när gamestate doDraw är aktiverat
-		int color = -16711681;
+
 		canvas.drawColor(color);
 		//------------------------
 		
