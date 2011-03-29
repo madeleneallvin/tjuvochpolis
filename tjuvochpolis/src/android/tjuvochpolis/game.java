@@ -10,6 +10,8 @@ public class game extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+       //hej
+        
         
         // avkommentera när saved states blir aktuellt
         /*// get handles to the GameView from XML, and its GameThread
