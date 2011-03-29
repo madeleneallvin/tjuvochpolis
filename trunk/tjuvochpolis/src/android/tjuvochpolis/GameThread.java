@@ -101,7 +101,7 @@ public class GameThread extends Thread
 
 		canvas.drawColor(color);
 		cop.doDraw(canvas);
-		grid.gridArray[4][7].getGameObject().doDraw(canvas);
+		thief.doDraw(canvas);
 		
 		//------------------------
 		
