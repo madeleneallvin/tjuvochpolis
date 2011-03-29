@@ -11,6 +11,7 @@ public class PowerupObject extends GameObject{
 
 	@Override
 	public void doDraw(Canvas canvas) {
+		
 		// TODO Auto-generated method stub
 		
 	}

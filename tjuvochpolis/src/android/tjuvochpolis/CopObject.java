@@ -18,6 +18,7 @@ public class CopObject extends GameObject{
 		paint.setColor(Color.BLUE); //bara tillfälligt
 		canvas.drawRect(parentNode.getX()*pixels,parentNode.getY()*pixels , 1*pixels, 1*pixels, paint); // måste sätta in getX, getY * # pixlar
 		
+		
 	}
 
 }

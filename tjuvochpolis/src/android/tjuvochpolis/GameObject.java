@@ -18,6 +18,8 @@ public abstract class GameObject {
 	
 	public void moveTo(GridNode newParent){
 		parentNode = newParent;
+		
+		
 	}
 }
 	
