@@ -1,15 +1,35 @@
 package android.tjuvochpolis;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 public class CopTurnState extends PlayOrderState {
 	
-	public CopTurnState(CopObject cop, ThiefObject thief, Grid grid){
-		super(cop, thief, grid);
+	boolean hasMoved = false;
+	
+	public CopTurnState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
+		super(ps, cop, thief, grid);
 	}
 	
-	public void moveTo(float x, float y) {
-		int column = (int)Math.floor(x/30); //30 är "lagom" storlek för punkterna som ritas ut
-		int row = (int)Math.floor(y/30);
-		this.cop.moveTo(this.grid.gridArray[column][row]);
-	}
 	
+	public void handleState()
+	{
+		
+	}
+
+	public void doTouch(View v, MotionEvent event) {
+		
+		//om x och y är giltiga destinationer
+		hasMoved = true;
+		((CopMoveState)ps.copMoveState).toCoordinates(event.getX(), event.getY());
+	}
+
+
+	public PlayOrderState getNextState() {
+		if(hasMoved){
+			hasMoved = false;
+			return ps.copMoveState;
+		}
+		return this;
+	}
 }
