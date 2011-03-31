@@ -9,15 +9,29 @@ public class Grid {
 	GridNode gridArray[][] = new GridNode[width][height];
 
 	public Grid(Context context) {
-		// Puts GridNodes in array
-		//int[][] blocksType = context.getResources().getIntArray(R.array.blocksType);
 		
+		int[][] blocksType;
+		blocksType = new int[21][18];
+		String[] items;
+
+		// Create an array with block types
+		for(int j = 1; j < 22; j++) {
+			
+			int arrayID = context.getResources().getIdentifier("c" + j,"array","android.tjuvochpolis"); 
+	        items = context.getResources().getStringArray(arrayID);
+	        
+	        for (int i = 0; i < 18; i++) {
+	        	blocksType[j-1][i] = Integer.parseInt(items[i]);
+	        }  
+		}
+		
+		// Puts GridNodes in array with correct type
 		for (int column = 0; column < width; column++) {
 			for (int row = 0; row < height; row++) {
 				
 				gridArray[column][row] = new GridNode();
-				//int blockedType = blocksType[column][row];
-				//gridArray[column][row].setType(blockedType);
+				int blockedType = blocksType[column][row];
+				gridArray[column][row].setType(blockedType);
 				gridArray[column][row].setX(column);
 				gridArray[column][row].setY(row);
 			}

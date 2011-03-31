@@ -21,7 +21,12 @@ public abstract class GameObject {
 	public void moveTo(GridNode newParent){
 		this.parentNode.setGameObject(null);
 		this.parentNode = newParent;
-		this.parentNode.setGameObject(this);
+		if(this.parentNode.getType() == 0) {
+			this.parentNode.setGameObject(this);
+		}
+		else if(this.parentNode.getType() == 1) {
+			//inte ok att flytta hit		
+		}
 		
 		
 	}

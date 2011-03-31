@@ -1,6 +1,9 @@
 package android.tjuvochpolis;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -15,14 +18,22 @@ public class PlayState implements GameState
 	private PlayOrderState copTurnState;
 	private PlayOrderState thiefTurnState;
 	
+	private Context mContext;
+	private Bitmap mBackgroundImage;
+
+	
 	public PlayState(Context context)
 	{
 		grid = new Grid(context);
 
-		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
+		cop = new CopObject(grid.gridArray[4][1]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		thief = new ThiefObject(grid.gridArray[4][7]);
 		copTurnState = new CopTurnState(cop, thief, grid);
 		thiefTurnState = new ThiefTurnState(cop, thief, grid);
+		
+		Resources res = context.getResources();       
+        mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.lofi_map);
+		
 	}
 	
 	public void handleState(Canvas canvas)
@@ -37,7 +48,7 @@ public class PlayState implements GameState
 	
 	private void draw(Canvas c)
 	{
-		c.drawColor(Color.DKGRAY);
+		c.drawBitmap(mBackgroundImage, 0, 0, null);
 		cop.doDraw(c);
 		thief.doDraw(c);
 	}

@@ -12,8 +12,6 @@ public class GridNode {
 	private GameObject gameObject;
 	private boolean nodeState;
 	
-	
-	
 	void setUpNode(GridNode upNode) {
 		this.upNode = upNode;
 	}
