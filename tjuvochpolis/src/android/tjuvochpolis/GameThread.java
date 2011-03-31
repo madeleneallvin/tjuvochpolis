@@ -39,6 +39,7 @@ public class GameThread extends Thread
 		playState = new PlayState(context);
 		currentState = menuState;
 				
+		
 		//mGameState = new GameState();
 	}
 	
