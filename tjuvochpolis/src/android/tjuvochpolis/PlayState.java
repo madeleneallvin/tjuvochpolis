@@ -18,10 +18,10 @@ public class PlayState implements GameState
 		cop = new CopObject(grid.gridArray[4][4]);
 		thief = new ThiefObject(grid.gridArray[4][7]);
 		
-		grid.gridArray[4][4].setGameObject(cop);
-		grid.gridArray[4][7].setGameObject(thief);
 		
-		thief.moveTo(grid.gridArray[5][7]);
+		
+		
+		//thief.moveTo(grid.gridArray[5][7]);
 	}
 	
 	public void handleState(Canvas canvas)
@@ -41,7 +41,19 @@ public class PlayState implements GameState
 		thief.doDraw(c);
 	}
 	
+	public void moveTo(float x, float y)
+	{
+		int column = (int)Math.floor(x/30);
+		int row = (int)Math.floor(y/30);
+		cop.moveTo(grid.gridArray[column][row]);
+	}
+	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
+		float x = event.getX();
+		float y = event.getY();
+				
+		
+		moveTo(x, y);
 	}
 }
