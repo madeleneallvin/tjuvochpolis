@@ -15,7 +15,7 @@ public class GameThread extends Thread
 	
 	private Handler mHandler;
 	
-	private Boolean mRun;
+	private boolean mRun;
 	
 	
 	
