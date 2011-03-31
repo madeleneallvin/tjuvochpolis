@@ -15,13 +15,9 @@ public class PlayState implements GameState
 	{
 		grid = new Grid();
 		
-		cop = new CopObject(grid.gridArray[4][4]);
+		cop = new CopObject(grid.gridArray[2][4]);
 		thief = new ThiefObject(grid.gridArray[4][7]);
 		
-		
-		
-		
-		//thief.moveTo(grid.gridArray[5][7]);
 	}
 	
 	public void handleState(Canvas canvas)
@@ -43,7 +39,7 @@ public class PlayState implements GameState
 	
 	public void moveTo(float x, float y)
 	{
-		int column = (int)Math.floor(x/30);
+		int column = (int)Math.floor(x/30); //30 är "lagom" storlek för punkterna som ritas ut
 		int row = (int)Math.floor(y/30);
 		cop.moveTo(grid.gridArray[column][row]);
 	}
