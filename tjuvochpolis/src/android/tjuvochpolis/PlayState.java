@@ -23,7 +23,7 @@ public class PlayState implements GameState
 	private Context mContext;
 	private Bitmap mBackgroundImage;
 
-	
+	//:
 	public PlayState(Context context)
 	{
 		grid = new Grid(context);

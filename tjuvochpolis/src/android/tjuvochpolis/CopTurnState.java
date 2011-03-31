@@ -25,7 +25,7 @@ public class CopTurnState extends PlayOrderState {
 		((CopMoveState)ps.copMoveState).toCoordinates(event.getX(), event.getY());
 	}
 
-
+//:
 	public PlayOrderState getNextState() {
 		if(hasMoved){
 			hasMoved = false;
