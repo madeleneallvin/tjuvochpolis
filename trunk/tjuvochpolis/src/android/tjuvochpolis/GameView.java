@@ -22,16 +22,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 			thread.getCurrentState().doTouch(v, event);
 			return false;
 		}
+		
+		
 	};
 	
 	public GameView(Context context, AttributeSet atrbs)
 	{
 		super(context, atrbs);
 		
+		
 		SurfaceHolder holder = getHolder();
         holder.addCallback(this);
-        
+      
         thread = new GameThread(holder, context);
+       
         
         setFocusable(true);
         this.setOnTouchListener(mListener);
