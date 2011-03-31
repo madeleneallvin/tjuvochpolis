@@ -1,16 +1,23 @@
 package android.tjuvochpolis;
 
+import android.content.Context;
+
 public class Grid {
 
 	private int height = 18;
 	private int width = 21;
 	GridNode gridArray[][] = new GridNode[width][height];
 
-	public Grid() {
+	public Grid(Context context) {
 		// Puts GridNodes in array
+		//int[][] blocksType = context.getResources().getIntArray(R.array.blocksType);
+		
 		for (int column = 0; column < width; column++) {
 			for (int row = 0; row < height; row++) {
+				
 				gridArray[column][row] = new GridNode();
+				//int blockedType = blocksType[column][row];
+				//gridArray[column][row].setType(blockedType);
 				gridArray[column][row].setX(column);
 				gridArray[column][row].setY(row);
 			}
