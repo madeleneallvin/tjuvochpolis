@@ -10,6 +10,7 @@ public class Grid {
 
 	public Grid(Context context) {
 		
+
 		int[][] blocksType;
 		blocksType = new int[21][18];
 		String[] items;
@@ -26,6 +27,7 @@ public class Grid {
 		}
 		
 		// Puts GridNodes in array with correct type
+
 		for (int column = 0; column < width; column++) {
 			for (int row = 0; row < height; row++) {
 				

@@ -53,7 +53,9 @@ public class PlayState implements GameState
 	
 	private void draw(Canvas c)
 	{
+
 		c.drawBitmap(mBackgroundImage, 0, 0, null);
+
 		cop.doDraw(c);
 		thief.doDraw(c);
 	}
