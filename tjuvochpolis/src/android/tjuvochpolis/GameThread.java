@@ -17,13 +17,11 @@ public class GameThread extends Thread
 	
 	private boolean mRun;
 	
+	private GameState menuState;// = new MenuState();
 	
+	private GameState playState;// = new PlayState();
 	
-	private GameState menuState = new MenuState();
-	
-	private GameState playState = new PlayState();
-	
-	private GameState currentState = menuState;
+	private GameState currentState;// = menuState;
 	
 	// Eventuellt en background om thread själv ska rita bakgrunden
 
@@ -36,6 +34,10 @@ public class GameThread extends Thread
 		// Grid, Gameobjects, etc.
 		mSurfaceHolder = surfaceHolder;
 		mContext = context;
+		
+		menuState = new MenuState();
+		playState = new PlayState(context);
+		currentState = menuState;
 				
 		//mGameState = new GameState();
 	}

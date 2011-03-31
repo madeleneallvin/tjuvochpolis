@@ -6,7 +6,7 @@ public abstract class GameObject {
 
 	
 	GridNode parentNode;
-	int pixels = 30; //måste bytas till nåt som vi kommer överens om
+	int pixels = 48; //måste bytas till nåt som vi kommer överens om
 
 	
 	
