@@ -37,6 +37,7 @@ public class PlayState implements GameState
 		thief.doDraw(c);
 	}
 	
+	//Denna metoden ska göras abstrakt här och sedan implementeras i de underliggande staten. (copTurnState, thiefRollState osv.)
 	public void moveTo(float x, float y)
 	{
 		int column = (int)Math.floor(x/30); //30 är "lagom" storlek för punkterna som ritas ut
@@ -50,6 +51,6 @@ public class PlayState implements GameState
 		float y = event.getY();
 				
 		
-		moveTo(x, y);
+		moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
 }
