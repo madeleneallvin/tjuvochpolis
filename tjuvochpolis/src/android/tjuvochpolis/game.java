@@ -12,7 +12,7 @@ public class game extends Activity {
         
        
         //hej
-        //tja!, old style chat detta..
+        //tja, old style chat
         
         
         // avkommentera när saved states blir aktuellt
