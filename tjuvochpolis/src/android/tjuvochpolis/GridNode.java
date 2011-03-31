@@ -1,9 +1,13 @@
 package android.tjuvochpolis;
 
+import java.lang.*;
+
 public class GridNode {
 
 	private int x;
 	private int y;
+	private int nodeX;
+	private int nodeY;
 	private GridNode upNode;
 	private GridNode downNode;
 	private GridNode leftNode;
@@ -66,6 +70,22 @@ public class GridNode {
 	}
 	int getY() {
 		return y;
+	}
+	void setNodeByX(int x) {
+		x = (int) Math.floor(x/48.0);
+		this.nodeX = x;
+	}
+	int getNodeByX(int x) {
+		nodeX = (int) Math.floor(x/48.0);
+		return nodeX;
+	}
+	void setNodeByY(int y) {
+		y = (int) Math.floor(y/48.0);
+		this.nodeY = y;
+	}
+	int getNodeByY(int y) {
+		nodeY = (int) Math.floor(y/48.0);
+		return nodeY;
 	}
 	
 	
