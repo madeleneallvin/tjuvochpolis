@@ -15,7 +15,7 @@ public class GameThread extends Thread
 	
 	private Handler mHandler;
 	
-	private boolean mRun;
+	 private boolean mRun;
 	
 	private GameState menuState;// = new MenuState();
 	
@@ -35,10 +35,10 @@ public class GameThread extends Thread
 		mSurfaceHolder = surfaceHolder;
 		mContext = context;
 		
-		menuState = new MenuState();
+		menuState = new MenuState(context);
 		playState = new PlayState(context);
 		currentState = playState;
-				
+						
 		
 		//mGameState = new GameState();
 	}
@@ -52,13 +52,13 @@ public class GameThread extends Thread
      * @param b true to run, false to shut down
      */
     public void setRunning(boolean b) {
-        mRun = b;
+        setmRun(b);
     }
 	
 	@Override
     public void run()
 	{
-        while (mRun)
+        while (ismRun())
         {
         	Canvas canvas = null;
         	
@@ -68,9 +68,13 @@ public class GameThread extends Thread
 			        
 		        	currentState.handleState(canvas);
 		        	currentState.nextState(this);
-			        
+		            
 			    }
-			} finally {
+			} 
+			catch (Exception e){
+				setmRun(false);
+			}
+			finally {
 			    // do this in a finally so that if an exception is thrown
 			    // during the above, we don't leave the Surface in an
 			    // inconsistent state
@@ -78,8 +82,12 @@ public class GameThread extends Thread
 			    {
 			        mSurfaceHolder.unlockCanvasAndPost(canvas);
 			    }
-			}      	
+			}
+			
         }
+       
+        //android.os.Process.killProcess(android.os.Process.myPid()); //kills everything
+        
 	}
 	
 	/* Callback invoked when the surface dimensions change. */
@@ -105,6 +113,14 @@ public class GameThread extends Thread
 
 	public GameState getCurrentState() {
 		return currentState;
+	}
+
+	void setmRun(boolean mRun) {
+		this.mRun = mRun;
+	}
+
+	boolean ismRun() {
+		return mRun;
 	}
 	
 
