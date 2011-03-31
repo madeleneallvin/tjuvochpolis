@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
