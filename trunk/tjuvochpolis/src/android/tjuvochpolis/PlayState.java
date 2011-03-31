@@ -15,7 +15,7 @@ public class PlayState implements GameState
 	{
 		grid = new Grid();
 		
-		cop = new CopObject(grid.gridArray[2][4]);
+		cop = new CopObject(grid.gridArray[2][4]);		//ska kontrolleras av vart tjuvnäste och polisstation ligger
 		thief = new ThiefObject(grid.gridArray[4][7]);
 		
 	}
