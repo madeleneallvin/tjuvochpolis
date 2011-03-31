@@ -1,40 +1,33 @@
 package android.tjuvochpolis;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class PlayState implements GameState
 {
-    private Grid grid;
-    private Context mContext;
-    private Bitmap mBackgroundImage;
-    private CopObject cop;
-	private ThiefObject thief;
-	
+	protected Grid grid;
+    protected CopObject cop;
+    protected ThiefObject thief;
+    private PlayOrderState playOrderState;
+	private PlayOrderState copTurnState;
+	private PlayOrderState thiefTurnState;
 	
 	public PlayState(Context context)
 	{
 		grid = new Grid();
 		
-		cop = new CopObject(grid.gridArray[2][4]);		//ska kontrolleras av vart tjuvnäste och polisstation ligger
+		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		thief = new ThiefObject(grid.gridArray[4][7]);
-		
-		
-		Resources res = context.getResources();
-		
-		mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.lofi_map);
+		copTurnState = new CopTurnState(cop, thief, grid);
+		thiefTurnState = new ThiefTurnState(cop, thief, grid);
 	}
 	
 	public void handleState(Canvas canvas)
 	{
-		draw(canvas);
+		this.draw(canvas);
 	}
 	
 	public void nextState(GameThread gt)
@@ -44,18 +37,21 @@ public class PlayState implements GameState
 	
 	private void draw(Canvas c)
 	{
-		c.drawBitmap(mBackgroundImage, -192, -192, null);
+		c.drawColor(Color.DKGRAY);
 		cop.doDraw(c);
 		thief.doDraw(c);
 	}
 	
 	//Denna metoden ska göras abstrakt här och sedan implementeras i de underliggande staten. (copTurnState, thiefRollState osv.)
-	public void moveTo(float x, float y)
+	/*public void moveTo(float x, float y)
 	{
 		int column = (int)Math.floor(x/30); //30 är "lagom" storlek för punkterna som ritas ut
 		int row = (int)Math.floor(y/30);
 		cop.moveTo(grid.gridArray[column][row]);
-	}
+	}*/
+	
+	//public void moveTo(float x, float y);
+	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
@@ -63,6 +59,6 @@ public class PlayState implements GameState
 		float y = event.getY();
 				
 		
-		moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
+		//moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
 }
