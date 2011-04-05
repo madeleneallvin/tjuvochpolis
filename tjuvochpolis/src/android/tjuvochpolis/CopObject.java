@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 public class CopObject extends GameObject{
 	
-	private int type = 1;
+	public int currentDiceValue;
 	
 	public CopObject(GridNode parentNode) {
 		super(parentNode);
