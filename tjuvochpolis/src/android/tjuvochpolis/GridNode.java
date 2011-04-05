@@ -16,6 +16,13 @@ public class GridNode {
 	private GameObject gameObject;
 	private boolean nodeState;
 	
+	public static int STREET = 0;
+	public static int HOUSE = 1;
+	public static int POLICE_STATION = 2;
+	public static int THIEF_NEST = 3;
+	public static int BANK = 4;
+	public static int TELEGRAPH = 5;
+	
 	void setUpNode(GridNode upNode) {
 		this.upNode = upNode;
 	}
@@ -95,6 +102,4 @@ public class GridNode {
 		int currentNodeY = (int) Math.floor(this.y/48.0);
 		return currentNodeY;
 	}
-	
-	
 }

@@ -16,4 +16,10 @@ public class PowerupObject extends GameObject{
 		
 	}
 
+	@Override
+	public boolean isWalkable(GridNode node) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

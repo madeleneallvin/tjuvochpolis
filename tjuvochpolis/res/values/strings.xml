@@ -32,14 +32,14 @@
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
-            	<item>1</item>
-            	<item>0</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
             	<item>1</item>
+            	<item>0</item>
+            	<item>1</item>
+            	<item>3</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
@@ -49,14 +49,7 @@
             <!--  column 3 -->
             <string-array name="c3">
             	<item>0</item>
-            	<item>1</item>
-            	<item>1</item>
-            	<item>0</item>
-            	<item>1</item>
-            	<item>1</item>
-            	<item>1</item>
-            	<item>0</item>
-            	<item>1</item>
+            	<item>3</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
@@ -65,6 +58,13 @@
             	<item>0</item>
             	<item>1</item>
             	<item>1</item>
+            	<item>0</item>
+            	<item>1</item>
+            	<item>1</item>
+            	<item>1</item>
+            	<item>0</item>
+            	<item>1</item>
+            	<item>4</item>
             	<item>0</item>     
             </string-array>
             <!--  column 4 -->
@@ -95,7 +95,7 @@
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
@@ -112,7 +112,7 @@
             <!--  column 6 -->
             <string-array name="c6">
             	<item>0</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>0</item>
             	<item>0</item>
             	<item>1</item>
@@ -120,13 +120,13 @@
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>1</item>
             	<item>0</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>1</item>
             	<item>0</item>      
             </string-array>
@@ -222,17 +222,17 @@
             	<item>0</item>
             	<item>1</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
+            	<item>0</item>
+            	<item>2</item>
+            	<item>2</item>
+            	<item>0</item>
+            	<item>0</item>
+            	<item>0</item>
+            	<item>0</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
-            	<item>0</item>
-            	<item>0</item>
-            	<item>0</item>
-            	<item>0</item>
-            	<item>0</item>
-            	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>0</item>      
             </string-array>
             <!--  column 12 -->
@@ -323,31 +323,31 @@
             <string-array name="c16">
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>0</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>1</item>
             	<item>0</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>1</item>
             	<item>0</item>      
             </string-array>
             <!--  column 17 -->
             <string-array name="c17">
             	<item>0</item>
-            	<item>1</item>
+            	<item>3</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
@@ -400,7 +400,7 @@
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
+            	<item>4</item>
             	<item>0</item>      
             </string-array>
             <!--  column 20 -->
@@ -410,14 +410,14 @@
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
-            	<item>1</item>
-            	<item>1</item>
-            	<item>0</item>
-            	<item>1</item>
+            	<item>5</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>
             	<item>1</item>
+            	<item>0</item>
+            	<item>1</item>
+            	<item>3</item>
             	<item>1</item>
             	<item>0</item>
             	<item>1</item>

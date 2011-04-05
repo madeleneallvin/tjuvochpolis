@@ -5,17 +5,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 public class CopObject extends GameObject{
-	
-	public int currentDiceValue;
-	
+
 	public CopObject(GridNode parentNode) {
 		super(parentNode);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
 	public boolean isWalkable(GridNode node){
 		int type = node.getType();
-		if(type == 0)
+		if(type == GridNode.STREET || type == GridNode.POLICE_STATION || type == GridNode.TELEGRAPH)
 		{
 			return true;
 		}

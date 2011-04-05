@@ -19,7 +19,10 @@ public class PlayState implements GameState
     protected PlayOrderState currentState;
     protected PlayOrderState copMoveState;
     protected PlayOrderState copTurnState;
+    protected PlayOrderState copRollDiceState;
     protected PlayOrderState thiefTurnState;
+	
+    
     protected int mFrame;
     
     private float PrevX;
@@ -30,23 +33,23 @@ public class PlayState implements GameState
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
-	
+
 	//:
 	public PlayState(Context context)
 	{
 		grid = new Grid(context);
-
 		OffsetX = 0;
 		OffsetY = 0;
-		
 		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		cop.mDrawXPos = cop.parentNode.getPixelX();
 		cop.mDrawYPos = cop.parentNode.getPixelY();
 		thief = new ThiefObject(grid.gridArray[4][7]);   
 		copTurnState = new CopTurnState(this, cop, thief, grid);
 		copMoveState = new CopMoveState(this, cop, thief, grid);
+		copRollDiceState = new CopRollDiceState(this, cop, thief, grid);
 		thiefTurnState = new ThiefTurnState(this, cop, thief, grid);
-		this.currentState = copTurnState;
+		
+		this.currentState = copRollDiceState;
 		
 		Resources res = context.getResources();       
         mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);
@@ -63,7 +66,6 @@ public class PlayState implements GameState
 		currentState.handleState(mFrame);
 		currentState = currentState.getNextState();
 		this.draw(canvas);
-		
 	}
 	
 	public void nextState(GameThread gt)
@@ -93,6 +95,8 @@ public class PlayState implements GameState
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
+		Log.i("test1", this.currentState.toString());
+
 		//Log.i("test1", "playstate dotouch");
 		
 		float x = event.getX();
