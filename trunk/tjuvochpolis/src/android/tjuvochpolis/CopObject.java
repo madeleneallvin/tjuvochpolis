@@ -5,10 +5,24 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 public class CopObject extends GameObject{
-
+	
+	private int type = 1;
+	
 	public CopObject(GridNode parentNode) {
 		super(parentNode);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public boolean isWalkable(GridNode node){
+		int type = node.getType();
+		if(type == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	@Override

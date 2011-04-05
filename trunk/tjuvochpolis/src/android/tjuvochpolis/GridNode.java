@@ -6,8 +6,8 @@ public class GridNode {
 
 	private int x;
 	private int y;
-	private int nodeX;
-	private int nodeY;
+	public int nodeX;
+	public int nodeY;
 	private GridNode upNode;
 	private GridNode downNode;
 	private GridNode leftNode;
@@ -86,6 +86,14 @@ public class GridNode {
 	int getNodeByY(int y) {
 		nodeY = (int) Math.floor(y/48.0);
 		return nodeY;
+	}
+	int getNodeX() {
+		int currentNodeX = (int) Math.floor(this.x/48.0);
+		return currentNodeX;
+	}
+	int getNodeY() {
+		int currentNodeY = (int) Math.floor(this.y/48.0);
+		return currentNodeY;
 	}
 	
 	

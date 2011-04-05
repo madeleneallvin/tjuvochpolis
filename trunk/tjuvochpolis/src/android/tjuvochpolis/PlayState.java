@@ -29,7 +29,7 @@ public class PlayState implements GameState
 		grid = new Grid(context);
 
 		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
-		thief = new ThiefObject(grid.gridArray[4][7]);
+		thief = new ThiefObject(grid.gridArray[4][7]);   
 		copTurnState = new CopTurnState(this, cop, thief, grid);
 		copMoveState = new CopMoveState(this, cop, thief, grid);
 		thiefTurnState = new ThiefTurnState(this, cop, thief, grid);
