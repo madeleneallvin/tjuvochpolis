@@ -59,16 +59,16 @@ public class GridNode {
 	boolean isNodeState() {
 		return nodeState;
 	}
-	void setX(int x) {
+	void setPixelX(int x) {
 		this.x = x;
 	}
-	int getX() {
+	int getPixelX() {
 		return x;
 	}
-	void setY(int y) {
+	void setPixelY(int y) {
 		this.y = y;
 	}
-	int getY() {
+	int getPixelY() {
 		return y;
 	}
 	void setNodeByX(int x) {

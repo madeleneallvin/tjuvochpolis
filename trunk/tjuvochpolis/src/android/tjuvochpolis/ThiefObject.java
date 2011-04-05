@@ -15,7 +15,7 @@ public class ThiefObject extends GameObject{
 	public void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
 		paint.setColor(Color.RED); //bara tillfälligt
-		canvas.drawCircle(parentNode.getX()*pixels+pixels/2, parentNode.getY()*pixels+pixels/2, pixels/2, paint);
+		canvas.drawCircle(parentNode.getNodeX()*pixels+pixels/2, parentNode.getNodeY()*pixels+pixels/2, pixels/2, paint);
 		// TODO Auto-generated method stub
 		
 	}

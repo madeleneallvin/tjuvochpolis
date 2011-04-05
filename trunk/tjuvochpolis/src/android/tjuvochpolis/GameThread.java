@@ -15,6 +15,8 @@ public class GameThread extends Thread
 	
 	private Handler mHandler;
 	
+	private long mTime;
+	
 	 private boolean mRun;
 	
 	private GameState menuState;// = new MenuState();
@@ -38,7 +40,8 @@ public class GameThread extends Thread
 		menuState = new MenuState(context);
 		playState = new PlayState(context);
 		currentState = menuState;
-						
+		
+		mTime = System.currentTimeMillis();
 		
 		//mGameState = new GameState();
 	}
@@ -85,7 +88,16 @@ public class GameThread extends Thread
 			}
 			
         }
-       
+       long frameTime = System.currentTimeMillis() - mTime;
+       mTime = System.currentTimeMillis();
+       int miliPerFrame = 1000 / PlayState.MAX_FPS;
+       if(frameTime < miliPerFrame)
+		try {
+			Thread.sleep(miliPerFrame - frameTime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         //android.os.Process.killProcess(android.os.Process.myPid()); //kills everything
         
 	}
