@@ -5,23 +5,23 @@ import android.view.View;
 
 public class CopMoveState extends PlayOrderState {
 	
-	float x = 120;
-	float y = 120;
+	float colCoordinate = 120;
+	float rowCoordinate = 120;
 	
 	public CopMoveState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
 		super(ps, cop, thief, grid);
 	}
 	
 	public void move() {
-		int column = (int)Math.floor(x/48); //30 är "lagom" storlek för punkterna som ritas ut
-		int row = (int)Math.floor(y/48);
-		this.cop.moveTo(this.grid.gridArray[column][row]);
+		int column = (int)Math.floor(colCoordinate/48); //30 är "lagom" storlek för punkterna som ritas ut
+		int row = (int)Math.floor(rowCoordinate/48);
+		this.cop.moveTo(this.grid.gridArray[row][column]);
 	}
 	
-	public void toCoordinates(float x, float y)
+	public void toCoordinates(float rowCoordinate, float colCoordinate)
 	{
-		this.x = x;
-		this.y = y;
+		this.colCoordinate = colCoordinate;
+		this.rowCoordinate = rowCoordinate;
 	}
 	
 	public void handleState()

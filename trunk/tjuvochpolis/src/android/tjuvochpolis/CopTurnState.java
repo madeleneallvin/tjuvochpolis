@@ -21,12 +21,12 @@ public class CopTurnState extends PlayOrderState {
 	public void doTouch(View v, MotionEvent event) {
 		
 		//om x och y är giltiga destinationer
-		int x = (int) Math.floor(event.getY()/48.0);
-		int y = (int) Math.floor(event.getX()/48.0);
-		if(grid.gridArray[x][y].getType() == 0)
+		int row = (int) Math.floor(event.getY()/48.0);
+		int col = (int) Math.floor(event.getX()/48.0);
+		if(grid.gridArray[row][col].getType() == 0)
 		{			
 			hasMoved = true;
-			((CopMoveState)ps.copMoveState).toCoordinates(event.getX(), event.getY());
+			((CopMoveState)ps.copMoveState).toCoordinates(event.getY(), event.getX());
 		}
 	}
 
