@@ -27,8 +27,8 @@ public class CopTurnState extends PlayOrderState {
 		Log.i("Dice", "" + this.cop.currentDiceValue);
 		
 		//om x och y är giltiga destinationer
-		int row = (int) Math.floor(event.getY()/48.0);
-		int col = (int) Math.floor(event.getX()/48.0);
+		int row = (int) Math.floor((event.getY())/48.0);
+		int col = (int) Math.floor((event.getX())/48.0);
 		if(grid.gridArray[row][col].getType() == 0)
 		{			
 			hasMoved = true;

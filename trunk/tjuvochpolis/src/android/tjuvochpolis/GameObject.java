@@ -10,9 +10,10 @@ public abstract class GameObject {
 	
 	public GameObject(GridNode parentNode) {
 		this.parentNode = parentNode;
-		
 		this.parentNode.setGameObject(this);
 	}
+	
+	
 	
 	public abstract void doDraw(Canvas canvas); 
 	
