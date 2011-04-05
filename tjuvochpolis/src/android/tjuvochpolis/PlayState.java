@@ -20,6 +20,12 @@ public class PlayState implements GameState
     protected PlayOrderState copTurnState;
     protected PlayOrderState thiefTurnState;
 	
+    private float PrevX;
+    private float PrevY;
+    
+    private int OffsetX;
+    private int OffsetY;
+    
 	private Context mContext;
 	private Bitmap mBackgroundImage;
 
@@ -28,6 +34,9 @@ public class PlayState implements GameState
 	{
 		grid = new Grid(context);
 
+		OffsetX = 0;
+		OffsetY = 0;
+		
 		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		thief = new ThiefObject(grid.gridArray[4][7]);   
 		copTurnState = new CopTurnState(this, cop, thief, grid);
@@ -36,7 +45,7 @@ public class PlayState implements GameState
 		this.currentState = copTurnState;
 		
 		Resources res = context.getResources();       
-        mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.lofi_map);
+        mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);
 	}
 	
 	public void handleState(Canvas canvas)
@@ -54,7 +63,7 @@ public class PlayState implements GameState
 	private void draw(Canvas c)
 	{
 
-		c.drawBitmap(mBackgroundImage, 0, 0, null);
+		c.drawBitmap(mBackgroundImage, OffsetX, OffsetY, null);
 
 		cop.doDraw(c);
 		thief.doDraw(c);
@@ -73,8 +82,43 @@ public class PlayState implements GameState
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
-		Log.i("test1", "playstate dotouch");
-		currentState.doTouch(v, event);
+		//Log.i("test1", "playstate dotouch");
+		
+		float x = event.getX();
+		float y = event.getY();
+		
+		int eventaction = event.getAction();
+		switch(eventaction)
+		{
+			case MotionEvent.ACTION_DOWN:
+			{
+				PrevX = x;
+				PrevY = y;
+				currentState.doTouch(v, event);
+			}	
+			break;
+			case MotionEvent.ACTION_MOVE:
+			{
+				//Log.i("Event", "ACTION_MOVE: x:" + Float.toString(x) + " y:" + Float.toString(y));
+				
+				OffsetX -= PrevX - x;
+				OffsetY -= PrevY - y;
+				
+				if(OffsetX > 0)
+					OffsetX = 0;
+				else if(OffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
+					OffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
+				
+				if(OffsetY > 0)
+					OffsetY = 0;
+				else if(OffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
+					OffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
+				
+				PrevX = x;
+				PrevY = y;
+			}
+			break;
+		}
 		
 		//moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
