@@ -71,4 +71,11 @@ public class Grid {
 			}
 		}
 	}
+	
+	public GridNode getGridNode(int column, int row)
+	{
+		return gridArray[column][row];
+	}
+	
+	
 }
