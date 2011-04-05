@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,6 +20,11 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void doTouch(View v, MotionEvent event) {
+		
+		//Kasta tärning för alla pjäser
+		int dice = Dice.getDice().rollDice();
+		this.cop.currentDiceValue = dice;
+		Log.i("Dice", "" + this.cop.currentDiceValue);
 		
 		//om x och y är giltiga destinationer
 		int row = (int) Math.floor(event.getY()/48.0);
