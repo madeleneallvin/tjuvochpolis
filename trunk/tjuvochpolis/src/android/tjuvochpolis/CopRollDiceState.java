@@ -7,6 +7,7 @@ public class CopRollDiceState extends PlayOrderState {
 
 	public CopRollDiceState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid) {
 		super(ps, cop, thief, grid);
+		this.nextState = this;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -18,7 +19,10 @@ public class CopRollDiceState extends PlayOrderState {
 	@Override
 	public void doTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
+		this.cop.currentDiceValue = Dice.getDice().rollDice();
+		this.cop.nodeWalker(this.cop.parentNode, this.cop.parentNode, this.cop.currentDiceValue);
 		
+		this.nextState = ps.copTurnState;
 	}
 
 	@Override
@@ -30,7 +34,7 @@ public class CopRollDiceState extends PlayOrderState {
 	@Override
 	public PlayOrderState getNextState() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.nextState;
 	}
 
 }

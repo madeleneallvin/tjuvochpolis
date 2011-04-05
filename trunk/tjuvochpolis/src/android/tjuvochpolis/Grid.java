@@ -1,5 +1,7 @@
 package android.tjuvochpolis;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 
 public class Grid {
@@ -75,6 +77,7 @@ public class Grid {
 		}
 	}
 	
+
 	public GridNode getGridNode(int row, int column)
 	{
 		return gridArray[row][column];

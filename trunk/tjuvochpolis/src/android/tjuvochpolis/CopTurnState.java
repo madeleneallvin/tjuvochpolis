@@ -16,11 +16,13 @@ public class CopTurnState extends PlayOrderState {
 	
 	public void handleState(int frame)
 	{
+		//ta reda på array av gridnodes som går att gå till
 		
+		//rita ut möjliga gridnodes att gå till
 	}
 
 	public void doTouch(View v, MotionEvent event) {
-		
+	
 		//Kasta tärning för alla pjäser
 		int dice = Dice.getDice().rollDice();
 		this.cop.currentDiceValue = dice;

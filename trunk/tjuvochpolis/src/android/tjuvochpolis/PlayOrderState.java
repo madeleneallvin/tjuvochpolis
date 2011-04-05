@@ -9,6 +9,7 @@ public abstract class PlayOrderState {
 	CopObject cop;
 	ThiefObject thief;
 	Grid grid;
+	PlayOrderState nextState;
 	
 	protected float mAnimationStep = 25;
 	protected int mCurrentAnimationStep = 0;
@@ -19,6 +20,23 @@ public abstract class PlayOrderState {
 		this.grid = grid;
 		this.ps = ps;
 	}
+	
+	/*public boolean canGoTo(int row, int col){
+		if(grid.gridArray[row][col].getType() == GridNode.STREET)
+		{			
+			return true;
+		}
+		else if (grid.gridArray[row][col].getType() == GridNode.POLICE_STATION){
+			return true;
+		}
+		else if (grid.gridArray[row][col].getType() == GridNode.TELEGRAPH){
+			return true;
+		}
+		
+		return false;
+	}
+	*/
+
 	public abstract void handleState(int frame);
 	
 	public abstract void doTouch(View v, MotionEvent event);
