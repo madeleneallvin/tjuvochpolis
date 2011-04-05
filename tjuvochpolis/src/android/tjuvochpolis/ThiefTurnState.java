@@ -21,7 +21,7 @@ public class ThiefTurnState extends PlayOrderState {
 	}
 
 	@Override
-	public void handleState() {
+	public void handleState(int frame) {
 		// TODO Auto-generated method stub
 		
 	}

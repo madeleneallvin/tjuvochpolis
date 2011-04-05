@@ -4,6 +4,7 @@ import android.content.Context;
 
 public class Grid {
 
+	public static int GRID_SIZE = 48;
 	private int height = 18;
 	private int width = 21;
 	GridNode gridArray[][] = new GridNode[height][width];
@@ -34,8 +35,10 @@ public class Grid {
 				gridArray[row][column] = new GridNode();
 				int blockedType = blocksType[row][column];
 				gridArray[row][column].setType(blockedType);
-				gridArray[row][column].setX(column);
-				gridArray[row][column].setY(row);
+				gridArray[row][column].setPixelX(column*48);
+				gridArray[row][column].setPixelY(row*48);
+				gridArray[row][column].setNodeByX(column*48);
+				gridArray[row][column].setNodeByY(row*48);
 			}
 		}
 
@@ -72,9 +75,9 @@ public class Grid {
 		}
 	}
 	
-	public GridNode getGridNode(int column, int row)
+	public GridNode getGridNode(int row, int column)
 	{
-		return gridArray[column][row];
+		return gridArray[row][column];
 	}
 	
 	

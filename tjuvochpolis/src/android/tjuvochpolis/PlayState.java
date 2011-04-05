@@ -12,6 +12,7 @@ import android.view.View;
 
 public class PlayState implements GameState
 {
+	public static int MAX_FPS = 30;
 	protected Grid grid;
     protected CopObject cop;
     protected ThiefObject thief;
@@ -19,7 +20,8 @@ public class PlayState implements GameState
     protected PlayOrderState copMoveState;
     protected PlayOrderState copTurnState;
     protected PlayOrderState thiefTurnState;
-	
+    protected int mFrame;
+    
     private float PrevX;
     private float PrevY;
     
@@ -28,7 +30,7 @@ public class PlayState implements GameState
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
-
+	
 	//:
 	public PlayState(Context context)
 	{
@@ -38,6 +40,8 @@ public class PlayState implements GameState
 		OffsetY = 0;
 		
 		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
+		cop.mDrawXPos = cop.parentNode.getPixelX();
+		cop.mDrawYPos = cop.parentNode.getPixelY();
 		thief = new ThiefObject(grid.gridArray[4][7]);   
 		copTurnState = new CopTurnState(this, cop, thief, grid);
 		copMoveState = new CopMoveState(this, cop, thief, grid);
@@ -46,13 +50,20 @@ public class PlayState implements GameState
 		
 		Resources res = context.getResources();       
         mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);
+        
+        mFrame = 0;
 	}
 	
 	public void handleState(Canvas canvas)
 	{
-		currentState.handleState();
+		if(mFrame++ == MAX_FPS){
+			mFrame = 1;
+		}
+	
+		currentState.handleState(mFrame);
 		currentState = currentState.getNextState();
 		this.draw(canvas);
+		
 	}
 	
 	public void nextState(GameThread gt)

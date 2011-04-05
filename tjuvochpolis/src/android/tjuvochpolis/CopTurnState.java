@@ -14,7 +14,7 @@ public class CopTurnState extends PlayOrderState {
 	
 	
 	
-	public void handleState()
+	public void handleState(int frame)
 	{
 		
 	}
@@ -27,12 +27,15 @@ public class CopTurnState extends PlayOrderState {
 		Log.i("Dice", "" + this.cop.currentDiceValue);
 		
 		//om x och y är giltiga destinationer
-		int row = (int) Math.floor((event.getY())/48.0);
-		int col = (int) Math.floor((event.getX())/48.0);
+		int row = (int) Math.floor(event.getY()/Grid.GRID_SIZE);
+		int col = (int) Math.floor(event.getX()/Grid.GRID_SIZE);
+		
 		if(grid.gridArray[row][col].getType() == 0)
 		{			
 			hasMoved = true;
-			((CopMoveState)ps.copMoveState).toCoordinates(event.getY(), event.getX());
+			cop.moveToCoordinates(row, col);
+			ps.copMoveState.mCurrentAnimationStep = 0;
+			Log.i("row, col", row + " " + col);
 		}
 	}
 

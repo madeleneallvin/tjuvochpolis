@@ -7,13 +7,17 @@ public abstract class GameObject {
 	
 	GridNode parentNode;
 	int pixels = 48; //måste bytas till nåt som vi kommer överens om
+
+	float mDrawXPos;
+	float mDrawYPos;
+	protected int moveToColCoordinate;
+	protected int moveToRowCoordinate;
+	protected boolean isMoving = true;
 	
 	public GameObject(GridNode parentNode) {
 		this.parentNode = parentNode;
 		this.parentNode.setGameObject(this);
 	}
-	
-	
 	
 	public abstract void doDraw(Canvas canvas); 
 	
@@ -26,7 +30,6 @@ public abstract class GameObject {
 		else if(this.parentNode.getType() == 1) {
 			//inte ok att flytta hit		
 		}
-			
 	}
 	
 	public void checkWalkableNodes(Grid thegrid, int diceValue)
@@ -53,9 +56,12 @@ public abstract class GameObject {
 		}
 	}
 	
-	
-	
-	
+	public void moveToCoordinates(int rowCoordinate, int colCoordinate)
+	{
+		this.moveToRowCoordinate = rowCoordinate;
+		this.moveToColCoordinate = colCoordinate;
+		
+		isMoving = true;
+	}			
 }
-	
 
