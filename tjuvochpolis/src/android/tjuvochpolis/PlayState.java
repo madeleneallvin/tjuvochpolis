@@ -28,6 +28,10 @@ public class PlayState implements GameState
     private float PrevX;
     private float PrevY;
     
+    
+    private float zoom;
+    private float prevDistance;
+    
     private int OffsetX;
     private int OffsetY;
     
@@ -38,8 +42,13 @@ public class PlayState implements GameState
 	public PlayState(Context context)
 	{
 		grid = new Grid(context);
+
 		OffsetX = 0;
 		OffsetY = 0;
+		
+		prevDistance = 0.0f;		
+		zoom = 1.0f;
+		
 		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		cop.mDrawXPos = cop.parentNode.getPixelX();
 		cop.mDrawYPos = cop.parentNode.getPixelY();
@@ -75,9 +84,10 @@ public class PlayState implements GameState
 	
 	private void draw(Canvas c)
 	{
-
+		c.scale(zoom, zoom);
+		
 		c.drawBitmap(mBackgroundImage, OffsetX, OffsetY, null);
-
+		
 		cop.doDraw(c);
 		thief.doDraw(c);
 	}
@@ -95,8 +105,6 @@ public class PlayState implements GameState
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
-		Log.i("test1", this.currentState.toString());
-
 		//Log.i("test1", "playstate dotouch");
 		
 		float x = event.getX();
@@ -110,27 +118,47 @@ public class PlayState implements GameState
 				PrevX = x;
 				PrevY = y;
 				currentState.doTouch(v, event);
+				
+				if(event.getPointerCount() == 2)
+				{
+					prevDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1)); 
+				}
 			}	
 			break;
 			case MotionEvent.ACTION_MOVE:
 			{
-				//Log.i("Event", "ACTION_MOVE: x:" + Float.toString(x) + " y:" + Float.toString(y));
+				if(event.getPointerCount() == 1)
+				{	
+					OffsetX -= PrevX - x;
+					OffsetY -= PrevY - y;
+					
+					if(OffsetX > 0)
+						OffsetX = 0;
+					else if(OffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
+						OffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
+					
+					if(OffsetY > 0)
+						OffsetY = 0;
+					else if(OffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
+						OffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
+					
+					PrevX = x;
+					PrevY = y;
+				}
+				else
+				{
+					float newDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1));
+					if(newDistance > prevDistance)
+						zoom = 1.0f;
+					else 
+					{
+						zoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
+						Log.i("zoom", "" + zoom);
+					}
+						
+					prevDistance = newDistance;
+				}
 				
-				OffsetX -= PrevX - x;
-				OffsetY -= PrevY - y;
-				
-				if(OffsetX > 0)
-					OffsetX = 0;
-				else if(OffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
-					OffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
-				
-				if(OffsetY > 0)
-					OffsetY = 0;
-				else if(OffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
-					OffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
-				
-				PrevX = x;
-				PrevY = y;
 			}
 			break;
 		}
