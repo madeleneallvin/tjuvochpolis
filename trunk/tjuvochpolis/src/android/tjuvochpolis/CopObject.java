@@ -3,6 +3,7 @@ package android.tjuvochpolis;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class CopObject extends GameObject{
 
@@ -24,6 +25,35 @@ public class CopObject extends GameObject{
 		}
 	}
 
+	public boolean canStopHere(GridNode node)
+	{
+		// Det står en tjuv på noden
+		if(node.getGameObject() != null){
+			if(node.getGameObject().getClass().equals(ThiefObject.class))
+			{
+				if(node.getGameObject().hasMoney()){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			// Det finns en powerup på noden
+			else if(node.getGameObject().getClass().equals(PowerupObject.class)){
+				Log.i("canStopHere","powerup");
+				return true;
+			}
+			// Det står en polis på noden
+			else if(node.getGameObject().getClass().equals(CopObject.class))
+			{
+				Log.i("canStopHere","cop");
+				return false;
+			}
+			return false;
+		}
+		return false;
+		
+	}
 	@Override
 	public void doDraw(Canvas canvas, int offsetX, int offsetY) {
 		// TODO Auto-generated method stub
@@ -36,5 +66,14 @@ public class CopObject extends GameObject{
 				//parentNode.getX()*pixels,  parentNode.getY()*pixels, parentNode.getX()*pixels+pixels, parentNode.getY()*pixels+pixels, paint); // måste sätta in getX, getY * # pixlar
 		
 	}
+	
+	
+
+	@Override
+	public boolean hasMoney() {
+		return false;
+	}
+	
+
 
 }

@@ -22,4 +22,10 @@ public class PowerupObject extends GameObject{
 		return false;
 	}
 
+	@Override
+	public boolean hasMoney() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -66,4 +66,8 @@ public abstract class PlayOrderState {
 	{
 		return ((float)gridStart*Grid.GRID_SIZE) + ((float) gridEnd*Grid.GRID_SIZE - gridStart*Grid.GRID_SIZE) * (mCurrentAnimationStep/mAnimationStep);
 	}
+	
+
 }
+
+	
