@@ -7,69 +7,69 @@ import android.content.Context;
 public class Grid {
 
 	public static int GRID_SIZE = 48;
-	private int height = 18;
-	private int width = 21;
-	GridNode gridArray[][] = new GridNode[height][width];
+	private int mHeight = 18;
+	private int mWidth = 21;
+	GridNode mGridArray[][] = new GridNode[mHeight][mWidth];
 
 	public Grid(Context context) {
 		
 
 		int[][] blocksType;
-		blocksType = new int[height][width];
+		blocksType = new int[mHeight][mWidth];
 		String[] items;
 
 		// Create an array with block types
-		for(int j = 1; j < width+1; j++) {
+		for(int j = 1; j < mWidth+1; j++) {
 			
 			int arrayID = context.getResources().getIdentifier("c" + j,"array","android.tjuvochpolis"); 
 	        items = context.getResources().getStringArray(arrayID);
 	        
-	        for (int i = 0; i < height; i++) {
+	        for (int i = 0; i < mHeight; i++) {
 	        	blocksType[i][j-1] = Integer.parseInt(items[i]);
 	        }  
 		}
 		
 		// Puts GridNodes in array with correct type
 
-		for (int column = 0; column < width; column++) {
-			for (int row = 0; row < height; row++) {
+		for (int column = 0; column < mWidth; column++) {
+			for (int row = 0; row < mHeight; row++) {
 				
-				gridArray[row][column] = new GridNode();
+				mGridArray[row][column] = new GridNode();
 				int blockedType = blocksType[row][column];
-				gridArray[row][column].setType(blockedType);
-				gridArray[row][column].setPixelX(column*48);
-				gridArray[row][column].setPixelY(row*48);
-				gridArray[row][column].setNodeByX(column*48);
-				gridArray[row][column].setNodeByY(row*48);
+				mGridArray[row][column].setType(blockedType);
+				mGridArray[row][column].setPixelX(column*48);
+				mGridArray[row][column].setPixelY(row*48);
+				mGridArray[row][column].setNodeByX(column*48);
+				mGridArray[row][column].setNodeByY(row*48);
 			}
 		}
 
 		// sets the neighbors
-		for (int column = 0; column < width; column++) {
-			for (int row = 0; row < height; row++) {
+		for (int column = 0; column < mWidth; column++) {
+			for (int row = 0; row < mHeight; row++) {
 
 				if (row == 0){
-					gridArray[row][column].setUpNode(null);
+					mGridArray[row][column].setUpNode(null);
 				} else {
-					gridArray[row][column].setUpNode(gridArray[row - 1][column]);
+					mGridArray[row][column].setUpNode(mGridArray[row - 1][column]);
 				}
 					
-				if (row == height - 1){
-					gridArray[row][column].setDownNode(null);
+				if (row == mHeight - 1){
+					mGridArray[row][column].setDownNode(null);
 				} else {
-					gridArray[row][column].setDownNode(gridArray[row + 1][column]);
+					mGridArray[row][column].setDownNode(mGridArray[row + 1][column]);
 				}
 					
 				if (column == 0){
-					gridArray[row][column].setLeftNode(null);
+					mGridArray[row][column].setLeftNode(null);
 				} else {
-					gridArray[row][column].setLeftNode(gridArray[row][column - 1]);
+					mGridArray[row][column].setLeftNode(mGridArray[row][column - 1]);
 				}
 					
-				if (column == width - 1){
-					gridArray[row][column].setRightNode(null);
+				if (column == mWidth - 1){
+					mGridArray[row][column].setRightNode(null);
 				} else {
-					gridArray[row][column].setRightNode(gridArray[row][column + 1]);
+					mGridArray[row][column].setRightNode(mGridArray[row][column + 1]);
 				}
 					
 
@@ -80,7 +80,7 @@ public class Grid {
 
 	public GridNode getGridNode(int row, int column)
 	{
-		return gridArray[row][column];
+		return mGridArray[row][column];
 	}
 	
 	

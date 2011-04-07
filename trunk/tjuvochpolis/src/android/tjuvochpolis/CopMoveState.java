@@ -1,8 +1,5 @@
 package android.tjuvochpolis;
 
-import java.util.ArrayList;
-
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -29,7 +26,7 @@ public class CopMoveState extends PlayOrderState {
 		}
 		else
 		{
-			return ps.getCopTurnState();
+			return mPlayState.getCopTurnState();
 		}
 	}
 

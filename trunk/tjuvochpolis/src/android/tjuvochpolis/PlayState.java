@@ -13,7 +13,7 @@ import android.view.View;
 public class PlayState implements GameState
 {
 	public static int MAX_FPS = 30;
-	protected Grid grid;
+	protected Grid mGrid;
     protected CopObject cop;
     protected ThiefObject thief;
     protected PlayOrderState currentState;
@@ -25,15 +25,15 @@ public class PlayState implements GameState
     
     protected int mFrame;
     
-    private float PrevX;
-    private float PrevY;
+    private float mPrevX;
+    private float mPrevY;
     
     
-    private float zoom;
-    private float prevDistance;
+    private float mZoom;
+    private float mPrevDistance;
     
-    private int OffsetX;
-    private int OffsetY;
+    private int mOffsetX;
+    private int mOffsetY;
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
@@ -41,22 +41,22 @@ public class PlayState implements GameState
 	//:
 	public PlayState(Context context)
 	{
-		grid = new Grid(context);
+		mGrid = new Grid(context);
 
-		OffsetX = 0;
-		OffsetY = 0;
+		mOffsetX = 0;
+		mOffsetY = 0;
 		
-		prevDistance = 0.0f;		
-		zoom = 1.0f;
+		mPrevDistance = 0.0f;		
+		mZoom = 1.0f;
 		
-		cop = new CopObject(grid.gridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
-		cop.mDrawXPos = cop.parentNode.getPixelX();
-		cop.mDrawYPos = cop.parentNode.getPixelY();
-		thief = new ThiefObject(grid.gridArray[4][7]);   
-		copTurnState = new CopTurnState(this, cop, thief, grid);
-		copMoveState = new CopMoveState(this, cop, thief, grid);
-		copRollDiceState = new CopRollDiceState(this, cop, thief, grid);
-		thiefTurnState = new ThiefTurnState(this, cop, thief, grid);
+		cop = new CopObject(mGrid.mGridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
+		cop.setDrawXPos(cop.getParentNode().getPixelX());
+		cop.setDrawYPos(cop.getParentNode().getPixelY());
+		thief = new ThiefObject(mGrid.mGridArray[4][7]);   
+		copTurnState = new CopTurnState(this, cop, thief, mGrid);
+		copMoveState = new CopMoveState(this, cop, thief, mGrid);
+		copRollDiceState = new CopRollDiceState(this, cop, thief, mGrid);
+		thiefTurnState = new ThiefTurnState(this, cop, thief, mGrid);
 		
 		this.currentState = copRollDiceState;
 		
@@ -82,11 +82,11 @@ public class PlayState implements GameState
 		//gt.currentState = this;
 	}
 	
-	private void draw(Canvas c)
+	public void draw(Canvas c)
 	{
-		c.scale(zoom, zoom);
+		c.scale(mZoom, mZoom);
 		
-		c.drawBitmap(mBackgroundImage, OffsetX, OffsetY, null);
+		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
 		
 		cop.doDraw(c);
 		thief.doDraw(c);
@@ -115,13 +115,13 @@ public class PlayState implements GameState
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
-				PrevX = x;
-				PrevY = y;
+				mPrevX = x;
+				mPrevY = y;
 				currentState.doTouch(v, event);
 				
 				if(event.getPointerCount() == 2)
 				{
-					prevDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1)); 
+					mPrevDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1)); 
 				}
 			}	
 			break;
@@ -129,34 +129,34 @@ public class PlayState implements GameState
 			{
 				if(event.getPointerCount() == 1)
 				{	
-					OffsetX -= PrevX - x;
-					OffsetY -= PrevY - y;
+					mOffsetX -= mPrevX - x;
+					mOffsetY -= mPrevY - y;
 					
-					if(OffsetX > 0)
-						OffsetX = 0;
-					else if(OffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
-						OffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
+					if(mOffsetX > 0)
+						mOffsetX = 0;
+					else if(mOffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
+						mOffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
 					
-					if(OffsetY > 0)
-						OffsetY = 0;
-					else if(OffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
-						OffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
+					if(mOffsetY > 0)
+						mOffsetY = 0;
+					else if(mOffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
+						mOffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
 					
-					PrevX = x;
-					PrevY = y;
+					mPrevX = x;
+					mPrevY = y;
 				}
 				else
 				{
 					float newDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1));
-					if(newDistance > prevDistance)
-						zoom = 1.0f;
+					if(newDistance > mPrevDistance)
+						mZoom = 1.0f;
 					else 
 					{
-						zoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
-						Log.i("zoom", "" + zoom);
+						mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
+						Log.i("zoom", "" + mZoom);
 					}
 						
-					prevDistance = newDistance;
+					mPrevDistance = newDistance;
 				}
 				
 			}

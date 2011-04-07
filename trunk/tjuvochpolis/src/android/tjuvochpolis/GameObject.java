@@ -8,40 +8,37 @@ import android.util.Log;
 public abstract class GameObject {
 
 	
-	GridNode parentNode;
-	int currentDiceValue;
-	ArrayList<GridNode> possibleNextNodes = new ArrayList<GridNode>();
-	int pixels = 48; //måste bytas till nåt som vi kommer överens om
-
-	float mDrawXPos;
-	float mDrawYPos;
+	protected GridNode mParentNode;
 	protected int moveToColCoordinate;
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	
+	private int mCurrentDiceValue;
+	private ArrayList<GridNode> mPossibleNextNodes = new ArrayList<GridNode>();
+	private float mDrawXPos;
+	private float mDrawYPos;
+	
 	public GameObject(GridNode parentNode) {
-		this.parentNode = parentNode;
+		this.mParentNode = parentNode;
 		
-		this.parentNode.setGameObject(this);
+		this.mParentNode.setGameObject(this);
 	}
 	
 	public abstract boolean isWalkable(GridNode node);
 	public abstract void doDraw(Canvas canvas); 
 	
 	public void moveTo(GridNode newParent){
-		this.parentNode.setGameObject(null);
-		this.parentNode = newParent;
+		this.mParentNode.setGameObject(null);
+		this.mParentNode = newParent;
 		
-		if(this.parentNode.getType() == 0) {
-			this.parentNode.setGameObject(this);
+		if(this.mParentNode.getType() == 0) {
+			this.mParentNode.setGameObject(this);
 		}
-		else if(this.parentNode.getType() == 1) {
+		else if(this.mParentNode.getType() == 1) {
 			//inte ok att flytta hit		
 		}
 			
 	}
-	
-	
 	
 	public void nodeWalker(GridNode currentNode, GridNode previousNode, int diceValue) {
 		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
@@ -50,7 +47,7 @@ public abstract class GameObject {
 		
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
-			possibleNextNodes.add(currentNode);
+			mPossibleNextNodes.add(currentNode);
 			return;
 		}
 		if(nextNodes.size() == 0) {
@@ -63,10 +60,7 @@ public abstract class GameObject {
 			this.nodeWalker(nextNode, currentNode, diceValue-1);
 			
 		}
-		
-		
 	}
-	
 	
 	public ArrayList<GridNode> getNextNodes(GridNode currentNode, GridNode previousNode){
 		// hämta alla noder runt current
@@ -149,7 +143,10 @@ public abstract class GameObject {
 	}
 	*/
 	
-	
+	public GridNode getParentNode()
+	{
+		return mParentNode;
+	}
 	
 	public void moveToCoordinates(int rowCoordinate, int colCoordinate)
 	{
@@ -157,7 +154,33 @@ public abstract class GameObject {
 		this.moveToColCoordinate = colCoordinate;
 		
 		isMoving = true;
-	}			
+	}
+	
+	public int getCurrentDiceValue()
+	{
+		return mCurrentDiceValue;
+	}
+	
+	public void setCurrentDiceValue(int val)
+	{
+		mCurrentDiceValue = val;
+	}
+
+	public void setDrawXPos(float mDrawXPos) {
+		this.mDrawXPos = mDrawXPos;
+	}
+
+	public float getDrawXPos() {
+		return mDrawXPos;
+	}
+
+	public void setDrawYPos(float mDrawYPos) {
+		this.mDrawYPos = mDrawYPos;
+	}
+
+	public float getDrawYPos() {
+		return mDrawYPos;
+	}
 }
 	
 

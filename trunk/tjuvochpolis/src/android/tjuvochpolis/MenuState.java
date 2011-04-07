@@ -1,6 +1,5 @@
 package android.tjuvochpolis;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.Layout;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 
 public class MenuState implements GameState 
@@ -59,8 +57,7 @@ public class MenuState implements GameState
 		}
 	}
 	
-	
-	private void draw(Canvas c)
+	public void draw(Canvas c)
 	{
 		c.drawColor(color);
 		c.drawRect(rect, paint);

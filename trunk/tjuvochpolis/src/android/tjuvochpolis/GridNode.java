@@ -1,20 +1,18 @@
 package android.tjuvochpolis;
 
-import java.lang.*;
-
 public class GridNode {
 
-	private int x;
-	private int y;
-	public int nodeX;
-	public int nodeY;
-	private GridNode upNode;
-	private GridNode downNode;
-	private GridNode leftNode;
-	private GridNode rightNode;
-	private int type; //kanske inte int 
-	private GameObject gameObject;
-	private boolean nodeState;
+	private int mX;
+	private int mY;
+	private int mNodeX;
+	private int mNodeY;
+	private GridNode mUpNode;
+	private GridNode mDownNode;
+	private GridNode mLeftNode;
+	private GridNode mRightNode;
+	private int mType; //kanske inte int 
+	private GameObject mGameObject;
+	private boolean mNodeState;
 	
 	public static int STREET = 0;
 	public static int HOUSE = 1;
@@ -23,83 +21,77 @@ public class GridNode {
 	public static int BANK = 4;
 	public static int TELEGRAPH = 5;
 	
-	void setUpNode(GridNode upNode) {
-		this.upNode = upNode;
+	public void setUpNode(GridNode upNode) {
+		this.mUpNode = upNode;
 	}
-	GridNode getUpNode() {
-		return upNode;
+	public GridNode getUpNode() {
+		return mUpNode;
 	}
-	void setDownNode(GridNode downNode) {
-		this.downNode = downNode;
+	public void setDownNode(GridNode downNode) {
+		this.mDownNode = downNode;
 	}
-	GridNode getDownNode() {
-		return downNode;
+	public GridNode getDownNode() {
+		return mDownNode;
 	}
-	void setLeftNode(GridNode leftNode) {
-		this.leftNode = leftNode;
+	public void setLeftNode(GridNode leftNode) {
+		this.mLeftNode = leftNode;
 	}
-	GridNode getLeftNode() {
-		return leftNode;
+	public GridNode getLeftNode() {
+		return mLeftNode;
 	}
-	void setRightNode(GridNode rightNode) {
-		this.rightNode = rightNode;
+	public void setRightNode(GridNode rightNode) {
+		this.mRightNode = rightNode;
 	}
-	GridNode getRightNode() {
-		return rightNode;
+	public GridNode getRightNode() {
+		return mRightNode;
 	}
-	void setType(int type) {
-		this.type = type;
+	public void setType(int type) {
+		this.mType = type;
 	}
-	int getType() {
-		return type;
+	public int getType() {
+		return mType;
 	}
 	
-	void setGameObject(GameObject gameObject) {
-		this.gameObject = gameObject;
+	public void setGameObject(GameObject gameObject) {
+		this.mGameObject = gameObject;
 	}
-	GameObject getGameObject() {
-		return gameObject;
+	public GameObject getGameObject() {
+		return mGameObject;
 	}
-	void setNodeState(boolean nodeState) {
-		this.nodeState = nodeState;
+	public void setNodeState(boolean nodeState) {
+		this.mNodeState = nodeState;
 	}
-	boolean isNodeState() {
-		return nodeState;
+	public boolean isNodeState() {
+		return mNodeState;
 	}
-	void setPixelX(int x) {
-		this.x = x;
+	public void setPixelX(int x) {
+		this.mX = x;
 	}
-	int getPixelX() {
-		return x;
+	public int getPixelX() {
+		return mX;
 	}
-	void setPixelY(int y) {
-		this.y = y;
+	public void setPixelY(int y) {
+		this.mY = y;
 	}
-	int getPixelY() {
-		return y;
+	public int getPixelY() {
+		return mY;
 	}
-	void setNodeByX(int x) {
-		x = (int) Math.floor(x/48.0);
-		this.nodeX = x;
+	public void setNodeByX(int x) {
+		this.mNodeX = x/Grid.GRID_SIZE;
 	}
-	int getNodeByX(int x) {
-		nodeX = (int) Math.floor(x/48.0);
-		return nodeX;
+	public int getNodeByX(int x) {
+		return x/Grid.GRID_SIZE;
 	}
-	void setNodeByY(int y) {
-		y = (int) Math.floor(y/48.0);
-		this.nodeY = y;
+	public void setNodeByY(int y) {
+		this.mNodeY = y/Grid.GRID_SIZE;
 	}
-	int getNodeByY(int y) {
-		nodeY = (int) Math.floor(y/48.0);
-		return nodeY;
+	public int getNodeByY(int y) {
+		return y/Grid.GRID_SIZE;
 	}
-	int getNodeX() {
-		int currentNodeX = (int) Math.floor(this.x/48.0);
-		return currentNodeX;
+	public int getNodeX() {
+		return getNodeByX(this.mX);
 	}
-	int getNodeY() {
-		int currentNodeY = (int) Math.floor(this.y/48.0);
-		return currentNodeY;
+	public int getNodeY() {
+		return getNodeByY(this.mY);
 	}
 }
