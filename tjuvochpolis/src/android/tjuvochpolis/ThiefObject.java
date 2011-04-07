@@ -14,10 +14,10 @@ public class ThiefObject extends GameObject{
 	}
 
 	@Override
-	public void doDraw(Canvas canvas) {
+	public void doDraw(Canvas canvas, int offsetX, int offsetY) {
 		Paint paint = new Paint();
 		paint.setColor(Color.RED); //bara tillfälligt
-		canvas.drawCircle(mParentNode.getNodeX()*pixels+pixels/2, mParentNode.getNodeY()*pixels+pixels/2, pixels/2, paint);
+		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
 		// TODO Auto-generated method stub
 		
 	}
