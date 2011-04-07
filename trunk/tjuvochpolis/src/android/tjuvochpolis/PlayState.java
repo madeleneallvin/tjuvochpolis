@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.util.FloatMath;
 
 public class PlayState implements GameState
 {
@@ -33,8 +34,8 @@ public class PlayState implements GameState
     private float mPrevX;
     private float mPrevY;
     
-    
     private float mZoom;
+    private float mNewDistance;
     private float mPrevDistance;
     
     private int mOffsetX;
@@ -43,7 +44,9 @@ public class PlayState implements GameState
 	private Context mContext;
 	private Bitmap mBackgroundImage;
 
-	//:
+	private long mLastTap = 0;
+	private boolean zoomOut = false;
+	
 	public PlayState(Context context)
 	{
 		mGrid = new Grid(context);
@@ -81,7 +84,7 @@ public class PlayState implements GameState
 		if(mFrame++ == MAX_FPS){
 			mFrame = 1;
 		}
-	
+
 		mCurrentState.handleState(mFrame);
 		mCurrentState = mCurrentState.getNextState();
 		this.draw(canvas);
@@ -89,11 +92,11 @@ public class PlayState implements GameState
 	
 	public void nextState(GameThread gt)
 	{
-		//gt.currentState = this;
 	}
 	
 	public void draw(Canvas c)
 	{
+		
 		c.scale(mZoom, mZoom);
 		
 		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
@@ -116,14 +119,11 @@ public class PlayState implements GameState
 	//public void moveTo(float x, float y);
 	
 	//movement of a game object
-	
-	
-	
-	
 	public void doTouch(View v, MotionEvent event)
 	{
 		//Log.i("test1", "playstate dotouch");
 		
+			
 		float x = event.getX();
 		float y = event.getY();
 		
@@ -132,15 +132,32 @@ public class PlayState implements GameState
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
+				long timediff = System.currentTimeMillis() - mLastTap;
+				boolean doubleTap = timediff < 400;
+				mLastTap = System.currentTimeMillis();
+				
+				if(doubleTap)
+				{
+					if(zoomOut)
+					{
+						mZoom = 1.0f;
+						zoomOut = false;
+					}
+					else
+					{
+						zoomOut = true;
+						mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
+					}
+					mLastTap = 0;
+				}
+				
+				Log.i("timediff", "" + timediff);
+				
 				mPrevX = x;
 				mPrevY = y;
+
 				mCurrentState.doTouch(v, event);
-				
-				if(event.getPointerCount() == 2)
-				{
-					mPrevDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1)); 
-				}
-			}	
+			}
 			break;
 			case MotionEvent.ACTION_MOVE:
 			{
@@ -151,39 +168,23 @@ public class PlayState implements GameState
 					
 					if(mOffsetX > 0)
 						mOffsetX = 0;
-					else if(mOffsetX < -(mBackgroundImage.getWidth() - v.getWidth()))
-						mOffsetX = -(mBackgroundImage.getWidth() - v.getWidth());
+					else if(mOffsetX < (int) -(mBackgroundImage.getWidth()*mZoom - v.getWidth()))
+						mOffsetX =(int) -(mBackgroundImage.getWidth()*mZoom - v.getWidth());
 					
 					if(mOffsetY > 0)
 						mOffsetY = 0;
-					else if(mOffsetY < -(mBackgroundImage.getHeight() - v.getHeight()))
-						mOffsetY = -(mBackgroundImage.getHeight() - v.getHeight());
+					else if(mOffsetY < (int) -(Math.ceil(mBackgroundImage.getHeight()*mZoom) - v.getHeight()))
+						mOffsetY = (int) -(Math.ceil(mBackgroundImage.getHeight()*mZoom) - v.getHeight());
 					
 					mPrevX = x;
 					mPrevY = y;
 				}
-				else
-				{
-					float newDistance = (event.getX(0)-event.getX(1))*(event.getX(0)-event.getX(1)) + (event.getY(0)-event.getY(1))*(event.getY(0)-event.getY(1));
-					if(newDistance > mPrevDistance)
-						mZoom = 1.0f;
-					else 
-					{
-						mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
-						Log.i("zoom", "" + mZoom);
-					}
-						
-					mPrevDistance = newDistance;
-				}
-				
 			}
 			break;
 		}
 		
 		//moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
-	
-	
 	
 	protected CopTurnState getCopTurnState()
 	{
