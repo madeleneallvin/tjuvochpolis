@@ -25,7 +25,7 @@ public abstract class GameObject {
 	}
 	
 	public abstract boolean isWalkable(GridNode node);
-	public abstract void doDraw(Canvas canvas); 
+	public abstract void doDraw(Canvas canvas, int offsetX, int offsetY); 
 	
 	public void moveTo(GridNode newParent){
 		this.mParentNode.setGameObject(null);

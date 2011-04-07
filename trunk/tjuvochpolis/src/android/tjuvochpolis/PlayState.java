@@ -18,6 +18,7 @@ public class PlayState implements GameState
     protected ThiefObject thief;
     protected PlayOrderState currentState;
     protected PlayOrderState copMoveState;
+    protected PlayOrderState thiefMoveState;
     protected PlayOrderState copTurnState;
     protected PlayOrderState copRollDiceState;
     protected PlayOrderState thiefTurnState;
@@ -57,7 +58,7 @@ public class PlayState implements GameState
 		copMoveState = new CopMoveState(this, cop, thief, mGrid);
 		copRollDiceState = new CopRollDiceState(this, cop, thief, mGrid);
 		thiefTurnState = new ThiefTurnState(this, cop, thief, mGrid);
-		
+		thiefMoveState = new ThiefMoveState(this,cop,thief,mGrid);
 		this.currentState = copRollDiceState;
 		
 		Resources res = context.getResources();       
@@ -88,8 +89,8 @@ public class PlayState implements GameState
 		
 		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
 		
-		cop.doDraw(c);
-		thief.doDraw(c);
+		cop.doDraw(c, mOffsetX, mOffsetY);
+		thief.doDraw(c, mOffsetX, mOffsetY);
 	}
 	
 	//Denna metoden ska göras abstrakt här och sedan implementeras i de underliggande staten. (copTurnState, thiefRollState osv.)
@@ -169,5 +170,30 @@ public class PlayState implements GameState
 	protected CopTurnState getCopTurnState()
 	{
 		return (CopTurnState) copTurnState;
+	}
+	protected ThiefTurnState getThiefTurnState()
+	{
+		
+		return (ThiefTurnState) thiefTurnState;
+	}
+	
+	public void setOffsetX(int offset)
+	{
+		mOffsetX = offset;
+	}
+	
+	public void setOffsetY(int offset)
+	{
+		mOffsetY = offset;
+	}
+	
+	public int getOffsetX()
+	{
+		return mOffsetX;
+	}
+	
+	public int getOffsetY()
+	{
+		return mOffsetY;
 	}
 }
