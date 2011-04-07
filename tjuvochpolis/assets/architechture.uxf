@@ -20,73 +20,149 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// This text will be stored with each diagram;  use it for notes.</help_text><zoom_level>8</zoom_level><element><type>com.umlet.element.base.Class</type><coordinates><x>384</x><y>400</y><w>168</w><h>104</h></coordinates><panel_attributes>&lt;Interface&gt; GameState
+// This text will be stored with each diagram;  use it for notes.</help_text><zoom_level>8</zoom_level><element><type>com.umlet.element.base.Class</type><coordinates><x>456</x><y>400</y><w>272</w><h>104</h></coordinates><panel_attributes>&lt;Interface&gt; GameState
 --
 -Attributes
 
 --
 handleState(Canvas c)
-draw()
+draw(Canvas c)
 nextState()
-doTouch()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>296</x><y>616</y><w>176</w><h>64</h></coordinates><panel_attributes>MenuState
+doTouch(View v, MotionEvent event)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>256</x><y>608</y><w>176</w><h>64</h></coordinates><panel_attributes>MenuState
 --
 
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>520</x><y>616</y><w>184</w><h>88</h></coordinates><panel_attributes>PlayState
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>568</x><y>616</y><w>312</w><h>264</h></coordinates><panel_attributes>PlayState
 --
-List&lt;GameObject&gt; gameObjects
-Grid grid
-PlayOrderState
---</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>1000</y><w>104</w><h>56</h></coordinates><panel_attributes>CopTurnState
++ MAX_FPS : int
+gameObjects : List&lt;GameObject&gt;
+playOrderStates : List&lt;PlayOrderState&gt;
+mGrid : Grid
+mFrame : int
+mPrevX : float
+mPrevY : float
+mZoom : float
+mPrevDistance : float
+mOffsetX : float
+mOffsetX : float
+mContext : Context
+mBackgroundImage : Bitmap
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>928</y><w>104</w><h>56</h></coordinates><panel_attributes>TheifTurnState
+PlayState(Context context)
+handleState(Canvas canvas)
+nextState(GameThread gt)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>992</y><w>192</w><h>96</h></coordinates><panel_attributes>CopTurnState
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>776</y><w>104</w><h>56</h></coordinates><panel_attributes>TheifRollDiceState
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>872</y><w>192</w><h>96</h></coordinates><panel_attributes>TheifTurnState
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>848</y><w>104</w><h>56</h></coordinates><panel_attributes>CopRollDiceState
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>616</y><w>192</w><h>88</h></coordinates><panel_attributes>TheifRollDiceState
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>944</x><y>232</y><w>168</w><h>80</h></coordinates><panel_attributes>/GameObject/
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>744</y><w>192</w><h>96</h></coordinates><panel_attributes>CopRollDiceState
 --
-int money
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1320</x><y>16</y><w>440</w><h>264</h></coordinates><panel_attributes>/GameObject/
 --
-doDraw()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>328</x><y>0</y><w>224</w><h>104</h></coordinates><panel_attributes>Game : Activity
+mParentNode : GridNode
+moveToRowlCoordinate : int
+moveToColCoordinate : int
+isMoving : boolean
+mCurrentDiceValue : int
+mPossibleNextNodes : ArrayList&lt;GridNode&gt;
+mDrawXPos : float
+mDrawYPos : float
+--
+GameObject(GridNode parentNode)
+doDraw(Canvas canvas)
+isWalkable(GridNode node) : boolean
+moveTo(GridNode newParent)
+nodeWalker(GridNode currentNode, GridNode previousNode, int diceValue)
+getNextNodes(GridNode currentNode, GridNode previousNode) : ArrayList&lt;GridNode&gt;
+moveToCoordinates(int rowCoordinate, int colCoordinate)
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>424</x><y>0</y><w>304</w><h>112</h></coordinates><panel_attributes>Game : Activity
 --
 GameThread gameThread
 --
-onCreate() -- Activity
-onCreateOptionsMenu() -- Activity
-onOptionsItemSelected() -- Activity</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>528</x><y>248</y><w>72</w><h>176</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;160;24;160</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>392</x><y>480</y><w>128</w><h>152</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>112;24;112;72;24;72;24;136</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>480</x><y>480</y><w>120</w><h>152</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;72;104;72;104;136</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>816</x><y>680</y><w>64</w><h>344</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;328;48;328</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>816</x><y>680</y><w>64</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;256;48;256</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>816</x><y>680</y><w>64</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104;48;104</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>344</x><y>240</y><w>208</w><h>104</h></coordinates><panel_attributes>GameThread : Thread
+onCreate(Bundle savedInstanceState) -- Activity
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>704</x><y>272</y><w>72</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;136;56;344</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>360</x><y>480</y><w>336</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>320;24;320;72;24;72;24;128</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>656</x><y>480</y><w>88</w><h>152</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;72;72;72;72;136</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>776</y><w>296</w><h>480</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104;256;104;256;464;280;464</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>776</y><w>296</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104;256;104;280;104</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>600</y><w>296</w><h>296</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;200;24;280;256;280;256;24;280;24</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>368</x><y>264</y><w>360</w><h>104</h></coordinates><panel_attributes>GameThread : Thread
 --
 -GameState gameState
 
 --
-run()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>528</x><y>144</y><w>72</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;104;24;104</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>288</x><y>144</y><w>264</w><h>56</h></coordinates><panel_attributes>GameView : SurfaceView &lt;SurfaceHolder.Callback&gt;
+run()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>704</x><y>144</y><w>72</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;128;24;128</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>344</x><y>144</y><w>384</w><h>88</h></coordinates><panel_attributes>GameView : SurfaceView &lt;SurfaceHolder.Callback&gt;
 --
-GameThread gameThread</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>528</x><y>0</y><w>72</w><h>168</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;152;24;152</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1128</x><y>232</y><w>168</w><h>80</h></coordinates><panel_attributes>GridNode
+gameThread : GameThread
 --
-GameObject &amp;gameObject
-int gameObjectIndex, x, y
---</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1056</x><y>96</y><w>168</w><h>56</h></coordinates><panel_attributes>Grid
+GameView(Context context, AttributeSet atrbs)
+surfaceCreated(SurfaceHolder holder)
+surfaceDestroyed(SurfaceHolder holder)
+surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+getThread() : GameThread</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>704</x><y>0</y><w>72</w><h>168</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;152;24;152</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>200</y><w>240</w><h>272</h></coordinates><panel_attributes>GridNode
 --
-
-GridNode gridArray</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>616</x><y>96</y><w>456</w><h>536</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;520;24;24;440;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1144</x><y>128</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>840</x><y>360</y><w>168</w><h>56</h></coordinates><panel_attributes>Thief
++STREET : int
++HOUSE : int
++POLICE_STATION : int
++THIEF_NEST : int
++BANK : int
++TELEGRAPH : int
+mX : int
+mY : int
+mNodeX : int
+mNodeY : int
+mGameObject : GameObject
+mNodeState : boolean
+mUpNode : GridNode
+mDownNode : GridNode
+mLeftNode : GridNode
+mRightNode : GridNode
+mType : int
+--</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>864</x><y>16</y><w>240</w><h>136</h></coordinates><panel_attributes>Grid
+--
++ GRID_SIZE : int
+mGridArray : GridNode
+mHeight : int
+mWidth : int
+--
+Grid(Context context)
+getGridNode(int row, int column) : GridNode</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>768</x><y>96</y><w>112</w><h>536</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;520;24;24;96;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1080</x><y>0</y><w>72</w><h>224</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;56;24;56;208;24;208</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>328</y><w>168</w><h>56</h></coordinates><panel_attributes>ThiefObject
 --
 List&lt;PowerUp&gt; powerUps
 --
-collectMoney(GameObject&amp;)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1040</x><y>360</y><w>168</w><h>56</h></coordinates><panel_attributes>Cop
+collectMoney(GameObject go)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1552</x><y>328</y><w>168</w><h>56</h></coordinates><panel_attributes>CopObject
 --
 List&lt;PowerUp&gt; powerUps
 --
-collectMoney(GameObject&amp;)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>840</x><y>440</y><w>168</w><h>56</h></coordinates><panel_attributes>Powerup
+collectMoney(GameObject go)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>408</y><w>168</w><h>56</h></coordinates><panel_attributes>PowerupObject
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1040</x><y>440</y><w>168</w><h>56</h></coordinates><panel_attributes>Bank
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1552</x><y>408</y><w>168</w><h>56</h></coordinates><panel_attributes>BankObject
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1040</x><y>520</y><w>168</w><h>56</h></coordinates><panel_attributes>Nest
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1552</x><y>488</y><w>168</w><h>56</h></coordinates><panel_attributes>NestObject
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>840</x><y>520</y><w>168</w><h>56</h></coordinates><panel_attributes>...
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>488</y><w>168</w><h>56</h></coordinates><panel_attributes>...
 --
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>984</x><y>288</y><w>56</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;256;24;256</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1000</x><y>288</y><w>56</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;256;40;256</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>984</x><y>288</y><w>56</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;176;24;176</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1000</x><y>288</y><w>56</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;176;40;176</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>984</x><y>288</y><w>56</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;96;24;96</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1000</x><y>288</y><w>56</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;96;40;96</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>640</x><y>184</y><w>520</w><h>448</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>24;432;24;24;504;24;504;48</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>664</x><y>240</y><w>296</w><h>392</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;376;24;24;280;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>816</x><y>680</y><w>64</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;176;48;176</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1040</x><y>776</y><w>88</w><h>56</h></coordinates><panel_attributes>Dice
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1496</x><y>256</y><w>56</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;256;24;256</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1512</x><y>256</y><w>56</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;256;40;256</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1496</x><y>256</y><w>56</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;176;24;176</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1512</x><y>256</y><w>56</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;176;40;176</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1496</x><y>256</y><w>56</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>40;24;40;96;24;96</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1512</x><y>256</y><w>56</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;96;40;96</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>840</x><y>208</y><w>496</w><h>424</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;408;24;352;320;352;320;24;480;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>728</y><w>296</w><h>168</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;72;24;152;256;152;256;24;280;24</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1680</x><y>616</y><w>152</w><h>64</h></coordinates><panel_attributes>&lt;Singleton&gt; Dice
 --
-+roll()
-</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>944</x><y>776</y><w>112</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>96;24;24;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>944</x><y>792</y><w>112</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>96;24;32;24;32;64;24;64</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>752</x><y>616</y><w>184</w><h>88</h></coordinates><panel_attributes>/PlayOrderState/
+diceObject : Dice
+mGenerator : Random
 --
-handleState(Canvas c)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>680</x><y>616</y><w>88</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;72;24</additional_attributes></element></umlet_diagram>
+getDice() : Dice
+rollDice() : int
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1520</x><y>616</y><w>176</w><h>40</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>160;24;24;24</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1520</x><y>632</y><w>176</w><h>136</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>160;24;40;24;40;120;24;120</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>928</x><y>616</y><w>368</w><h>184</h></coordinates><panel_attributes>/PlayOrderState/
+--
+mGrid : Grid
+mPlayState : PlayState
+mNextState : PlayOrderState
+mAnimationStep : float
+mCurrentAnimationStep : float
+--
+PlayOrderState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid)
+handleState(int frame)
+doTouch(View v, MotionEvent event)
+getNextState() : PlayOrderState
+interpolatedMove(GameObject go, int frame)
+interpolate(int gridStart, int gridEnd, int frame) : float</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>856</x><y>616</y><w>88</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;72;24</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>0</x><y>0</y><w>224</w><h>104</h></coordinates><panel_attributes>Game : Activity
+--
+GameThread gameThread
+--
+onCreate(Bundle savedInstanceState) -- Activity
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>0</y><w>88</w><h>624</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;24;72;24;72;608</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>792</x><y>216</y><w>88</w><h>416</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>24;400;24;24;72;24</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>1112</y><w>192</w><h>96</h></coordinates><panel_attributes>ThiefMoveState
+--
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1352</x><y>1232</y><w>192</w><h>96</h></coordinates><panel_attributes>CopMoveState
+--
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>776</y><w>296</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104;256;104;256;224;280;224</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1072</x><y>776</y><w>296</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>24;24;24;104;256;104;256;344;280;344</additional_attributes></element></umlet_diagram>

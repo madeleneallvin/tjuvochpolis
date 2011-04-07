@@ -31,7 +31,7 @@ public class CopObject extends GameObject{
 		paint.setColor(Color.BLUE); //bara tillfälligt
 		//canvas.drawCircle(parentNode.getNodeX()*pixels+pixels/2, parentNode.getNodeY()*pixels+pixels/2, pixels/2, paint);
 		//canvas.drawCircle(this.mDrawXPos+pixels/2, this.mDrawYPos+pixels/2 , pixels/2, paint);
-		canvas.drawCircle(this.mDrawXPos+Grid.GRID_SIZE/2, this.mDrawYPos+Grid.GRID_SIZE/2 , Grid.GRID_SIZE/2, paint);
+		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2, this.getDrawYPos()+Grid.GRID_SIZE/2 , Grid.GRID_SIZE/2, paint);
 		
 				//parentNode.getX()*pixels,  parentNode.getY()*pixels, parentNode.getX()*pixels+pixels, parentNode.getY()*pixels+pixels, paint); // måste sätta in getX, getY * # pixlar
 		

@@ -13,4 +13,5 @@ public interface GameState
 	
 	public void doTouch(View v, MotionEvent event);
 	
+	public void draw(Canvas c);
 }
