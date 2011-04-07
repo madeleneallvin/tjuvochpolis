@@ -20,8 +20,7 @@ public class CopRollDiceState extends PlayOrderState {
 	public void doTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		this.cop.setCurrentDiceValue(Dice.getDice().rollDice());
-		this.cop.nodeWalker(this.cop.getParentNode(), this.cop.getParentNode(), this.cop.getCurrentDiceValue());
-		
+		this.cop.doNodeWalker(this.cop.getParentNode(), this.cop.getParentNode(), this.cop.getCurrentDiceValue());
 		this.mNextState = mPlayState.copTurnState;
 	}
 

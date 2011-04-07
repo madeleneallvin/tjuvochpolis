@@ -21,7 +21,7 @@ public class ThiefMoveState extends PlayOrderState {
 		if (thief.isMoving) {
 			return this;
 		} else {
-			return mPlayState.getCopTurnState();
+			return mPlayState.getCopRollDiceState();
 		}
 	}
 

@@ -9,7 +9,7 @@ public class Dice {
 	// Note that the constructor is private
 	private Dice() {
 		// Optional Code
-		 mGenerator = new Random();
+		 
 	}
 	public static Dice getDice() {
 		if (diceObject == null) {
@@ -19,7 +19,7 @@ public class Dice {
 	}
 	
 	public int rollDice()
-	{
+	{	mGenerator = new Random();
 		return mGenerator.nextInt(6) + 1;
 	}
 

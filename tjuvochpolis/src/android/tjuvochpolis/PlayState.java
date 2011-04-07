@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,13 +17,16 @@ public class PlayState implements GameState
 	protected Grid mGrid;
     protected CopObject cop;
     protected ThiefObject thief;
-    protected PlayOrderState currentState;
-    protected PlayOrderState copMoveState;
-    protected PlayOrderState thiefMoveState;
+    
+    protected PlayOrderState mCurrentState;
+    
+    private PlayOrderState copRollDiceState;
     protected PlayOrderState copTurnState;
-    protected PlayOrderState copRollDiceState;
+    protected PlayOrderState copMoveState;
+    
+    private PlayOrderState thiefRollDiceState;
     protected PlayOrderState thiefTurnState;
-	
+    protected PlayOrderState thiefMoveState;
     
     protected int mFrame;
     
@@ -50,16 +54,21 @@ public class PlayState implements GameState
 		mPrevDistance = 0.0f;		
 		mZoom = 1.0f;
 		
-		cop = new CopObject(mGrid.mGridArray[2][4]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
+		cop = new CopObject(mGrid.mGridArray[2][3]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		cop.setDrawXPos(cop.getParentNode().getPixelX());
 		cop.setDrawYPos(cop.getParentNode().getPixelY());
 		thief = new ThiefObject(mGrid.mGridArray[4][7]);   
+		
 		copTurnState = new CopTurnState(this, cop, thief, mGrid);
 		copMoveState = new CopMoveState(this, cop, thief, mGrid);
-		copRollDiceState = new CopRollDiceState(this, cop, thief, mGrid);
+		copRollDiceState =new CopRollDiceState(this, cop, thief, mGrid);
+		
+		thiefRollDiceState = new ThiefRollDiceState(this, cop, thief, mGrid);
+		
 		thiefTurnState = new ThiefTurnState(this, cop, thief, mGrid);
 		thiefMoveState = new ThiefMoveState(this,cop,thief,mGrid);
-		this.currentState = copRollDiceState;
+		
+		this.mCurrentState = getCopRollDiceState();
 		
 		Resources res = context.getResources();       
         mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);
@@ -73,8 +82,8 @@ public class PlayState implements GameState
 			mFrame = 1;
 		}
 	
-		currentState.handleState(mFrame);
-		currentState = currentState.getNextState();
+		mCurrentState.handleState(mFrame);
+		mCurrentState = mCurrentState.getNextState();
 		this.draw(canvas);
 	}
 	
@@ -90,7 +99,10 @@ public class PlayState implements GameState
 		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
 		
 		cop.doDraw(c, mOffsetX, mOffsetY);
+		//Log.i("POSITIONS", "BLARGHHHG");
 		thief.doDraw(c, mOffsetX, mOffsetY);
+		cop.drawHighlightSquare(c, mOffsetX, mOffsetY);
+		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	
 	//Denna metoden ska göras abstrakt här och sedan implementeras i de underliggande staten. (copTurnState, thiefRollState osv.)
@@ -104,6 +116,10 @@ public class PlayState implements GameState
 	//public void moveTo(float x, float y);
 	
 	//movement of a game object
+	
+	
+	
+	
 	public void doTouch(View v, MotionEvent event)
 	{
 		//Log.i("test1", "playstate dotouch");
@@ -118,7 +134,7 @@ public class PlayState implements GameState
 			{
 				mPrevX = x;
 				mPrevY = y;
-				currentState.doTouch(v, event);
+				mCurrentState.doTouch(v, event);
 				
 				if(event.getPointerCount() == 2)
 				{
@@ -167,6 +183,8 @@ public class PlayState implements GameState
 		//moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
 	
+	
+	
 	protected CopTurnState getCopTurnState()
 	{
 		return (CopTurnState) copTurnState;
@@ -195,5 +213,21 @@ public class PlayState implements GameState
 	public int getOffsetY()
 	{
 		return mOffsetY;
+	}
+
+	protected void setThiefRollDiceState(PlayOrderState thiefRollDiceState) {
+		this.thiefRollDiceState = thiefRollDiceState;
+	}
+
+	protected PlayOrderState getThiefRollDiceState() {
+		return thiefRollDiceState;
+	}
+
+	protected void setCopRollDiceState(PlayOrderState copRollDiceState) {
+		this.copRollDiceState = copRollDiceState;
+	}
+
+	protected PlayOrderState getCopRollDiceState() {
+		return copRollDiceState;
 	}
 }

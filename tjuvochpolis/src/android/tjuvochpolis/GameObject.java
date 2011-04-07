@@ -3,66 +3,114 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 public abstract class GameObject {
 
 	
-	protected GridNode mParentNode;
+	private GridNode mParentNode;
+	private int mCurrentDiceValue;
+	private int pocketMoney;
+	private ArrayList<GridNode> path = new ArrayList<GridNode>();
+	private ArrayList<ArrayList<GridNode>> mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
+	
+	private float mDrawXPos;
+	private float mDrawYPos;
 	protected int moveToColCoordinate;
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	
-	private int mCurrentDiceValue;
-	private ArrayList<GridNode> mPossibleNextNodes = new ArrayList<GridNode>();
-	private float mDrawXPos;
-	private float mDrawYPos;
-	
 	public GameObject(GridNode parentNode) {
-		this.mParentNode = parentNode;
+		this.setParentNode(parentNode);
 		
-		this.mParentNode.setGameObject(this);
+		this.getParentNode().setGameObject(this);
 	}
 	
 	public abstract boolean isWalkable(GridNode node);
 	public abstract void doDraw(Canvas canvas, int offsetX, int offsetY); 
+	public abstract boolean hasMoney();
+
+	public boolean canStopHere(GridNode node){
+		return false;
+	}
 	
 	public void moveTo(GridNode newParent){
-		this.mParentNode.setGameObject(null);
-		this.mParentNode = newParent;
+		this.getParentNode().setGameObject(null);
+		this.setParentNode(newParent);
 		
-		if(this.mParentNode.getType() == 0) {
-			this.mParentNode.setGameObject(this);
+		if(this.getParentNode().getType() == 0) {
+			this.getParentNode().setGameObject(this);
 		}
-		else if(this.mParentNode.getType() == 1) {
+		else if(this.getParentNode().getType() == 1) {
 			//inte ok att flytta hit		
 		}
 			
 	}
 	
-	public void nodeWalker(GridNode currentNode, GridNode previousNode, int diceValue) {
-		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
+	public void doNodeWalker(GridNode currentNode, GridNode previousNode, int diceValue)
+	{
+		mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
+		path = new ArrayList<GridNode>();
+		nodeWalker( currentNode,  previousNode,  diceValue);
 		
-		Log.i("Dice value", "Dice value = " + diceValue);
-		
-		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
-		if(diceValue == 0) {
-			mPossibleNextNodes.add(currentNode);
-			return;
-		}
-		if(nextNodes.size() == 0) {
-			return;
-		}
-		
-		//for each
-		for(GridNode nextNode : nextNodes) {
-			Log.i("Next node", "col=" + nextNode.getNodeX() + " row=" + nextNode.getNodeY());
-			this.nodeWalker(nextNode, currentNode, diceValue-1);
-			
-		}
 	}
 	
-	public ArrayList<GridNode> getNextNodes(GridNode currentNode, GridNode previousNode){
+	
+	private void nodeWalker(GridNode currentNode, GridNode previousNode, int diceValue) {
+		
+		// Sparar noden man står på i nuvarande path
+		path.add(currentNode);
+		
+		// Tar fram alla möjliga noder man kan gå till från currentNode
+		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
+		
+		
+		// Kolla gameobjects
+	/*	if(nextNodes.size() != 0 && this.canStopHere(currentNode))
+		{
+			// Save the node
+			Log.i("canStopHere",currentNode.getGameObject().getClass().toString());
+		}*/
+		/*
+		// Kolla nodetypes, spara undan om det är ett tillåtet hus
+		if(this.isWalkable(currentNode))
+		{
+			// Save the node
+		}
+		*/
+		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
+		if(diceValue == 0) {
+			// Sparar undan en möjlig väg
+			mPossiblePaths.add(path);
+			//Skriver ut alla paths
+		//	for(int i = 0; i < path.size(); i++)
+			//{
+				//Log.i("Path", i + ": col=" + path.get(i).getNodeX() + " row=" + path.get(i).getNodeY());
+		//	}
+			// Rensar vägen
+			path.remove(path.size()-1);
+			return;
+		}
+		//Om det inte finns några nextNodes så står man i en återvändsgränd
+		if(nextNodes.size() == 0) {
+			path.remove(path.size()-1);
+			return;
+		}
+		
+		// loopar alla möjliga vägar
+		for(GridNode nextNode : nextNodes) {
+			// Anropar nodeWalker igen med ett mindre tärningsvärde och nästa nod
+			this.nodeWalker(nextNode, currentNode, diceValue-1);
+		}
+		
+		path.remove(path.size()-1);
+		return;
+	}
+	
+	
+	private ArrayList<GridNode> getNextNodes(GridNode currentNode, GridNode previousNode){
 		// hämta alla noder runt current
 		// ta inte med previous!
 		ArrayList<GridNode> possibleNextNodes = new ArrayList<GridNode>();
@@ -87,66 +135,10 @@ public abstract class GameObject {
 			possibleNextNodes.add(currentNode.getRightNode());
 		}
 		
-		
 		return possibleNextNodes;
 	}
 	
-	
-	/*public ArrayList<int[]> checkWalkableNodes(Grid thegrid)
-	{
-		ArrayList<int[]> walkableGridNodes = new ArrayList<int[]>();
-		int[] temp = new int[2];
-		
-		boolean walkable = false;
-		
-		// Scan area depending on the diceValue
-		int startCol = this.parentNode.getNodeX();
-		int startRow = this.parentNode.getNodeY();
-
-		//if(this.getClass() == CopObject.class);
-		
-		Log.i("test1", "Dice value="+this.diceValue);
-		Log.i("test1", "startRow=" + startRow + " startCol=" + startCol);
-		
-		// x + diceValue-1
-		// y + 
-		
-//		if(this.getClass() == CopObject.class) {
-//			Log.i("test1", this.toString());
-//		}
-		
-		for(int col = -this.diceValue; col <= this.diceValue; col++) 
-		{
-			for(int row = -this.diceValue; row <= this.diceValue; row++) 
-			{
-				if((Math.abs(col)+Math.abs(row)) <= this.diceValue)
-				{
-					//Could be walkable
-					//GridNode newNode = thegrid.gridArray[column][row]
-					//this.isWalkable(this.parentNode.getType());
-					Log.i("test1", "row=" + row + " col=" + col);
-					if(this.isWalkable(thegrid.gridArray[startRow + row][startCol + col])){
-						
-						//possible to walk to??
-						
-						temp[0] = row;
-						temp[1] = col;
-						walkableGridNodes.add(temp);
-					}
-				}
-			}
-		}
-		
-		
-		
-		return walkableGridNodes;
-	}
-	*/
-	
-	public GridNode getParentNode()
-	{
-		return mParentNode;
-	}
+	//vad hände här :O
 	
 	public void moveToCoordinates(int rowCoordinate, int colCoordinate)
 	{
@@ -155,6 +147,29 @@ public abstract class GameObject {
 		
 		isMoving = true;
 	}
+	
+	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY){
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		//Log.i("Y U NO WORK HERE???",  "" +mPossiblePaths.size() );
+			for(int i = 0; i < mPossiblePaths.size(); i++)
+			{//Log.i("test1", "Y U NO WORK???" + mPossiblePaths.size());
+				int tempjSize = mPossiblePaths.get(i).size();
+				//Log.i("Y U NO WORK HERE???",  "" +tempjSize );
+				for(int j=0; j<tempjSize; j++){
+					int xPos = getPossiblePaths().get(i).get(j).getPixelX();
+					int yPos = getPossiblePaths().get(i).get(j).getPixelY();
+					//Log.i("test1", "Y U NO WORK HERE EITHER???"+ getPossiblePaths().get(i).get(j).getNodeX());
+					//Log.i("POSITIONS", ""+ (getPossiblePaths().get(i).get(j).getNodeX())+ " " + + (getPossiblePaths().get(i).get(j).getNodeY()));
+					
+					//canvas.drawCircle( xPos, yPos, 10, paint);
+				canvas.drawCircle(xPos-OffsetX+Grid.GRID_SIZE/2, yPos-OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
+					
+				}
+			}
+		
+		}
+	
 	
 	public int getCurrentDiceValue()
 	{
@@ -180,6 +195,22 @@ public abstract class GameObject {
 
 	public float getDrawYPos() {
 		return mDrawYPos;
+	}
+
+	public void setParentNode(GridNode mParentNode) {
+		this.mParentNode = mParentNode;
+	}
+
+	public GridNode getParentNode() {
+		return mParentNode;
+	}
+
+	public void setPossiblePaths(ArrayList<ArrayList<GridNode>> mPossiblePaths) {
+		this.mPossiblePaths = mPossiblePaths;
+	}
+
+	public ArrayList<ArrayList<GridNode>> getPossiblePaths() {
+		return mPossiblePaths;
 	}
 }
 	

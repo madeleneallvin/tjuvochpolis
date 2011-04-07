@@ -3,9 +3,12 @@ package android.tjuvochpolis;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class ThiefObject extends GameObject{
 
+	private int pocketMoney;
+	
 	private int pixels = Grid.GRID_SIZE;
 	
 	public ThiefObject(GridNode parentNode) {
@@ -24,8 +27,52 @@ public class ThiefObject extends GameObject{
 
 	@Override
 	public boolean isWalkable(GridNode node) {
-		// TODO Auto-generated method stub
+		int type = node.getType();
+		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public boolean canStopHere(GridNode node){
+		// Det står en tjuv på noden
+		Log.i("canStopHere","in function thief");
+		if(node.getGameObject().getClass() != null){
+			if(node.getGameObject().getClass().equals(ThiefObject.class))
+			{
+				Log.i("canStopHere","Thief");
+				/*if(node.getGameObject().hasMoney()){
+					return true;
+				}
+				else{
+					return false;
+				}*/
+			}
+		}
+		
+		// Det finns en powerup på noden
+		else if(node.getGameObject().getClass().equals(PowerupObject.class)){
+			Log.i("canStopHere","powerup");
+			return true;
+		}
+		// Det står en polis på noden
+		else if(node.getGameObject().getClass().equals(CopObject.class))
+		{
+			Log.i("canStopHere","cop");
+			return false;
+		}
 		return false;
 	}
 
+	public boolean hasMoney()
+	{
+		if(pocketMoney > 0){
+			return true;
+		}
+		return false;
+	}
 }

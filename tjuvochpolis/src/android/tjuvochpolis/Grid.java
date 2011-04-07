@@ -47,7 +47,8 @@ public class Grid {
 		// sets the neighbors
 		for (int column = 0; column < mWidth; column++) {
 			for (int row = 0; row < mHeight; row++) {
-
+				mGridArray[row][column].setGameObject(null); // sätter gameobject till null för att det ska gå att "kolla" på platserna utan att få nullpointerexception
+				
 				if (row == 0){
 					mGridArray[row][column].setUpNode(null);
 				} else {

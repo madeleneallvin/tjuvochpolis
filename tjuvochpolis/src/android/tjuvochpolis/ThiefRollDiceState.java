@@ -30,7 +30,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 	@Override
 	public PlayOrderState getNextState() {
 		// TODO Auto-generated method stub
-		return null;
+		return mPlayState.getThiefTurnState();
 	}
 
 }

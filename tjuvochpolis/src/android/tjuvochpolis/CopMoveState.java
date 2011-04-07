@@ -26,7 +26,7 @@ public class CopMoveState extends PlayOrderState {
 		}
 		else
 		{
-			return mPlayState.getThiefTurnState();
+			return mPlayState.getThiefRollDiceState();
 		}
 	}
 
