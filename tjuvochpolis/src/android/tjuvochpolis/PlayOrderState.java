@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -43,6 +44,11 @@ public abstract class PlayOrderState {
 	public abstract void doTouch(View v, MotionEvent event);
 	
 	public abstract PlayOrderState getNextState();
+	
+	public void doDraw(Canvas c)
+	{
+		return;
+	}
 	
 	protected void interpolatedMove(GameObject go, int frame) {
 		

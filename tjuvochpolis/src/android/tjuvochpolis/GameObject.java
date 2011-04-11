@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 public abstract class GameObject {
@@ -53,12 +54,12 @@ public abstract class GameObject {
 	{
 		mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
 		path = new ArrayList<GridNode>();
-		nodeWalker( currentNode,  previousNode,  diceValue);
-		
+		nodeWalker(path, currentNode,  previousNode,  diceValue);
 	}
 	
 	
-	private void nodeWalker(GridNode currentNode, GridNode previousNode, int diceValue) {
+	private void nodeWalker(ArrayList<GridNode> path, GridNode currentNode, GridNode previousNode, int diceValue) {
+		
 		
 		// Sparar noden man står på i nuvarande path
 		path.add(currentNode);
@@ -90,22 +91,22 @@ public abstract class GameObject {
 				//Log.i("Path", i + ": col=" + path.get(i).getNodeX() + " row=" + path.get(i).getNodeY());
 		//	}
 			// Rensar vägen
-			path.remove(path.size()-1);
+			//path.remove(path.size()-1);
 			return;
 		}
 		//Om det inte finns några nextNodes så står man i en återvändsgränd
 		if(nextNodes.size() == 0) {
 			path.remove(path.size()-1);
-			return;
+			//return;
 		}
 		
 		// loopar alla möjliga vägar
 		for(GridNode nextNode : nextNodes) {
 			// Anropar nodeWalker igen med ett mindre tärningsvärde och nästa nod
-			this.nodeWalker(nextNode, currentNode, diceValue-1);
+			this.nodeWalker(path, nextNode, currentNode, diceValue-1);
 		}
 		
-		path.remove(path.size()-1);
+		//path.remove(path.size()-1);
 		return;
 	}
 	
@@ -150,20 +151,21 @@ public abstract class GameObject {
 	
 	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY){
 		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
+		paint.setARGB(128, 0, 255, 0);
 		//Log.i("Y U NO WORK HERE???",  "" +mPossiblePaths.size() );
 			for(int i = 0; i < mPossiblePaths.size(); i++)
 			{//Log.i("test1", "Y U NO WORK???" + mPossiblePaths.size());
 				int tempjSize = mPossiblePaths.get(i).size();
 				//Log.i("Y U NO WORK HERE???",  "" +tempjSize );
-				for(int j=0; j<tempjSize; j++){
+				for(int j=0; j<tempjSize; j++)
+				{
 					int xPos = getPossiblePaths().get(i).get(j).getPixelX();
 					int yPos = getPossiblePaths().get(i).get(j).getPixelY();
-					//Log.i("test1", "Y U NO WORK HERE EITHER???"+ getPossiblePaths().get(i).get(j).getNodeX());
-					//Log.i("POSITIONS", ""+ (getPossiblePaths().get(i).get(j).getNodeX())+ " " + + (getPossiblePaths().get(i).get(j).getNodeY()));
-					
-					//canvas.drawCircle( xPos, yPos, 10, paint);
-				canvas.drawCircle(xPos-OffsetX+Grid.GRID_SIZE/2, yPos-OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
+
+					//Rect rectangle = new Rect();
+					//rectangle.set(xPos-OffsetX, yPos-OffsetY, xPos-OffsetX+Grid.GRID_SIZE, yPos-OffsetY+Grid.GRID_SIZE);
+					//canvas.drawRect(rectangle, paint);
+					canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
 					
 				}
 			}
