@@ -39,7 +39,7 @@ public class GameThread extends Thread
 		
 		menuState = new MenuState(context);
 		playState = new PlayState(context);
-		currentState = menuState;
+		currentState = playState;
 		
 		mTime = System.currentTimeMillis();
 		

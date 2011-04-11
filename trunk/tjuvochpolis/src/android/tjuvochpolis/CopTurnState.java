@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,11 @@ public class CopTurnState extends PlayOrderState {
 		//rita ut möjliga gridnodes att gå till
 	}
 
+	public void doDraw(Canvas c)
+	{
+		mPlayState.cop.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+	}
+	
 	public void doTouch(View v, MotionEvent event) {
 	
 		//Kasta tärning för alla pjäser

@@ -98,13 +98,13 @@ public class PlayState implements GameState
 	{
 		
 		c.scale(mZoom, mZoom);
-		
 		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
 		
+		mCurrentState.doDraw(c);
+		
 		cop.doDraw(c, mOffsetX, mOffsetY);
-		//Log.i("POSITIONS", "BLARGHHHG");
 		thief.doDraw(c, mOffsetX, mOffsetY);
-		cop.drawHighlightSquare(c, mOffsetX, mOffsetY);
+		
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	

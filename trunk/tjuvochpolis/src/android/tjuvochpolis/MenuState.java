@@ -31,8 +31,6 @@ public class MenuState implements GameState
 	
 	public void handleState(Canvas canvas)
 	{
-		
-		
 		//color--;
 		draw(canvas);
 		
