@@ -4,7 +4,9 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 public class GameThread extends Thread 
 {
@@ -17,7 +19,7 @@ public class GameThread extends Thread
 	
 	private long mTime;
 	
-	 private boolean mRun;
+	private boolean mRun;
 	
 	private GameState menuState;// = new MenuState();
 	
@@ -65,12 +67,13 @@ public class GameThread extends Thread
         while (ismRun())
         {
         	Canvas canvas = null;
-        	
+
 			try {
 			    canvas = mSurfaceHolder.lockCanvas(null);
+			    
 			    synchronized (mSurfaceHolder) {
 			        
-		        	currentState.handleState(canvas);
+		        	currentState.handleState(canvas, mContext);
 		        	currentState.nextState(this);
 		            
 			    }
