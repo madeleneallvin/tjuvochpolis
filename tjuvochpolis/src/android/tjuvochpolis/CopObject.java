@@ -7,10 +7,13 @@ import android.util.Log;
 
 public class CopObject extends GameObject{
 
-	public CopObject(GridNode parentNode) {
-		super(parentNode);
+	public CopObject(String name,GridNode parentNode) {
+		super(name, parentNode);
 		
 		// TODO Auto-generated constructor stub
+		
+		this.setDrawXPos(this.getParentNode().getPixelX());
+		this.setDrawYPos(this.getParentNode().getPixelY());
 	}
 	
 	public boolean isWalkable(GridNode node){

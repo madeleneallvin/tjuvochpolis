@@ -1,20 +1,18 @@
 package android.tjuvochpolis;
 
+import java.util.ArrayList;
+
+import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class CopRollDiceState extends PlayOrderState {
 
-	public CopRollDiceState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid) {
-		super(ps, cop, thief, grid);
+	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
+		super(ps, gameObjects , grid);
 		this.mNextState = this;
 		// TODO Auto-generated constructor stub
-	}
-
-	public void moveTo(float x, float y) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -24,9 +22,18 @@ public class CopRollDiceState extends PlayOrderState {
 
 	@Override
 	public void handleState(int frame) {
-		// TODO Auto-generated method stub
-		this.cop.setCurrentDiceValue(Dice.getDice().rollDice());
-		this.cop.doNodeWalker(this.cop.getParentNode(), this.cop.getParentNode(), this.cop.getCurrentDiceValue());
+		
+
+		//Roll dice for all cops
+		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
+		
+		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
+		
+		
+		//Calculate the nodeWalker
+		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue());
+		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
+		//Change state
 		this.mNextState = mPlayState.copTurnState;
 	}
 

@@ -1,5 +1,7 @@
 package android.tjuvochpolis;
 
+import java.util.ArrayList;
+
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
@@ -7,8 +9,9 @@ import android.view.View;
 public abstract class PlayOrderState {
 	
 
-	CopObject cop;
-	ThiefObject thief;
+	//CopObject cop;
+	//ThiefObject thief;
+	protected ArrayList<GameObject> mGameObjects;
 	
 	protected Grid mGrid;
 	protected PlayState mPlayState;
@@ -16,11 +19,12 @@ public abstract class PlayOrderState {
 	protected float mAnimationStep = 25;
 	protected int mCurrentAnimationStep = 0;
 	
-	public PlayOrderState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
-		this.cop = cop;
-		this.thief = thief;
-		this.mGrid = grid;
+	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
+		
 		this.mPlayState = ps;
+		this.mGameObjects = gameObjects;
+		this.mGrid = grid;
+		
 	}
 	
 	/*public boolean canGoTo(int row, int col){

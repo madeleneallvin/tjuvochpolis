@@ -1,5 +1,7 @@
 package android.tjuvochpolis;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,19 +11,40 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.util.FloatMath;
 
 public class PlayState implements GameState
 {
 	public static int MAX_FPS = 30;
 	protected Grid mGrid;
-    protected CopObject cop;
-    protected ThiefObject thief;
+ //   protected CopObject cop, cop2;
+  //  protected ThiefObject thief, thief2;
     
+    protected ArrayList<GameObject> mObjectArray;
+  
+    public enum mObjectIndex {
+        COP1 (0),
+        COP2 (1),
+        THIEF1(2),
+        THIEF2 (3);
+               
+        private final int index;
+        mObjectIndex(int index){
+        	this.index = index;
+        }
+        
+       
+        
+        
+		public int getIndex() {
+			return index;
+		}
+    }
+        
+   
+
     protected PlayOrderState mCurrentState;
     
     private PlayOrderState copRollDiceState;
@@ -56,8 +79,11 @@ public class PlayState implements GameState
 	private long mLastTap = 0;
 	private boolean zoomOut = false;
 	
+	
+	
 	public PlayState(Context context)
-	{
+	{ 
+		
 		mGrid = new Grid(context);
 
 		mOffsetX = 0;
@@ -66,19 +92,33 @@ public class PlayState implements GameState
 		mPrevDistance = 0.0f;		
 		mZoom = 1.0f;
 		
-		cop = new CopObject(mGrid.mGridArray[2][3]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
-		cop.setDrawXPos(cop.getParentNode().getPixelX());
-		cop.setDrawYPos(cop.getParentNode().getPixelY());
-		thief = new ThiefObject(mGrid.mGridArray[4][7]);   
 		
-		copTurnState = new CopTurnState(this, cop, thief, mGrid);
-		copMoveState = new CopMoveState(this, cop, thief, mGrid);
-		copRollDiceState =new CopRollDiceState(this, cop, thief, mGrid);
+			
 		
-		thiefRollDiceState = new ThiefRollDiceState(this, cop, thief, mGrid);
+		 //positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		
-		thiefTurnState = new ThiefTurnState(this, cop, thief, mGrid);
-		thiefMoveState = new ThiefMoveState(this,cop,thief,mGrid);
+
+		mObjectArray = new ArrayList<GameObject>();
+		
+		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[2][3]));
+		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
+		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
+		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[5][7]));
+		
+		
+		
+		//mObjectArray.get(mObjectIndex.COP1.getIndex());
+		
+	
+		//copTurnState = new CopTurnState(this, cop, thief, mGrid);
+		copTurnState = new CopTurnState(this, mObjectArray, mGrid);
+		copMoveState = new CopMoveState(this, mObjectArray, mGrid);
+		copRollDiceState =new CopRollDiceState(this, mObjectArray, mGrid);
+		
+		thiefRollDiceState = new ThiefRollDiceState(this, mObjectArray, mGrid);
+		
+		thiefTurnState = new ThiefTurnState(this, mObjectArray, mGrid);
+		thiefMoveState = new ThiefMoveState(this, mObjectArray, mGrid);
 		
 		this.mCurrentState = getCopRollDiceState();
 		
@@ -88,7 +128,7 @@ public class PlayState implements GameState
         mFrame = 0;
 	}
 	
-	public void handleState(Canvas canvas, Context context)
+	public void handleState(Canvas canvas)
 	{
 		if(mFrame++ == MAX_FPS){
 			mFrame = 1;
@@ -96,14 +136,14 @@ public class PlayState implements GameState
 
 		mCurrentState.handleState(mFrame);
 		mCurrentState = mCurrentState.getNextState();
-		this.draw(canvas, context);
+		this.draw(canvas);
 	}
 	
 	public void nextState(GameThread gt)
 	{
 	}
 	
-	public void draw(Canvas c, Context context)
+	public void draw(Canvas c)
 	{
 		
 		c.scale(mZoom, mZoom);
@@ -111,12 +151,14 @@ public class PlayState implements GameState
 		
 		mCurrentState.doDraw(c);
 		
-		cop.doDraw(c, mOffsetX, mOffsetY);
-		thief.doDraw(c, mOffsetX, mOffsetY);
+		mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);;
+		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
 		
 		//drawing the hud
-		this.drawHud(c,context);
+	
 		
 
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
@@ -131,40 +173,6 @@ public class PlayState implements GameState
 	}*/
 	
 	//public void moveTo(float x, float y);
-	public void drawHud(Canvas c, Context context)
-	{
-		mPaintText = new Paint();
-		mPaintText.setColor(Color.WHITE);
-
-		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay(); 
-		int displayWidth = display.getWidth();
-		int displayHeight = display.getHeight();
-		int orientation = display.getOrientation();
-
-		mPaintBgLeft = new Paint();
-		mPaintBgLeft.setColor(Color.BLUE);
-		mPaintBgRight = new Paint();
-		mPaintBgRight.setColor(Color.RED);
-
-		//Log.i("orientation", ""+orientation);
-		
-		if(orientation == 1) //liggande
-		{
-			mRectLeft = new Rect(0, 0, 40, displayHeight);
-			mRectRight = new Rect(displayWidth-40, 0, displayWidth, displayHeight);
-		}
-		else if(orientation == 0) //stående
-		{
-			mRectLeft = new Rect(0, 0, displayWidth, 40);
-			mRectRight = new Rect(0, displayHeight-90, displayWidth, displayHeight-40);
-		}
-
-		c.drawRect(mRectLeft, mPaintBgLeft);
-		c.drawRect(mRectRight, mPaintBgRight);
-		
-		c.drawText("THE HUD", mOffsetX, mOffsetY, mPaintText);
-		
-	}
 	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)

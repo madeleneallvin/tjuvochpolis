@@ -11,9 +11,11 @@ public class ThiefObject extends GameObject{
 	
 	private int pixels = Grid.GRID_SIZE;
 	
-	public ThiefObject(GridNode parentNode) {
-		super(parentNode);
+	public ThiefObject(String name, GridNode parentNode) {
+		super(name, parentNode);
 		// TODO Auto-generated constructor stub
+		this.setDrawXPos(this.getParentNode().getPixelX());
+		this.setDrawYPos(this.getParentNode().getPixelY());
 	}
 
 	@Override

@@ -14,6 +14,8 @@ public abstract class GameObject {
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
 	private int pocketMoney;
+	private int objectIndex;
+	private String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
 	private ArrayList<ArrayList<GridNode>> mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
 	
@@ -23,8 +25,9 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	
-	public GameObject(GridNode parentNode) {
+	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
+		this.name = name;
 		
 		this.getParentNode().setGameObject(this);
 	}
@@ -213,6 +216,14 @@ public abstract class GameObject {
 
 	public ArrayList<ArrayList<GridNode>> getPossiblePaths() {
 		return mPossiblePaths;
+	}
+
+	 public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
 	
