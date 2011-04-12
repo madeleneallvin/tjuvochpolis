@@ -29,10 +29,10 @@ public class MenuState implements GameState
 		paint.setColor(Color.WHITE);
 	}
 	
-	public void handleState(Canvas canvas)
+	public void handleState(Canvas canvas, Context context)
 	{
 		//color--;
-		draw(canvas);
+		draw(canvas, context);
 		
 	}
 	
@@ -55,7 +55,7 @@ public class MenuState implements GameState
 		}
 	}
 	
-	public void draw(Canvas c)
+	public void draw(Canvas c, Context context)
 	{
 		c.drawColor(color);
 		c.drawRect(rect, paint);

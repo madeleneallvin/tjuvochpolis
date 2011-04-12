@@ -7,9 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.util.FloatMath;
 
 public class PlayState implements GameState
@@ -40,6 +43,12 @@ public class PlayState implements GameState
     
     private int mOffsetX;
     private int mOffsetY;
+    
+    private Paint mPaintText;
+    private Paint mPaintBgLeft;
+    private Paint mPaintBgRight;
+    private Rect mRectLeft;
+    private Rect mRectRight;
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
@@ -79,7 +88,7 @@ public class PlayState implements GameState
         mFrame = 0;
 	}
 	
-	public void handleState(Canvas canvas)
+	public void handleState(Canvas canvas, Context context)
 	{
 		if(mFrame++ == MAX_FPS){
 			mFrame = 1;
@@ -87,14 +96,14 @@ public class PlayState implements GameState
 
 		mCurrentState.handleState(mFrame);
 		mCurrentState = mCurrentState.getNextState();
-		this.draw(canvas);
+		this.draw(canvas, context);
 	}
 	
 	public void nextState(GameThread gt)
 	{
 	}
 	
-	public void draw(Canvas c)
+	public void draw(Canvas c, Context context)
 	{
 		
 		c.scale(mZoom, mZoom);
@@ -105,6 +114,11 @@ public class PlayState implements GameState
 		cop.doDraw(c, mOffsetX, mOffsetY);
 		thief.doDraw(c, mOffsetX, mOffsetY);
 		
+		
+		//drawing the hud
+		this.drawHud(c,context);
+		
+
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	
@@ -117,6 +131,40 @@ public class PlayState implements GameState
 	}*/
 	
 	//public void moveTo(float x, float y);
+	public void drawHud(Canvas c, Context context)
+	{
+		mPaintText = new Paint();
+		mPaintText.setColor(Color.WHITE);
+
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay(); 
+		int displayWidth = display.getWidth();
+		int displayHeight = display.getHeight();
+		int orientation = display.getOrientation();
+
+		mPaintBgLeft = new Paint();
+		mPaintBgLeft.setColor(Color.BLUE);
+		mPaintBgRight = new Paint();
+		mPaintBgRight.setColor(Color.RED);
+
+		//Log.i("orientation", ""+orientation);
+		
+		if(orientation == 1) //liggande
+		{
+			mRectLeft = new Rect(0, 0, 40, displayHeight);
+			mRectRight = new Rect(displayWidth-40, 0, displayWidth, displayHeight);
+		}
+		else if(orientation == 0) //stående
+		{
+			mRectLeft = new Rect(0, 0, displayWidth, 40);
+			mRectRight = new Rect(0, displayHeight-90, displayWidth, displayHeight-40);
+		}
+
+		c.drawRect(mRectLeft, mPaintBgLeft);
+		c.drawRect(mRectRight, mPaintBgRight);
+		
+		c.drawText("THE HUD", mOffsetX, mOffsetY, mPaintText);
+		
+	}
 	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
