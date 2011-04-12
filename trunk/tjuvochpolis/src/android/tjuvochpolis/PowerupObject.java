@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 
 public class PowerupObject extends GameObject{
 
-	public PowerupObject(GridNode parentNode) {
-		super(parentNode);
+	public PowerupObject(String name, GridNode parentNode) {
+		super(name, parentNode);
 		// TODO Auto-generated constructor stub
 	}
 

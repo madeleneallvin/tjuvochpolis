@@ -1,5 +1,8 @@
 package android.tjuvochpolis;
 
+import java.util.ArrayList;
+
+import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -9,18 +12,18 @@ public class CopMoveState extends PlayOrderState {
 	float y = 120;
 	
 	
-	public CopMoveState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
-		super(ps, cop, thief, grid);
+	public CopMoveState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
+		super(ps, gameObjects , grid);
 	}
 	
 	public void handleState(int frame)
 	{
-		interpolatedMove(cop, frame);
+		interpolatedMove(mGameObjects.get(mObjectIndex.COP1.getIndex()), frame);
 	}
 	
 	public PlayOrderState getNextState()
 	{
-		if(cop.isMoving)
+		if(mGameObjects.get(mObjectIndex.COP1.getIndex()).isMoving)
 		{
 			return this;
 		}

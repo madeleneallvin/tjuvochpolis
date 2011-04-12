@@ -9,6 +9,7 @@ public class Grid {
 	public static int GRID_SIZE = 48;
 	private int mHeight = 18;
 	private int mWidth = 21;
+	 private static int mCurrentIndex;
 	GridNode mGridArray[][] = new GridNode[mHeight][mWidth];
 
 	public Grid(Context context) {
@@ -83,6 +84,11 @@ public class Grid {
 	{
 		return mGridArray[row][column];
 	}
+
+
+
+
+	
 	
 	
 }
