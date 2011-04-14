@@ -16,15 +16,26 @@ public class ThiefMoveState extends PlayOrderState {
 	}
 
 
-	public void handleState(int frame) {
-		interpolatedMove(mGameObjects.get(mObjectIndex.THIEF1.getIndex()), frame);
-	}
+	public void handleState(int frame)
+	{
 
-	public PlayOrderState getNextState() {
-		if (mGameObjects.get(mObjectIndex.THIEF1.getIndex()).isMoving) {
+		interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
+	
+	}
+	
+	public PlayOrderState getNextState()
+	{	
+		
+		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving)
+	
+		{
 			return this;
-		} else {
-			return mPlayState.getCopRollDiceState();
+		}
+		
+		
+		else
+		{
+			return mPlayState.getThiefTurnState();
 		}
 	}
 

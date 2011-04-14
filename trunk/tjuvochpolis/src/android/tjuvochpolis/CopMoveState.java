@@ -36,7 +36,7 @@ public class CopMoveState extends PlayOrderState {
 		
 		
 		else
-		{
+		{ Log.i("COP MOVE STATE", "MOVE TO COP TURN STATE");
 			return mPlayState.getCopTurnState();
 		}
 	}
