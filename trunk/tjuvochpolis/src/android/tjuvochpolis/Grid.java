@@ -7,33 +7,33 @@ import android.content.Context;
 public class Grid {
 
 	public static int GRID_SIZE = 48;
-	private int mHeight = 18;
-	private int mWidth = 21;
+	private static int mHeight = 18;
+	private static int mWidth = 21;
 	 private static int mCurrentIndex;
-	GridNode mGridArray[][] = new GridNode[mHeight][mWidth];
+	GridNode mGridArray[][] = new GridNode[getHeight()][getWidth()];
 
 	public Grid(Context context) {
 		
 
 		int[][] blocksType;
-		blocksType = new int[mHeight][mWidth];
+		blocksType = new int[getHeight()][getWidth()];
 		String[] items;
 
 		// Create an array with block types
-		for(int j = 1; j < mWidth+1; j++) {
+		for(int j = 1; j < getWidth()+1; j++) {
 			
 			int arrayID = context.getResources().getIdentifier("c" + j,"array","android.tjuvochpolis"); 
 	        items = context.getResources().getStringArray(arrayID);
 	        
-	        for (int i = 0; i < mHeight; i++) {
+	        for (int i = 0; i < getHeight(); i++) {
 	        	blocksType[i][j-1] = Integer.parseInt(items[i]);
 	        }  
 		}
 		
 		// Puts GridNodes in array with correct type
 
-		for (int column = 0; column < mWidth; column++) {
-			for (int row = 0; row < mHeight; row++) {
+		for (int column = 0; column < getWidth(); column++) {
+			for (int row = 0; row < getHeight(); row++) {
 				
 				mGridArray[row][column] = new GridNode();
 				int blockedType = blocksType[row][column];
@@ -46,8 +46,8 @@ public class Grid {
 		}
 
 		// sets the neighbors
-		for (int column = 0; column < mWidth; column++) {
-			for (int row = 0; row < mHeight; row++) {
+		for (int column = 0; column < getWidth(); column++) {
+			for (int row = 0; row < getHeight(); row++) {
 				mGridArray[row][column].setGameObject(null); // sätter gameobject till null för att det ska gå att "kolla" på platserna utan att få nullpointerexception
 				
 				if (row == 0){
@@ -56,7 +56,7 @@ public class Grid {
 					mGridArray[row][column].setUpNode(mGridArray[row - 1][column]);
 				}
 					
-				if (row == mHeight - 1){
+				if (row == getHeight() - 1){
 					mGridArray[row][column].setDownNode(null);
 				} else {
 					mGridArray[row][column].setDownNode(mGridArray[row + 1][column]);
@@ -68,7 +68,7 @@ public class Grid {
 					mGridArray[row][column].setLeftNode(mGridArray[row][column - 1]);
 				}
 					
-				if (column == mWidth - 1){
+				if (column == getWidth() - 1){
 					mGridArray[row][column].setRightNode(null);
 				} else {
 					mGridArray[row][column].setRightNode(mGridArray[row][column + 1]);
@@ -83,6 +83,15 @@ public class Grid {
 	public GridNode getGridNode(int row, int column)
 	{
 		return mGridArray[row][column];
+	}
+
+	public static int getHeight() {
+		return mHeight;
+	}
+
+
+	public static int getWidth() {
+		return mWidth;
 	}
 
 

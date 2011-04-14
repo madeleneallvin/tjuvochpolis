@@ -9,10 +9,11 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public abstract class GameObject {
+
 	
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
-	private int pocketMoney;
+	private int objectMoney;
 	private int objectIndex;
 	private String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
@@ -84,13 +85,12 @@ public abstract class GameObject {
 		
 		// Kolla nodetypes, spara undan om det är ett tillåtet hus
 		/*
+		// Kolla nodetypes, spara undan om det är ett tillåtet hus
 		if(this.isWalkable(currentNode))
 		{
 			// Save the node
-			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
 		}
 		*/
-		
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
 			// Sparar undan en möjlig väg
@@ -264,7 +264,15 @@ public abstract class GameObject {
 	public String getName() {
 		return name;
 	}
-	
+
+	public void setObjectMoney(int objectMoney) {
+		this.objectMoney = objectMoney;
+	}
+
+	public int getObjectMoney() {
+		return objectMoney;
+	}
+		
 	public boolean equals(GameObject go)
 	{
 		if(go == null)
