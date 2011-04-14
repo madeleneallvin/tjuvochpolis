@@ -20,7 +20,6 @@ public abstract class PlayOrderState {
 	protected float mAnimationStep = 15;
 	protected int mCurrentAnimationStep = (int) mAnimationStep + 1;
 	private String currentObjectSelected;
-	
 	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
 		
 		this.mPlayState = ps;
@@ -56,8 +55,9 @@ public abstract class PlayOrderState {
 		return;
 	}
 	
+	
 	protected void interpolatedMove(GameObject go, int frame)
-	{
+	{ 
 		mCurrentAnimationStep++;
 		if(mCurrentAnimationStep <= mAnimationStep)
 		{
@@ -67,28 +67,29 @@ public abstract class PlayOrderState {
 		}
 		else
 		{
+			
 			mCurrentAnimationStep = 0;
 			ArrayList<GridNode> path = go.getMovePath();
-			GridNode moveToNode = path.get(1);
+			Log.i("pre path.size()", ""+path.size());
 			
-		//	Log.i("Path", "" + path.toString());
-			
-			if(moveToNode != null)
+			if( path.size() <= 1)
 			{
-				go.moveToColCoordinate = moveToNode.getNodeX();
-				go.moveToRowCoordinate = moveToNode.getNodeY();
-			}
-			else
-			{
+				Log.i("isMoving", "false");
 				go.isMoving = false;
+				
 			}
-			go.setParentNode(path.get(0));
-			path.remove(go.getParentNode());
-			//go.moveTo(moveToNode);
+			else{
+				
+				
 			
-			//int column = (int)Math.floor(colCoordinate/48); //30 är "lagom" storlek för punkterna som ritas ut
-			//int row = (int)Math.floor(rowCoordinate/48);
-			//go.moveTo(this.mGrid.mGridArray[go.moveToRowCoordinate][go.moveToColCoordinate]);
+			GridNode moveToNode = path.get(1); //detta kommer inte att ske om pathsize är mindre än 2.
+			go.setParentNode(path.get(0));
+			go.moveToColCoordinate = moveToNode.getNodeX();
+			go.moveToRowCoordinate = moveToNode.getNodeY();
+			path.remove(go.getParentNode());
+	
+			}
+				
 		}
 
 	}
