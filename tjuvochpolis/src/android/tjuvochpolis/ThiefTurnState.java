@@ -33,7 +33,7 @@ public class ThiefTurnState extends PlayOrderState {
 	public void doTouch(View v, MotionEvent event) {
 
 		//om x och y är giltiga destinationer
-		int row = ((int) event.getY() - mPlayState.getOffsetY())/Grid.GRID_SIZE;
+		int row = ((int) event.getY() - mPlayState.getOffsetY() - 48)/Grid.GRID_SIZE;
 		int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
 		
 		
