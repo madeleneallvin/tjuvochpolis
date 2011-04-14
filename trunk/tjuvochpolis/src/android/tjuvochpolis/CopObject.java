@@ -7,7 +7,6 @@ import android.util.Log;
 
 public class CopObject extends GameObject{
 
-	
 	public CopObject(String name,GridNode parentNode) {
 		super(name, parentNode);
 		
@@ -65,8 +64,13 @@ public class CopObject extends GameObject{
 		paint.setColor(Color.BLUE); //bara tillfälligt
 		//canvas.drawCircle(parentNode.getNodeX()*pixels+pixels/2, parentNode.getNodeY()*pixels+pixels/2, pixels/2, paint);
 		//canvas.drawCircle(this.mDrawXPos+pixels/2, this.mDrawYPos+pixels/2 , pixels/2, paint);
-		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
+		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY , Grid.GRID_SIZE/2, paint);
 		
+		
+		/*Paint mPaintText = new Paint();
+		mPaintText.setColor(Color.WHITE);
+		canvas.drawText("DOLLARS: $1337", 24, canvas.getHeight()-18, mPaintText);
+		*/
 				//parentNode.getX()*pixels,  parentNode.getY()*pixels, parentNode.getX()*pixels+pixels, parentNode.getY()*pixels+pixels, paint); // måste sätta in getX, getY * # pixlar
 		
 	}

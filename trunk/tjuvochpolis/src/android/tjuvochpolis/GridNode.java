@@ -76,7 +76,7 @@ public class GridNode {
 		return mX;
 	}
 	public void setPixelY(int y) {
-		this.mY = y;
+		this.mY = (48+y);
 	}
 	public int getPixelY() {
 		return mY;
@@ -98,13 +98,5 @@ public class GridNode {
 	}
 	public int getNodeY() {
 		return getNodeByY(this.mY);
-	}
-	
-	public boolean equals(GridNode compareNode)
-	{
-		if(this.mNodeX == compareNode.getNodeX() && this.mNodeY == compareNode.getNodeY())
-			return true;
-		
-		return false;
 	}
 }

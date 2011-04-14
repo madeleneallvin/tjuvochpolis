@@ -9,10 +9,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.util.FloatMath;
 
 public class PlayState implements GameState
@@ -22,8 +28,8 @@ public class PlayState implements GameState
     //protected CopObject cop;
     //protected ThiefObject thief;
     
-      protected ArrayList<GameObject> mObjectArray;
-  
+    protected ArrayList<GameObject> mObjectArray;
+    
     public enum mObjectIndex {
         COP1 (0),
         COP2 (1),
@@ -44,7 +50,6 @@ public class PlayState implements GameState
 			return index;
 		}
     }
-    
     
     protected PlayOrderState mCurrentState;
     
@@ -71,9 +76,19 @@ public class PlayState implements GameState
     private int mOffsetY;
     private int prevOffsetX;
     private int prevOffsetY;
+    private int orientation;
+    
+    private Paint mPaintText;
+    private Paint mPaintBgLeft;
+    private Paint mPaintBgRight;
+    private Rect mRectLeft;
+    private Rect mRectRight;
+    private Rect mRectThief;
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
+	private Bitmap mHudBottomImage;
+	private Bitmap mThiefImage;
 
 	private long mLastTap = 0;
 	private boolean zoomOut = false;
@@ -101,8 +116,6 @@ public class PlayState implements GameState
 		mObjectArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
 		mObjectArray.add(new BankObject("NEST1",mGrid.mGridArray[2][1]));
 		
-		
-		
 		//mObjectArray.get(mObjectIndex.COP1.getIndex());
 		
 	
@@ -122,7 +135,13 @@ public class PlayState implements GameState
 		this.mCurrentState = getCopRollDiceState();
 		
 		Resources res = context.getResources();       
-        mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);
+        mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);       
+        mHudBottomImage = BitmapFactory.decodeResource(res, R.drawable.hud_bottom);       
+        mThiefImage = BitmapFactory.decodeResource(res, R.drawable.thief);
+
+        //används för att hitta orientation på device.
+        //Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();        
+        //orientation = display.getOrientation();
         
         mFrame = 0;
 	}
@@ -146,16 +165,23 @@ public class PlayState implements GameState
 	{
 	}
 	
-	public void draw(Canvas c){
-		//	mCurrentState.setCurrentObjectSelected(currentObjectSelected);
-
-		
+	public void draw(Canvas c)
+	{
 		c.scale(mZoom, mZoom);
-		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
+		
+		/*if(orientation == 1) //liggande 
+		{
+			c.drawBitmap(mBackgroundImage, 48+mOffsetX, mOffsetY, null);
+		}
+		else if(orientation == 0)
+		{*/
+			c.drawBitmap(mBackgroundImage, mOffsetX, getOffsetY(), null);
+		//}
+		
 		
 		mCurrentState.doDraw(c);
 		
-	mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);;
+		mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
@@ -163,6 +189,13 @@ public class PlayState implements GameState
 		mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
 		
+		
+		this.drawHud(c,mZoom);
+		
+		//drawing the hud
+		
+		
+
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	
@@ -175,6 +208,71 @@ public class PlayState implements GameState
 	}*/
 	
 	//public void moveTo(float x, float y);
+	public void drawHud(Canvas c, float mZoom)
+	{
+
+		//Log.i("orientation", ""+orientation);
+		
+		/*if(orientation == 1) //liggande
+		{
+			mRectLeft = new Rect(0, 0, 48, c.getHeight());
+			mRectRight = new Rect(c.getWidth()-48, 0, c.getWidth(), c.getHeight());
+			
+			mRectThief = new Rect(0, 0, 48, 40);
+
+			int width = mHudBottomImage.getWidth();
+			int height = mHudBottomImage.getHeight();
+	        Matrix matrixRight = new Matrix();
+	        Matrix matrixLeft = new Matrix();
+	        matrixRight.postRotate(270);
+	        matrixLeft.postRotate(90);
+	        Bitmap resizedBitmapRight = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixRight, true); 
+	        Bitmap resizedBitmapLeft = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixLeft, true); 
+	        c.drawBitmap(resizedBitmapRight, null, mRectRight, null);
+	        c.drawBitmap(resizedBitmapLeft, null, mRectLeft, null);
+	        c.drawBitmap(mThiefImage, null, mRectThief, null);
+		
+		}
+		else if(orientation == 0) //stående
+		{*/
+		
+		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
+		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
+		int thickness = (int) Math.floor(48/mZoom);
+		
+			mRectLeft = new Rect(0, 0, canvasWidth, thickness);
+			
+			mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
+			
+			
+			
+			c.drawBitmap(mHudBottomImage, null, mRectRight, null);
+			
+			int width = mHudBottomImage.getWidth();
+			int height = mHudBottomImage.getHeight();
+	        Matrix matrixLeft = new Matrix();
+	        matrixLeft.postRotate(180);
+	        Bitmap resizedBitmapLeft = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixLeft, true); 
+			
+			c.drawBitmap(resizedBitmapLeft, null, mRectLeft, null);
+			mRectThief = new Rect(0, 0, thickness, thickness);
+			c.drawBitmap(mThiefImage, null, mRectThief, null);
+			mRectThief = new Rect(thickness*2, 0, thickness*3, thickness);
+			c.drawBitmap(mThiefImage, null, mRectThief, null);
+			mRectThief = new Rect(thickness*4, 0, thickness*5, thickness);
+			c.drawBitmap(mThiefImage, null, mRectThief, null);
+			
+			
+		
+		//}
+
+
+		//c.drawRect(mRectLeft, mPaintBgLeft);
+		//c.drawRect(mRectRight, mPaintBgRight);
+		
+		//c.drawText("THE HUD", mOffsetX, mOffsetY, mPaintText);
+		
+	}
 	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
@@ -205,7 +303,7 @@ public class PlayState implements GameState
 					if(zoomOut)
 					{	
 						mOffsetX = (int) -(x/mZoom - mOffsetX - v.getWidth()/2.0f);
-						mOffsetY = (int) -(y/mZoom - mOffsetY - v.getHeight()/2.0f);
+						mOffsetY = (int) -(y/mZoom - getOffsetY() - v.getHeight()/2.0f);
 						
 						mZoom = 1.0f;
 						
@@ -233,10 +331,10 @@ public class PlayState implements GameState
 					else if(mOffsetX*mZoom < (int) -((mBackgroundImage.getWidth())*mZoom - v.getWidth()))
 						mOffsetX = (int) -((mBackgroundImage.getWidth()*mZoom - v.getWidth())/mZoom);
 						
-					if(mOffsetY > 0)
-						mOffsetY = 0;
-					else if(mOffsetY*mZoom < (int) -(mBackgroundImage.getHeight()*mZoom - v.getHeight()))
-						mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom);
+					if(mOffsetY > (int) (96-96*mZoom))
+						mOffsetY = (int) (96-96*mZoom);
+					else if(mOffsetY < (int) - ((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom  + (48*2)/mZoom) + (int) (96-96*mZoom))
+						mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom + (48*2)/mZoom) + (int) (96-96*mZoom);
 					
 					mLastTap = 0;
 				}
@@ -270,10 +368,10 @@ public class PlayState implements GameState
 						else if(mOffsetX*mZoom < (int) -((mBackgroundImage.getWidth())*mZoom - v.getWidth()))
 							mOffsetX = (int) -((mBackgroundImage.getWidth()*mZoom - v.getWidth())/mZoom);
 							
-						if(mOffsetY > 0)
-							mOffsetY = 0;
-						else if(mOffsetY*mZoom < (int) -(mBackgroundImage.getHeight()*mZoom - v.getHeight()))
-							mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom);
+						if(mOffsetY > (int) (96-96*mZoom))
+							mOffsetY = (int) (96-96*mZoom);
+						else if(mOffsetY < (int) - ((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom  + (48*2)/mZoom) + (int) (96-96*mZoom))
+							mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom + (48*2)/mZoom) + (int) (96-96*mZoom);
 						
 						
 					}
@@ -327,7 +425,7 @@ public class PlayState implements GameState
 	
 	public int getOffsetY()
 	{
-		return mOffsetY;
+		return mOffsetY+48;
 	}
 
 	protected void setThiefRollDiceState(PlayOrderState thiefRollDiceState) {

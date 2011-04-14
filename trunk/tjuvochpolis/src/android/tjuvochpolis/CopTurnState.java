@@ -34,7 +34,7 @@ public class CopTurnState extends PlayOrderState {
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
 			//mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
-			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
 		}
 	}
 	
@@ -46,7 +46,13 @@ public class CopTurnState extends PlayOrderState {
 		
 		GridNode clickedNode =	mGrid.getGridNode(row, col);
 		currentObject =	clickedNode.getGameObject();
+		// If cop is clicked -> draw highlights
 		
+	//	if(currentObject != null && currentObject.getClass() == CopObject.class)
+		//{
+			
+			
+		//}
 		
 		//kollar om alla poliser har gått
 		if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
