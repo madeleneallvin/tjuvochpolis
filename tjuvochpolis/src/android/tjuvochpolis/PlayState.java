@@ -3,13 +3,13 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +19,10 @@ public class PlayState implements GameState
 {
 	public static int MAX_FPS = 30;
 	protected Grid mGrid;
- //   protected CopObject cop, cop2;
-  //  protected ThiefObject thief, thief2;
+    //protected CopObject cop;
+    //protected ThiefObject thief;
     
-    protected ArrayList<GameObject> mObjectArray;
+      protected ArrayList<GameObject> mObjectArray;
   
     public enum mObjectIndex {
         COP1 (0),
@@ -44,9 +44,8 @@ public class PlayState implements GameState
 			return index;
 		}
     }
-        
-   
-
+    
+    
     protected PlayOrderState mCurrentState;
     
     private PlayOrderState copRollDiceState;
@@ -61,6 +60,8 @@ public class PlayState implements GameState
     
     private float mPrevX;
     private float mPrevY;
+    private float mStartX;
+    private float mStartY;
     
     private float mZoom;
     private float mNewDistance;
@@ -68,24 +69,21 @@ public class PlayState implements GameState
     
     private int mOffsetX;
     private int mOffsetY;
-    
-    private Paint mPaintText;
-    private Paint mPaintBgLeft;
-    private Paint mPaintBgRight;
-    private Rect mRectLeft;
-    private Rect mRectRight;
+    private int prevOffsetX;
+    private int prevOffsetY;
     
 	private Context mContext;
 	private Bitmap mBackgroundImage;
 
 	private long mLastTap = 0;
 	private boolean zoomOut = false;
+	private boolean moveAction = false;
+	private float distance = 0.0f;
 	
-	
+	private int canvasH=0;
 	
 	public PlayState(Context context)
-	{ 
-		
+	{
 		mGrid = new Grid(context);
 
 		mOffsetX = 0;
@@ -94,14 +92,8 @@ public class PlayState implements GameState
 		mPrevDistance = 0.0f;		
 		mZoom = 1.0f;
 		
-		
-			
-		
-		 //positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
-		
-
 		mObjectArray = new ArrayList<GameObject>();
-		
+//		cop = new CopObject(mGrid.mGridArray[2][3]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
 		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[2][3]));
 		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
 		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
@@ -124,6 +116,9 @@ public class PlayState implements GameState
 		thiefTurnState = new ThiefTurnState(this, mObjectArray, mGrid);
 		thiefMoveState = new ThiefMoveState(this, mObjectArray, mGrid);
 		
+		
+		
+		
 		this.mCurrentState = getCopRollDiceState();
 		
 		Resources res = context.getResources();       
@@ -143,21 +138,24 @@ public class PlayState implements GameState
 		mCurrentState = mCurrentState.getNextState();
 		mCurrentState.setCurrentObjectSelected(currentObjectSelected);
 		this.draw(canvas);
+		
+		canvasH=canvas.getHeight();
 	}
 	
 	public void nextState(GameThread gt)
 	{
 	}
 	
-	public void draw(Canvas c)
-	{
+	public void draw(Canvas c){
+		//	mCurrentState.setCurrentObjectSelected(currentObjectSelected);
+
 		
 		c.scale(mZoom, mZoom);
 		c.drawBitmap(mBackgroundImage, mOffsetX, mOffsetY, null);
 		
 		mCurrentState.doDraw(c);
 		
-		mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);;
+	mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);;
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
@@ -165,10 +163,6 @@ public class PlayState implements GameState
 		mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
 		
-		//drawing the hud
-	
-		
-
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	
@@ -182,12 +176,11 @@ public class PlayState implements GameState
 	
 	//public void moveTo(float x, float y);
 	
-	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
 	{
-		//Log.i("test1", "playstate dotouch");
 		
+		//Log.i("test1", "playstate dotouch");
 			
 		float x = event.getX();
 		float y = event.getY();
@@ -197,56 +190,112 @@ public class PlayState implements GameState
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
+				mStartX = x;
+				mStartY = y;
+				distance = 0.0f;
+				
+				Log.i("Action", "Down");
+				moveAction = false;
 				long timediff = System.currentTimeMillis() - mLastTap;
 				boolean doubleTap = timediff < 400;
 				mLastTap = System.currentTimeMillis();
 				
 				if(doubleTap)
-				{
+				{	
 					if(zoomOut)
-					{
+					{	
+						mOffsetX = (int) -(x/mZoom - mOffsetX - v.getWidth()/2.0f);
+						mOffsetY = (int) -(y/mZoom - mOffsetY - v.getHeight()/2.0f);
+						
 						mZoom = 1.0f;
+						
 						zoomOut = false;
 					}
 					else
 					{
+						prevOffsetX = mOffsetX;
+						prevOffsetY = mOffsetY;
+						mOffsetX = (int) -(x - mOffsetX - v.getWidth());
+						mOffsetY = 0;
+						
 						zoomOut = true;
-						mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
+						
+						if(v.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+							mZoom = v.getWidth() * 1.0f / mBackgroundImage.getWidth();
+						else
+							mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
+							
 					}
+					
+					// Kolla offset kriterier
+					if(mOffsetX > 0)
+						mOffsetX = 0;
+					else if(mOffsetX*mZoom < (int) -((mBackgroundImage.getWidth())*mZoom - v.getWidth()))
+						mOffsetX = (int) -((mBackgroundImage.getWidth()*mZoom - v.getWidth())/mZoom);
+						
+					if(mOffsetY > 0)
+						mOffsetY = 0;
+					else if(mOffsetY*mZoom < (int) -(mBackgroundImage.getHeight()*mZoom - v.getHeight()))
+						mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom);
+					
 					mLastTap = 0;
 				}
 				
-				Log.i("timediff", "" + timediff);
+				//Log.i("timediff", "" + timediff);
 				
 				mPrevX = x;
 				mPrevY = y;
-
-				mCurrentState.doTouch(v, event);
+				
+				
 			}
 			break;
 			case MotionEvent.ACTION_MOVE:
 			{
-				if(event.getPointerCount() == 1)
-				{	
-					mOffsetX -= mPrevX - x;
-					mOffsetY -= mPrevY - y;
+				distance = (float) Math.sqrt((x-mStartX)*(x-mStartX) + (y-mStartY)*(y-mStartY)); 
+			
+				//Log.i("Offset", "" + mOffsetX);
+				
+				if(distance > 24.0f)
+				{
+					moveAction = true;
 					
-					if(mOffsetX > 0)
-						mOffsetX = 0;
-					else if(mOffsetX < (int) -(mBackgroundImage.getWidth()*mZoom - v.getWidth()))
-						mOffsetX =(int) -(mBackgroundImage.getWidth()*mZoom - v.getWidth());
+					if(event.getPointerCount() == 1)
+					{	
+						mOffsetX -= mPrevX - x;
+						mOffsetY -= mPrevY - y;
+						
 					
-					if(mOffsetY > 0)
-						mOffsetY = 0;
-					else if(mOffsetY < (int) -(Math.ceil(mBackgroundImage.getHeight()*mZoom) - v.getHeight()))
-						mOffsetY = (int) -(Math.ceil(mBackgroundImage.getHeight()*mZoom) - v.getHeight());
-					
-					mPrevX = x;
-					mPrevY = y;
+						if(mOffsetX > 0)
+							mOffsetX = 0;
+						else if(mOffsetX*mZoom < (int) -((mBackgroundImage.getWidth())*mZoom - v.getWidth()))
+							mOffsetX = (int) -((mBackgroundImage.getWidth()*mZoom - v.getWidth())/mZoom);
+							
+						if(mOffsetY > 0)
+							mOffsetY = 0;
+						else if(mOffsetY*mZoom < (int) -(mBackgroundImage.getHeight()*mZoom - v.getHeight()))
+							mOffsetY = (int) -((mBackgroundImage.getHeight()*mZoom - v.getHeight())/mZoom);
+						
+						
+					}
 				}
+				
+				mPrevX = x;
+				mPrevY = y;
 			}
 			break;
+			case MotionEvent.ACTION_UP:
+			{
+				if(moveAction == false)
+				{ 
+					if(zoomOut != true)
+						mCurrentState.doTouch(v, event);
+				}
+				
+			}
+			break;
+		
 		}
+		
 		
 		//moveTo(x, y);		//moveTo ska lämpligen anropas med currentState och ska vara implementerad ide underliggande staten. (copTurnState, thiefRollState osv.)
 	}
@@ -296,6 +345,4 @@ public class PlayState implements GameState
 	protected PlayOrderState getCopRollDiceState() {
 		return copRollDiceState;
 	}
-
-	
 }
