@@ -11,7 +11,7 @@ public class BankObject extends GameObject {
 		super(name, parentNode);
 		this.setObjectMoney(getBankMoney());
 		
-		Log.i("BankObject", "" + this.getObjectMoney());
+	//	Log.i("BankObject", "" + this.getObjectMoney());
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public abstract class GameObject {
 	protected int moveToColCoordinate;
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
-	
+	protected boolean objectFinishedMoving = false;
 	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.name = name;
@@ -59,8 +59,7 @@ public abstract class GameObject {
 		mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
 		path = new ArrayList<GridNode>();
 		nodeWalker(path, currentNode,  previousNode,  diceValue);
-		for(ArrayList<GridNode> tmp: mPossiblePaths)
-			Log.i("tag", tmp.toString());
+
 	}
 	
 	

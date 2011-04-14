@@ -7,6 +7,7 @@ import android.util.Log;
 
 public class CopObject extends GameObject{
 
+	
 	public CopObject(String name,GridNode parentNode) {
 		super(name, parentNode);
 		

@@ -11,6 +11,7 @@ import android.view.View;
 public class CopTurnState extends PlayOrderState {
 	
 	boolean hasMoved = false;
+	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected;
 	//public CopTurnState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){	
@@ -29,8 +30,8 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void doDraw(Canvas c)
-	{
-		if(currentObject != null)
+	{// If cop is clicked -> draw highlights
+		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
 			//mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
@@ -45,26 +46,26 @@ public class CopTurnState extends PlayOrderState {
 		
 		GridNode clickedNode =	mGrid.getGridNode(row, col);
 		currentObject =	clickedNode.getGameObject();
-		// If cop is clicked -> draw highlights
-		
-	//	if(currentObject != null && currentObject.getClass() == CopObject.class)
-		//{
-			
-			
-		//}
 		
 		
-		if(currentObject == null && lastSelected != null && lastSelected.getClass() == CopObject.class)
+		//kollar om alla poliser har gått
+		if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
+			everythingHasMoved = true;
+		}
+	
+		
+		
+		if(currentObject == null && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0)
 		{
 			for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths())
 			{
 				if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col)))
 				{ 	
-					Log.i("SELECTED","" + getCurrentObjectSelected());
+					//Log.i("SELECTED","" + getCurrentObjectSelected());
 					hasMoved = true;
 					lastSelected.setMovePath(paths);
 					lastSelected.isMoving = true;
-					
+					lastSelected.setCurrentDiceValue(0);
 					setCurrentObjectSelected(lastSelected.getName());
 				}
 				
@@ -81,10 +82,15 @@ public class CopTurnState extends PlayOrderState {
 
 //:
 	public PlayOrderState getNextState() {
-		if(hasMoved){
+		
+		if(hasMoved && everythingHasMoved == false){
 			hasMoved = false;
 			return mPlayState.copMoveState;
 		}
+		else if(everythingHasMoved == true){
+			return mPlayState.getThiefRollDiceState();
+		} 
 		return this;
+		
 	}
 }
