@@ -135,7 +135,9 @@ public class PlayState implements GameState
 		}
 
 		mCurrentState.handleState(mFrame);
+		String currentObjectSelected = mCurrentState.getCurrentObjectSelected(); //DENNA MÅSTE SPARAS DÅ mCurrentState blir ett nytt objekt nedanför
 		mCurrentState = mCurrentState.getNextState();
+		mCurrentState.setCurrentObjectSelected(currentObjectSelected);
 		this.draw(canvas);
 	}
 	
@@ -158,7 +160,7 @@ public class PlayState implements GameState
 		
 		
 		//drawing the hud
-	
+		//this.drawHud(c,context);
 		
 
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
