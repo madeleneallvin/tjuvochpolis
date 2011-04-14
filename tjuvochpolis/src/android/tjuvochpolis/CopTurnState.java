@@ -30,10 +30,10 @@ public class CopTurnState extends PlayOrderState {
 
 	public void doDraw(Canvas c)
 	{
-		if(lastSelected != null)
+		if(currentObject != null)
 		{
 			//mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
-			lastSelected.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class CopTurnState extends PlayOrderState {
 		//}
 		
 		
-		if(lastSelected != null && lastSelected.getClass() == CopObject.class)
+		if(currentObject == null && lastSelected != null && lastSelected.getClass() == CopObject.class)
 		{
 			for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths())
 			{
