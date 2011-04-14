@@ -23,7 +23,7 @@ public class CopRollDiceState extends PlayOrderState {
 	@Override
 	public void handleState(int frame) {
 		
-
+		Log.i("COP TURN", "IT IS NOW COP TURN");
 		//Roll dice for all cops
 		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
 		

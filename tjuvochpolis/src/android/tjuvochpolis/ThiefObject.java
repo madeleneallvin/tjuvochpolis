@@ -42,8 +42,8 @@ public class ThiefObject extends GameObject{
 	
 	public boolean canStopHere(GridNode node){
 		// Det står en tjuv på noden
-		Log.i("canStopHere","in function thief");
-		if(node.getGameObject().getClass() != null){
+		Log.i("canStopHere","fail or not?");
+		/*if(node.getGameObject() != null){
 			if(node.getGameObject().getClass().equals(ThiefObject.class))
 			{
 				Log.i("canStopHere","Thief");
@@ -52,12 +52,12 @@ public class ThiefObject extends GameObject{
 				}
 				else{
 					return false;
-				}*/
+				}
 			}
-		}
+		}*/
 		
 		// Det finns en powerup på noden
-		else if(node.getGameObject().getClass().equals(PowerupObject.class)){
+		/*else if(node.getGameObject().getClass().equals(PowerupObject.class)){
 			Log.i("canStopHere","powerup");
 			return true;
 		}
@@ -66,7 +66,7 @@ public class ThiefObject extends GameObject{
 		{
 			Log.i("canStopHere","cop");
 			return false;
-		}
+		}*/
 		return false;
 	}
 

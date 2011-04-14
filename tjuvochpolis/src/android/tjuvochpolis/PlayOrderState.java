@@ -21,8 +21,6 @@ public abstract class PlayOrderState {
 	protected float mAnimationStep = 15;
 	protected int mCurrentAnimationStep = (int) mAnimationStep + 1;
 	private String currentObjectSelected;
-	
-	
 	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
 		
 		this.mPlayState = ps;
@@ -46,7 +44,7 @@ public abstract class PlayOrderState {
 		return false;
 	}
 	*/
-	
+
 	public abstract void handleState(int frame);
 	
 	public abstract void doTouch(View v, MotionEvent event);
@@ -77,20 +75,24 @@ public abstract class PlayOrderState {
 			
 			if( path.size() <= 1)
 			{
-				Log.i("isMoving", "false");
 				go.isMoving = false;
-				
+				mCurrentAnimationStep = (int) mAnimationStep + 1; //återställer animationstep så vi har rätt defaultvärde till nästa objekt
 			}
 			else{
+				GridNode moveToNode = path.get(1); //detta kommer inte att ske om pathsize är mindre än 2.
 				
+				go.moveToColCoordinate = moveToNode.getNodeX();
+				go.moveToRowCoordinate = moveToNode.getNodeY();
 				
-			
-			GridNode moveToNode = path.get(1); //detta kommer inte att ske om pathsize är mindre än 2.
-			go.setParentNode(path.get(0));
-			go.moveToColCoordinate = moveToNode.getNodeX();
-			go.moveToRowCoordinate = moveToNode.getNodeY();
-			path.remove(go.getParentNode());
-	
+				//MÅSTE FIXAS!!! Om objektet går över ett annat länkas det bort... 
+				//se till att kolla ifall det redan finns ett, spara det och återställ kopplingen efter förflyttningen
+				
+								
+				go.getParentNode().setGameObject(null);
+				moveToNode.setGameObject(go);
+				
+				go.setParentNode(path.get(1));
+				path.remove(path.get(0));
 			}
 				
 		}

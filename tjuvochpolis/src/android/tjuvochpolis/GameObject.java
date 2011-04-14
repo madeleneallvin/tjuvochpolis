@@ -41,18 +41,18 @@ public abstract class GameObject {
 		return false;
 	}
 	
-	public void moveTo(GridNode newParent){
+	/*public void moveTo(GridNode newParent){
 		this.getParentNode().setGameObject(null);
 		this.setParentNode(newParent);
-		
-		if(this.getParentNode().getType() == 0) {
+		Log.i("funktion", "moveto");
+		if(this.getParentNode().getType() == GridNode.STREET) {
 			this.getParentNode().setGameObject(this);
 		}
 		else if(this.getParentNode().getType() == 1) {
 			//inte ok att flytta hit		
 		}
 			
-	}
+	}*/
 	
 	public void doNodeWalker(GridNode currentNode, GridNode previousNode, int diceValue)
 	{
@@ -70,12 +70,14 @@ public abstract class GameObject {
 		path.add(currentNode);
 		
 		// Tar fram alla möjliga noder man kan gå till från currentNode
+		//Log.i("nodeWalker"," about to get next nodes");
 		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
-		
+		//Log.i("nodeWalker"," yey, i got all next nodes");
 		
 		// Kolla gameobjects
 		if(nextNodes.size() != 0 && this.canStopHere(currentNode))
 		{
+			Log.i("nodeWalker"," yey, i can stop here!");
 			// Save the node
 			//Log.i("canStopHere",currentNode.getGameObject().getClass().toString());
 			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
@@ -93,7 +95,7 @@ public abstract class GameObject {
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
 			// Sparar undan en möjlig väg
-			
+			Log.i("nodeWalker"," yey, my dice is 0 so i stop for a coffee");
 			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
 
 			// Rensar vägen
@@ -183,7 +185,7 @@ public abstract class GameObject {
 		{
 			int xPos = node.getPixelX();
 			int yPos = node.getPixelY();
-			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
+			canvas.drawCircle((float)Math.random()*2 + xPos+OffsetX+Grid.GRID_SIZE/2, (float)Math.random()*2 + yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
 		}
 		
 		paint.setARGB(110, 0, 10, 200);

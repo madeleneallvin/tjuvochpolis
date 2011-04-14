@@ -16,10 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class CopTurnState extends PlayOrderState {
-	
+		
 	boolean hasMoved = false;
 	boolean everythingHasMoved = false;
-	GameObject currentObject, lastSelected;
+	GameObject currentObject, lastSelected = null;
 	
 	private Paint mPaintText;
     private Paint mPaintBgLeft;
@@ -32,7 +32,7 @@ public class CopTurnState extends PlayOrderState {
     private Bitmap mHudBottomImage;
 	private Bitmap mCopImage;
 	
-	//public CopTurnState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
+	
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){	
 		super(ps, gameObjects , grid);
 		
@@ -45,26 +45,26 @@ public class CopTurnState extends PlayOrderState {
 		mRectCop2 = new Rect();
 		mRectCop3 = new Rect();
 	}
-	
+
 	public void handleState(int frame)
 	{
-		//ta reda på array av gridnodes som går att gå till
 		
-		//rita ut möjliga gridnodes att gå till
 	}
 
+
+
+	
+	
 	public void doDraw(Canvas c, float mZoom)
-	{// If cop is clicked -> draw highlights
+	{
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-			//mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
 		}
 		
 		this.drawHud(c, mZoom);
 	}
 	
-	//public void moveTo(float x, float y);
 	public void drawHud(Canvas c, float mZoom)
 	{
 		
@@ -151,17 +151,28 @@ public class CopTurnState extends PlayOrderState {
 		}
 		
 	}
+	
+	
 
-//:
+
 	public PlayOrderState getNextState() {
+		
+	//	Log.i("COP TURN STATE", "COP1"+this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue()+"COP2"+this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
+	//	Log.i("",""+everythingHasMoved);
 		
 		if(hasMoved && everythingHasMoved == false){
 			hasMoved = false;
+			Log.i("COP TURN STATE", " MOVE TO COP MOVE STATE");
 			return mPlayState.copMoveState;
+			
 		}
 		else if(everythingHasMoved == true){
-			return mPlayState.getThiefRollDiceState();
+			
+			everythingHasMoved=false;
+				return mPlayState.getThiefRollDiceState();
+				
 		} 
+		
 		return this;
 		
 	}

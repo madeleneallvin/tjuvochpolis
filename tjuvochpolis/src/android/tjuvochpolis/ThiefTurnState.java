@@ -13,81 +13,88 @@ public class ThiefTurnState extends PlayOrderState {
 	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
 		super(ps, gameObjects , grid);
 	}
+	boolean hasMoved = false;
+	boolean everythingHasMoved = false;
+	GameObject currentObject, lastSelected = null;
 	
-		boolean hasMoved = false;
-		String tempIndex = " ";	
-		public void moveTo(float x, float y) {
-		// TODO Auto-generated method stub
-		
+	
+	@Override
+	public void handleState(int frame) {
+
 	}
- 
+	
+
 	public void doDraw(Canvas c, float mZoom)
 	{
-		if(tempIndex != " ")
+		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-			mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 	}
-		
-	@Override
-	public void doTouch(View v, MotionEvent event) {
-
+	
+	public void doTouch(View v, MotionEvent event) 
+	{
 		//om x och y är giltiga destinationer
 		int row = ((int) event.getY() - mPlayState.getOffsetY() - 48)/Grid.GRID_SIZE;
 		int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
 		
-		
 		GridNode clickedNode =	mGrid.getGridNode(row, col);
-		GameObject currentObject =	clickedNode.getGameObject();
-		// If cop is clicked -> draw highlights
+		currentObject =	clickedNode.getGameObject();
 		
-		if(currentObject != null && currentObject.getClass() == ThiefObject.class){
-	
-	
-		tempIndex = currentObject.getName();
 		
-		Log.i("CURRENTOBJECT.NAME","" +currentObject.getName());
-		Log.i("TEMPINDEX", "" + tempIndex);
+		//kollar om alla tjuvar har gått
+		if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0){
+			everythingHasMoved = true;
+		}
+	
+		
+		
+		if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0)
+		{
+			for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths())
+			{
+				if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col)))
+				{ 	
+					//Log.i("SELECTED","" + getCurrentObjectSelected());
+					hasMoved = true;
+					lastSelected.setMovePath(paths);
+					lastSelected.isMoving = true;
+					lastSelected.setCurrentDiceValue(0);
+					setCurrentObjectSelected(lastSelected.getName());
+				}
+				
+			
+				
+			}
 		
 		}
 		else{
-			tempIndex = " ";
-			
+			lastSelected = currentObject;
 		}
-	
-		
-				
-		
-		
-		//if(tempIndex != " "){
-		
-		//Här ska det kollas att man valt en "mPossiblePaths" (istället för bara ...getType == 0
-	//	if(mGrid.mGridArray[row][col].getType() == 0)
-	//	{			
-		//	hasMoved = true;
-		//	currentObject.moveToCoordinates(row, col);
-			//mPlayState.copMoveState.mCurrentAnimationStep = 0;
-		
-		//}
-	//	}
-	
-			
-		}
-	
-
-
-	@Override
-	public void handleState(int frame) {
-		// TODO Auto-generated method stub
 		
 	}
+
+
+
 
 //:
 	public PlayOrderState getNextState() {
-		if(hasMoved){
-			hasMoved = false;
-			return mPlayState.thiefMoveState;
-		}
-		return this;
-	}
+		
+					
+			if(hasMoved && everythingHasMoved == false){
+				hasMoved = false;
+				Log.i("THIEF TURN STATE", " MOVE TO THIEF MOVE STATE");
+				return mPlayState.thiefMoveState;
+				
+			}
+			else if(everythingHasMoved == true){
+				everythingHasMoved=false;
+					return mPlayState.getCopRollDiceState();
+			} 
+			
+			return this;
+			
+		} 
+
+
 }
