@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,6 +21,8 @@ public abstract class PlayOrderState {
 	protected float mAnimationStep = 15;
 	protected int mCurrentAnimationStep = (int) mAnimationStep + 1;
 	private String currentObjectSelected;
+	
+	
 	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
 		
 		this.mPlayState = ps;
@@ -43,14 +46,14 @@ public abstract class PlayOrderState {
 		return false;
 	}
 	*/
-
+	
 	public abstract void handleState(int frame);
 	
 	public abstract void doTouch(View v, MotionEvent event);
 	
 	public abstract PlayOrderState getNextState();
 	
-	public void doDraw(Canvas c)
+	public void doDraw(Canvas c, float mZoom)
 	{
 		return;
 	}

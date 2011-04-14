@@ -14,14 +14,14 @@ public class ThiefTurnState extends PlayOrderState {
 		super(ps, gameObjects , grid);
 	}
 	
-	boolean hasMoved = false;
-	String tempIndex = " ";	
-	public void moveTo(float x, float y) {
+		boolean hasMoved = false;
+		String tempIndex = " ";	
+		public void moveTo(float x, float y) {
 		// TODO Auto-generated method stub
 		
 	}
  
-	public void doDraw(Canvas c)
+	public void doDraw(Canvas c, float mZoom)
 	{
 		if(tempIndex != " ")
 		{

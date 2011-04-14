@@ -78,17 +78,9 @@ public class PlayState implements GameState
     private int prevOffsetY;
     private int orientation;
     
-    private Paint mPaintText;
-    private Paint mPaintBgLeft;
-    private Paint mPaintBgRight;
-    private Rect mRectLeft;
-    private Rect mRectRight;
-    private Rect mRectThief;
-    
 	private Context mContext;
 	private Bitmap mBackgroundImage;
-	private Bitmap mHudBottomImage;
-	private Bitmap mThiefImage;
+	
 
 	private long mLastTap = 0;
 	private boolean zoomOut = false;
@@ -101,6 +93,8 @@ public class PlayState implements GameState
 	{
 		mGrid = new Grid(context);
 
+		setContext(context);
+		
 		mOffsetX = 0;
 		mOffsetY = 0;
 		
@@ -130,14 +124,11 @@ public class PlayState implements GameState
 		thiefMoveState = new ThiefMoveState(this, mObjectArray, mGrid);
 		
 		
-		
-		
 		this.mCurrentState = getCopRollDiceState();
+		
 		
 		Resources res = context.getResources();       
         mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.map_small);       
-        mHudBottomImage = BitmapFactory.decodeResource(res, R.drawable.hud_bottom);       
-        mThiefImage = BitmapFactory.decodeResource(res, R.drawable.thief);
 
         //används för att hitta orientation på device.
         //Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();        
@@ -151,7 +142,7 @@ public class PlayState implements GameState
 		if(mFrame++ == MAX_FPS){
 			mFrame = 1;
 		}
-
+		
 		mCurrentState.handleState(mFrame);
 		String currentObjectSelected = mCurrentState.getCurrentObjectSelected(); //DENNA MÅSTE SPARAS DÅ mCurrentState blir ett nytt objekt nedanför
 		mCurrentState = mCurrentState.getNextState();
@@ -179,8 +170,6 @@ public class PlayState implements GameState
 		//}
 		
 		
-		mCurrentState.doDraw(c);
-		
 		mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
@@ -188,91 +177,12 @@ public class PlayState implements GameState
 		mObjectArray.get(mObjectIndex.BANK1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
+		mCurrentState.doDraw(c, mZoom);
 		
-		
-		this.drawHud(c,mZoom);
-		
-		//drawing the hud
-		
-		
+		//this.drawHud(c,mZoom);
 
-		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
 	}
 	
-	//Denna metoden ska göras abstrakt här och sedan implementeras i de underliggande staten. (copTurnState, thiefRollState osv.)
-	/*public void moveTo(float x, float y)
-	{
-		int column = (int)Math.floor(x/48); //48 är "lagom" storlek för punkterna som ritas ut
-		int row = (int)Math.floor(y/48);
-		cop.moveTo(grid.gridArray[column][row]);
-	}*/
-	
-	//public void moveTo(float x, float y);
-	public void drawHud(Canvas c, float mZoom)
-	{
-
-		//Log.i("orientation", ""+orientation);
-		
-		/*if(orientation == 1) //liggande
-		{
-			mRectLeft = new Rect(0, 0, 48, c.getHeight());
-			mRectRight = new Rect(c.getWidth()-48, 0, c.getWidth(), c.getHeight());
-			
-			mRectThief = new Rect(0, 0, 48, 40);
-
-			int width = mHudBottomImage.getWidth();
-			int height = mHudBottomImage.getHeight();
-	        Matrix matrixRight = new Matrix();
-	        Matrix matrixLeft = new Matrix();
-	        matrixRight.postRotate(270);
-	        matrixLeft.postRotate(90);
-	        Bitmap resizedBitmapRight = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixRight, true); 
-	        Bitmap resizedBitmapLeft = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixLeft, true); 
-	        c.drawBitmap(resizedBitmapRight, null, mRectRight, null);
-	        c.drawBitmap(resizedBitmapLeft, null, mRectLeft, null);
-	        c.drawBitmap(mThiefImage, null, mRectThief, null);
-		
-		}
-		else if(orientation == 0) //stående
-		{*/
-		
-		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
-		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
-		int thickness = (int) Math.floor(48/mZoom);
-		
-			mRectLeft = new Rect(0, 0, canvasWidth, thickness);
-			
-			mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
-			
-			
-			
-			c.drawBitmap(mHudBottomImage, null, mRectRight, null);
-			
-			int width = mHudBottomImage.getWidth();
-			int height = mHudBottomImage.getHeight();
-	        Matrix matrixLeft = new Matrix();
-	        matrixLeft.postRotate(180);
-	        Bitmap resizedBitmapLeft = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixLeft, true); 
-			
-			c.drawBitmap(resizedBitmapLeft, null, mRectLeft, null);
-			mRectThief = new Rect(0, 0, thickness, thickness);
-			c.drawBitmap(mThiefImage, null, mRectThief, null);
-			mRectThief = new Rect(thickness*2, 0, thickness*3, thickness);
-			c.drawBitmap(mThiefImage, null, mRectThief, null);
-			mRectThief = new Rect(thickness*4, 0, thickness*5, thickness);
-			c.drawBitmap(mThiefImage, null, mRectThief, null);
-			
-			
-		
-		//}
-
-
-		//c.drawRect(mRectLeft, mPaintBgLeft);
-		//c.drawRect(mRectRight, mPaintBgRight);
-		
-		//c.drawText("THE HUD", mOffsetX, mOffsetY, mPaintText);
-		
-	}
 	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
@@ -442,5 +352,13 @@ public class PlayState implements GameState
 
 	protected PlayOrderState getCopRollDiceState() {
 		return copRollDiceState;
+	}
+
+	public void setContext(Context mContext) {
+		this.mContext = mContext;
+	}
+
+	public Context getContext() {
+		return mContext;
 	}
 }
