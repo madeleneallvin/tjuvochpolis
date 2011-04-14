@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public abstract class GameObject {
-
 	
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
@@ -18,6 +17,7 @@ public abstract class GameObject {
 	private String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
 	private ArrayList<ArrayList<GridNode>> mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
+	private ArrayList<GridNode> mMovePath = new ArrayList<GridNode>();
 	
 	private float mDrawXPos;
 	private float mDrawYPos;
@@ -58,6 +58,8 @@ public abstract class GameObject {
 		mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
 		path = new ArrayList<GridNode>();
 		nodeWalker(path, currentNode,  previousNode,  diceValue);
+		for(ArrayList<GridNode> tmp: mPossiblePaths)
+			Log.i("tag", tmp.toString());
 	}
 	
 	
@@ -72,35 +74,37 @@ public abstract class GameObject {
 		
 		
 		// Kolla gameobjects
-	/*	if(nextNodes.size() != 0 && this.canStopHere(currentNode))
+		if(nextNodes.size() != 0 && this.canStopHere(currentNode))
 		{
 			// Save the node
-			Log.i("canStopHere",currentNode.getGameObject().getClass().toString());
-		}*/
-		/*
+			//Log.i("canStopHere",currentNode.getGameObject().getClass().toString());
+			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
+			return;
+		}
+		
 		// Kolla nodetypes, spara undan om det är ett tillåtet hus
+		/*
 		if(this.isWalkable(currentNode))
 		{
 			// Save the node
+			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
 		}
 		*/
+		
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
 			// Sparar undan en möjlig väg
-			mPossiblePaths.add(path);
-			//Skriver ut alla paths
-		//	for(int i = 0; i < path.size(); i++)
-			//{
-				//Log.i("Path", i + ": col=" + path.get(i).getNodeX() + " row=" + path.get(i).getNodeY());
-		//	}
+			
+			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
+
 			// Rensar vägen
-			//path.remove(path.size()-1);
+			path.remove(path.size()-1);
 			return;
 		}
 		//Om det inte finns några nextNodes så står man i en återvändsgränd
 		if(nextNodes.size() == 0) {
 			path.remove(path.size()-1);
-			//return;
+			return;
 		}
 		
 		// loopar alla möjliga vägar
@@ -109,7 +113,7 @@ public abstract class GameObject {
 			this.nodeWalker(path, nextNode, currentNode, diceValue-1);
 		}
 		
-		//path.remove(path.size()-1);
+		path.remove(path.size()-1);
 		return;
 	}
 	
@@ -152,28 +156,53 @@ public abstract class GameObject {
 		isMoving = true;
 	}
 	
-	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY){
+	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY)
+	{
 		Paint paint = new Paint();
-		paint.setARGB(128, 0, 255, 0);
-		//Log.i("Y U NO WORK HERE???",  "" +mPossiblePaths.size() );
-			for(int i = 0; i < mPossiblePaths.size(); i++)
-			{//Log.i("test1", "Y U NO WORK???" + mPossiblePaths.size());
-				int tempjSize = mPossiblePaths.get(i).size();
-				//Log.i("Y U NO WORK HERE???",  "" +tempjSize );
-				for(int j=0; j<tempjSize; j++)
+		
+		ArrayList<GridNode> endSquares = new ArrayList<GridNode>();
+		ArrayList<GridNode> normalSquares = new ArrayList<GridNode>();
+		
+		for(ArrayList<GridNode> paths : mPossiblePaths)
+		{
+			endSquares.add(paths.get(paths.size() - 1));
+		}
+		
+		for(ArrayList<GridNode> paths : mPossiblePaths)
+		{
+			for(GridNode node : paths)
+			{
+				if(!normalSquares.contains(node) && !endSquares.contains(node))
 				{
-					int xPos = getPossiblePaths().get(i).get(j).getPixelX();
-					int yPos = getPossiblePaths().get(i).get(j).getPixelY();
-
-					//Rect rectangle = new Rect();
-					//rectangle.set(xPos-OffsetX, yPos-OffsetY, xPos-OffsetX+Grid.GRID_SIZE, yPos-OffsetY+Grid.GRID_SIZE);
-					//canvas.drawRect(rectangle, paint);
-					canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
-					
+					normalSquares.add(node);
 				}
 			}
-		
 		}
+		
+		paint.setARGB(128, 0, 255, 0);
+		for(GridNode node : endSquares)
+		{
+			int xPos = node.getPixelX();
+			int yPos = node.getPixelY();
+			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
+		}
+		
+		paint.setARGB(110, 0, 10, 200);
+		for(GridNode node : normalSquares)
+		{
+			int xPos = node.getPixelX();
+			int yPos = node.getPixelY();
+			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2.5f, paint);
+		}
+		/*
+
+			//Rect rectangle = new Rect();
+			//rectangle.set(xPos-OffsetX, yPos-OffsetY, xPos-OffsetX+Grid.GRID_SIZE, yPos-OffsetY+Grid.GRID_SIZE);
+			//canvas.drawRect(rectangle, paint);
+			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
+
+		*/
+	}
 	
 	
 	public int getCurrentDiceValue()
@@ -217,13 +246,34 @@ public abstract class GameObject {
 	public ArrayList<ArrayList<GridNode>> getPossiblePaths() {
 		return mPossiblePaths;
 	}
-
-	 public void setName(String name) {
+	
+	public void setMovePath(ArrayList<GridNode> path)
+	{
+		this.mMovePath = (ArrayList<GridNode>) path.clone();
+	}
+	
+	public ArrayList<GridNode> getMovePath()
+	{
+		return mMovePath;
+	}
+	
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	public String getName() {
 		return name;
+	}
+	
+	public boolean equals(GameObject go)
+	{
+		if(go == null)
+			return false;
+		
+		if(this.getName() == go.getName())
+			return true;
+		
+		return false;
 	}
 }
 	

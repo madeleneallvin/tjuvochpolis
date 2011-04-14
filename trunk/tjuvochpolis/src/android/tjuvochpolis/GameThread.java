@@ -73,7 +73,7 @@ public class GameThread extends Thread
 			    
 			    synchronized (mSurfaceHolder) {
 			        
-		        	currentState.handleState(canvas, mContext);
+		        	currentState.handleState(canvas);
 		        	currentState.nextState(this);
 		            
 			    }

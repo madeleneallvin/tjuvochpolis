@@ -21,6 +21,11 @@ public class GridNode {
 	public static int BANK = 4;
 	public static int TELEGRAPH = 5;
 	
+	public String toString()
+	{
+		return "c" + this.getNodeX() + " r" + this.getNodeY();
+	}
+	
 	public void setUpNode(GridNode upNode) {
 		this.mUpNode = upNode;
 	}
@@ -93,5 +98,13 @@ public class GridNode {
 	}
 	public int getNodeY() {
 		return getNodeByY(this.mY);
+	}
+	
+	public boolean equals(GridNode compareNode)
+	{
+		if(this.mNodeX == compareNode.getNodeX() && this.mNodeY == compareNode.getNodeY())
+			return true;
+		
+		return false;
 	}
 }

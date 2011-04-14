@@ -11,7 +11,7 @@ import android.view.View;
 public class CopTurnState extends PlayOrderState {
 	
 	boolean hasMoved = false;
-	String tempIndex = " ";	
+	GameObject currentObject, lastSelected;
 	//public CopTurnState(PlayState ps, CopObject cop, ThiefObject thief, Grid grid){
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){	
 		super(ps, gameObjects , grid);
@@ -30,12 +30,12 @@ public class CopTurnState extends PlayOrderState {
 
 	public void doDraw(Canvas c)
 	{
-		if(tempIndex != " "){
-		
-		mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
-		
+		if(lastSelected != null)
+		{
+			//mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			lastSelected.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
-		}
+	}
 	
 	public void doTouch(View v, MotionEvent event) 
 	{
@@ -43,46 +43,43 @@ public class CopTurnState extends PlayOrderState {
 		int row = ((int) event.getY() - mPlayState.getOffsetY())/Grid.GRID_SIZE;
 		int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
 		
-		
 		GridNode clickedNode =	mGrid.getGridNode(row, col);
-		GameObject currentObject =	clickedNode.getGameObject();
+		currentObject =	clickedNode.getGameObject();
 		// If cop is clicked -> draw highlights
 		
-		if(currentObject != null && currentObject.getClass() == CopObject.class){
-	
-	
-		tempIndex = currentObject.getName();
+	//	if(currentObject != null && currentObject.getClass() == CopObject.class)
+		//{
+			
+			
+		//}
 		
-		//Log.i("CURRENTOBJECT.NAME","" +currentObject.getName());
-		//Log.i("TEMPINDEX", "" + tempIndex);
+		
+		if(lastSelected != null && lastSelected.getClass() == CopObject.class)
+		{
+			for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths())
+			{
+				if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col)))
+				{ 	
+					Log.i("SELECTED","" + getCurrentObjectSelected());
+					hasMoved = true;
+					lastSelected.setMovePath(paths);
+					lastSelected.isMoving = true;
+					
+					setCurrentObjectSelected(lastSelected.getName());
+				}
+				
+			
+				//tempIndex = " ";
+			}
 		
 		}
 		else{
-			tempIndex = " ";
-			
+			lastSelected = currentObject;
 		}
-	
 		
-				
-		
-		
-		//if(tempIndex != " "){
-		
-		//Här ska det kollas att man valt en "mPossiblePaths" (istället för bara ...getType == 0
-	//	if(mGrid.mGridArray[row][col].getType() == 0)
-	//	{			
-		//	hasMoved = true;
-		//	currentObject.moveToCoordinates(row, col);
-			//mPlayState.copMoveState.mCurrentAnimationStep = 0;
-		
-		//}
-	//	}
-	
-			
-		}
-	
+	}
 
-
+//:
 	public PlayOrderState getNextState() {
 		if(hasMoved){
 			hasMoved = false;

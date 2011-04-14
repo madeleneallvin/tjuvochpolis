@@ -20,19 +20,18 @@ public class ThiefTurnState extends PlayOrderState {
 		// TODO Auto-generated method stub
 		
 	}
-
+ 
 	public void doDraw(Canvas c)
 	{
-		if(tempIndex != " "){
-		
-		mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
-		
+		if(tempIndex != " ")
+		{
+			mGameObjects.get(mObjectIndex.valueOf(tempIndex).getIndex()).drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
-		}
-	
+	}
+		
 	@Override
-	public void doTouch(View v, MotionEvent event) 
-	{
+	public void doTouch(View v, MotionEvent event) {
+
 		//om x och y är giltiga destinationer
 		int row = ((int) event.getY() - mPlayState.getOffsetY())/Grid.GRID_SIZE;
 		int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
@@ -82,7 +81,6 @@ public class ThiefTurnState extends PlayOrderState {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 //:
 	public PlayOrderState getNextState() {
