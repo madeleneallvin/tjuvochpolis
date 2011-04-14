@@ -28,7 +28,9 @@ public class PlayState implements GameState
         COP1 (0),
         COP2 (1),
         THIEF1(2),
-        THIEF2 (3);
+        THIEF2 (3),
+        BANK1 (4),
+        NEST1 (5);
                
         private final int index;
         mObjectIndex(int index){
@@ -104,6 +106,8 @@ public class PlayState implements GameState
 		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
 		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
 		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[5][7]));
+		mObjectArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
+		mObjectArray.add(new BankObject("NEST1",mGrid.mGridArray[2][1]));
 		
 		
 		
@@ -157,10 +161,12 @@ public class PlayState implements GameState
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		mObjectArray.get(mObjectIndex.BANK1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
 		
 		//drawing the hud
-		//this.drawHud(c,context);
+	
 		
 
 		//thief.drawHighlightSquare(c, mOffsetX, mOffsetY);
@@ -175,6 +181,7 @@ public class PlayState implements GameState
 	}*/
 	
 	//public void moveTo(float x, float y);
+	
 	
 	//movement of a game object
 	public void doTouch(View v, MotionEvent event)
@@ -289,4 +296,6 @@ public class PlayState implements GameState
 	protected PlayOrderState getCopRollDiceState() {
 		return copRollDiceState;
 	}
+
+	
 }
