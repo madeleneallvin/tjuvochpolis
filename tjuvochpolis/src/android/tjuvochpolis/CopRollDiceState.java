@@ -9,10 +9,9 @@ import android.view.View;
 
 public class CopRollDiceState extends PlayOrderState {
 //
-	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
-		super(ps, gameObjects , grid);
+	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
+		super(ps, gameObjects, gameStaticObjects, grid);
 		this.mNextState = this;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

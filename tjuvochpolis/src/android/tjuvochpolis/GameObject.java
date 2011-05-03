@@ -26,6 +26,9 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
+	
+	
+	
 	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.name = name;

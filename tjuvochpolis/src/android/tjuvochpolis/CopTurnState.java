@@ -33,8 +33,8 @@ public class CopTurnState extends PlayOrderState {
 	private Bitmap mCopImage;
 	
 	
-	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){	
-		super(ps, gameObjects , grid);
+	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid){	
+		super(ps, gameObjects, gameStaticObjects, grid);
 		
 		Resources res = (ps.getContext()).getResources();
 		

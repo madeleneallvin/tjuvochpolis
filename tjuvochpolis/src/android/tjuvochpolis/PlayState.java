@@ -25,27 +25,33 @@ public class PlayState implements GameState
 {
 	public static int MAX_FPS = 30;
 	protected Grid mGrid;
-    //protected CopObject cop;
-    //protected ThiefObject thief;
     
     protected ArrayList<GameObject> mObjectArray;
+    protected ArrayList<GameStaticObject> mObjectStaticArray;
     
     public enum mObjectIndex {
         COP1 (0),
         COP2 (1),
         THIEF1(2),
-        THIEF2 (3),
-        BANK1 (4),
-        NEST1 (5);
+        THIEF2 (3);
                
         private final int index;
         mObjectIndex(int index){
         	this.index = index;
         }
-        
-       
-        
-        
+		public int getIndex() {
+			return index;
+		}
+    }
+    
+    public enum mObjectStaticIndex {
+        BANK1 (0),
+        NEST1 (1);
+    
+        private final int index;
+        mObjectStaticIndex(int index){
+        	this.index = index;
+        }
 		public int getIndex() {
 			return index;
 		}
@@ -101,29 +107,31 @@ public class PlayState implements GameState
 		mPrevDistance = 0.0f;		
 		mZoom = 1.0f;
 		
+		//GameObjects
 		mObjectArray = new ArrayList<GameObject>();
-//		cop = new CopObject(mGrid.mGridArray[2][3]);		//positionen ska kontrolleras av vart tjuvnäste och polisstation ligger
+		
 		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[2][3]));
 		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
 		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
 		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[7][7]));
-		mObjectArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
-		mObjectArray.add(new BankObject("NEST1",mGrid.mGridArray[2][1]));
 		
-		//mObjectArray.get(mObjectIndex.COP1.getIndex());
+		//GameStaticObjects
+		mObjectStaticArray = new ArrayList<GameStaticObject>();
 		
-	
-		//copTurnState = new CopTurnState(this, cop, thief, mGrid);
-		copTurnState = new CopTurnState(this, mObjectArray, mGrid);
-		copMoveState = new CopMoveState(this, mObjectArray, mGrid);
-		copRollDiceState =new CopRollDiceState(this, mObjectArray, mGrid);
-		
-		thiefRollDiceState = new ThiefRollDiceState(this, mObjectArray, mGrid);
-		
-		thiefTurnState = new ThiefTurnState(this, mObjectArray, mGrid);
-		thiefMoveState = new ThiefMoveState(this, mObjectArray, mGrid);
+		mObjectStaticArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
+		mObjectStaticArray.add(new NestObject("NEST1",mGrid.mGridArray[2][1]));
 		
 		
+		// Create the states
+		copTurnState = new CopTurnState(this, mObjectArray, mObjectStaticArray, mGrid);
+		copMoveState = new CopMoveState(this, mObjectArray, mObjectStaticArray, mGrid);
+		copRollDiceState = new CopRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid);
+		
+		thiefRollDiceState = new ThiefRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid);
+		thiefTurnState = new ThiefTurnState(this, mObjectArray, mObjectStaticArray, mGrid);
+		thiefMoveState = new ThiefMoveState(this, mObjectArray, mObjectStaticArray, mGrid);
+		
+		// Set current state
 		this.mCurrentState = getCopRollDiceState();
 		
 		
@@ -174,8 +182,8 @@ public class PlayState implements GameState
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, mOffsetX, mOffsetY);
-		mObjectArray.get(mObjectIndex.BANK1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
-		mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		//mObjectArray.get(mObjectIndex.BANK1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
+		//mObjectArray.get(mObjectIndex.NEST1.getIndex()).doDraw(c, mOffsetX, mOffsetY);
 		
 		mCurrentState.doDraw(c, mZoom);
 		

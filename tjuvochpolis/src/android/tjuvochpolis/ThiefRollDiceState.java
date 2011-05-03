@@ -9,8 +9,8 @@ import android.view.View;
 
 public class ThiefRollDiceState extends PlayOrderState {
 
-	public ThiefRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
-		super(ps, gameObjects , grid);
+	public ThiefRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
+		super(ps, gameObjects, gameStaticObjects, grid);
 		this.mNextState = this;
 		// TODO Auto-generated constructor stub
 	}
