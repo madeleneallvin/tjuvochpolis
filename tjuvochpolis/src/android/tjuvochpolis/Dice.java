@@ -2,16 +2,13 @@ package android.tjuvochpolis;
 
 import java.util.Random;
 
-import android.util.Log;
-
 public class Dice {
-	
+
 	private static Dice diceObject;
 	private Random mGenerator;
-	// Note that the constructor is private
+
 	private Dice() {
-		// Optional Code
-		 
+
 	}
 	public static Dice getDice() {
 		if (diceObject == null) {
@@ -20,12 +17,11 @@ public class Dice {
 		}
 		return diceObject;
 	}
-	
+
 	public int rollDice()
 	{	
 		int roll = mGenerator.nextInt(6) + 1;
 		return roll;
 	}
 
-	
 }
