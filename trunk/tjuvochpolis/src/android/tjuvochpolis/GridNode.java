@@ -10,7 +10,7 @@ public class GridNode {
 	private GridNode mDownNode;
 	private GridNode mLeftNode;
 	private GridNode mRightNode;
-	private int mType; //kanske inte int 
+	private int mType; 
 	private GameObject mGameObject;
 	private GameStaticObject mGameStaticObject;
 	private boolean mNodeState;

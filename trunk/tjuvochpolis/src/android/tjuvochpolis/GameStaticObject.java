@@ -5,8 +5,7 @@ public abstract class GameStaticObject {
 	private GridNode mParentNode;
 	private int objectMoney;
 	private String name;
-	
-	
+
 	public GameStaticObject(String name, GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.setName(name);
@@ -16,15 +15,15 @@ public abstract class GameStaticObject {
 	public void setParentNode(GridNode parentNode) {
 		this.mParentNode = parentNode;
 	}
-	
+
 	public GridNode getParentNode() {
 		return mParentNode;
 	}
-	
+
 	public void setObjectMoney(int objectMoney) {
 		this.objectMoney = objectMoney;
 	}
-	
+
 	public int getObjectMoney() {
 		return objectMoney;
 	}

@@ -24,7 +24,7 @@ public class MenuActivity extends Activity {
         btnPlay.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				Intent intent = new Intent(activity, GameActivity.class);
 				startActivity(intent);
 			}
@@ -33,14 +33,12 @@ public class MenuActivity extends Activity {
         btnExit.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				finish();
 			}
 		});
         
-        //hej
-        //tja, old style chat
-        
+               
         
         // avkommentera när saved states blir aktuellt
         /*// get handles to the GameView from XML, and its GameThread
@@ -60,9 +58,6 @@ public class MenuActivity extends Activity {
         
     }
     
-    //@Override
-   // public void onDestroy() {
-    //}
     
     
 }
