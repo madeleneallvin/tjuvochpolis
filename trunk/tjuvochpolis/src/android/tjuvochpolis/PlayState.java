@@ -249,7 +249,7 @@ public class PlayState implements GameState
 					mLastTap = 0;
 				}
 				
-				//Log.i("timediff", "" + timediff);
+//				//Log.i("timediff", "" + timediff);
 				
 				mPrevX = x;
 				mPrevY = y;

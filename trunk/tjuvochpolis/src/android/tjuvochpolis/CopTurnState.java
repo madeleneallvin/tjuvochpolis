@@ -52,7 +52,7 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 
-
+//
 	
 	
 	public void doDraw(Canvas c, float mZoom)

@@ -14,7 +14,7 @@ public abstract class PlayOrderState {
 	//CopObject cop;
 	//ThiefObject thief;
 	protected ArrayList<GameObject> mGameObjects;
-	
+//	
 	protected Grid mGrid;
 	protected PlayState mPlayState;
 	protected PlayOrderState mNextState;

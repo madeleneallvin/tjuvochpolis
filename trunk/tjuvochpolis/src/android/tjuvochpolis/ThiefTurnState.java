@@ -30,7 +30,7 @@ public class ThiefTurnState extends PlayOrderState {
 		{
 			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
 		}
-	}
+	}//
 	
 	public void doTouch(View v, MotionEvent event) 
 	{

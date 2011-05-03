@@ -22,7 +22,7 @@ public class ThiefMoveState extends PlayOrderState {
 		interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
 	
 	}
-	
+//	
 	public PlayOrderState getNextState()
 	{	
 		

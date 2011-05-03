@@ -24,7 +24,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 	public void doTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		
-	}
+	}//
 
 	@Override
 	public void handleState(int frame) {

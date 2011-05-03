@@ -11,7 +11,7 @@ import android.view.View;
 
 public class GameThread extends Thread 
 {
-	
+//	
 	private SurfaceHolder mSurfaceHolder;
 	
 	private Context mContext;
