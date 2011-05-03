@@ -9,8 +9,7 @@ import android.text.Layout;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class MenuState implements GameState 
-{
+public class MenuState implements GameState  {
 	int color = Color.BLACK;
 	int nextState = 0;
 	Layout layout;
@@ -18,8 +17,7 @@ public class MenuState implements GameState
 	Rect rect;
 	Rect rect2;
 	
-	public MenuState(Context context)
-	{
+	public MenuState(Context context) {
 		//layout = (Layout)context.getResources().getLayout(R.layout.menustate);
 		paint = new Paint();
 		rect = new Rect();
@@ -29,48 +27,35 @@ public class MenuState implements GameState
 		paint.setColor(Color.WHITE);
 	}
 	
-	public void handleState(Canvas canvas)
-	{
-		//color--;
+	public void handleState(Canvas canvas) {
 		draw(canvas);
-		
 	}
-	
-
-	
-	public void nextState(GameThread gt)
-	{
-		if(nextState == 1){
+		
+	public void nextState(GameThread gt) {
+		if(nextState == 1) {
 			gt.setCurrentState(gt.getPlayState());
-			
 		}
 		
-		if(nextState == 2){
+		if(nextState == 2) {
 			Throwable throwable = new Throwable();
 			
 			//gt.setmRun(false);
 			//gt.stop(); // temporär close
 			android.os.Process.killProcess(android.os.Process.myPid()); //kills everything
-			
 		}
 	}
 	
-	public void draw(Canvas c)
-	{
+	public void draw(Canvas c) {
 		c.drawColor(color);
 		c.drawRect(rect, paint);
 		c.drawRect(rect2, paint);
 		
 	}
-	//:
-	public void doTouch(View v, MotionEvent event)
-	{
-		//if(event.getX());
+
+	public void doTouch(View v, MotionEvent event) {
 		if(event.getX() > rect.left && event.getX() < rect.right
 				&& event.getY() > rect.top && event.getY() < rect.bottom) {
 			nextState = 1;
-			
-			
 		}
 		
 		if(event.getX() > rect2.left && event.getX() < rect2.right
@@ -78,5 +63,4 @@ public class MenuState implements GameState
 			nextState = 2;
 		}
 	}
-	
 }

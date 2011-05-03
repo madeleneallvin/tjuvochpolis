@@ -3,17 +3,14 @@ package android.tjuvochpolis;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 public class ThiefObject extends GameObject{
 
 	private int pocketMoney;
 	
-	private int pixels = Grid.GRID_SIZE;
-	
 	public ThiefObject(String name, GridNode parentNode) {
 		super(name, parentNode);
-		// TODO Auto-generated constructor stub
+
 		this.setDrawXPos(this.getParentNode().getPixelX());
 		this.setDrawYPos(this.getParentNode().getPixelY());
 	}
@@ -23,26 +20,22 @@ public class ThiefObject extends GameObject{
 		Paint paint = new Paint();
 		paint.setColor(Color.RED); //bara tillfälligt
 		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean isWalkable(GridNode node) {
 		int type = node.getType();
-		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK)
-		{
+		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK) {
 			return true;
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}
 	
-	public boolean canStopHere(GridNode node){
+	public boolean canStopHere(GridNode node) {
 		// Det står en tjuv på noden
-		Log.i("canStopHere","fail or not?");
+		//Log.i("canStopHere","fail or not?");
 		/*if(node.getGameObject() != null){
 			if(node.getGameObject().getClass().equals(ThiefObject.class))
 			{
@@ -70,11 +63,10 @@ public class ThiefObject extends GameObject{
 		return false;
 	}
 
-	public boolean hasMoney()
-	{
-		if(pocketMoney > 0){
+	public boolean hasMoney() {
+		if(pocketMoney > 0) {
 			return true;
 		}
 		return false;
 	}
-}//
+}

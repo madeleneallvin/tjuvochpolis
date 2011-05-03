@@ -15,33 +15,20 @@ public class ThiefMoveState extends PlayOrderState {
 		super(ps, gameObjects, gameStaticObjects, grid);
 	}
 
-
-	public void handleState(int frame)
-	{
-
+	public void handleState(int frame) {
 		interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
-	
 	}
-//	
-	public PlayOrderState getNextState()
-	{	
-		
-		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving)
-	
-		{
+
+	public PlayOrderState getNextState() {	
+		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving) {
 			return this;
 		}
-		
-		
-		else
-		{
+		else {
 			return mPlayState.getThiefTurnState();
 		}
 	}
 
 	@Override
 	public void doTouch(View v, MotionEvent event) {
-
 	}
-
 }
