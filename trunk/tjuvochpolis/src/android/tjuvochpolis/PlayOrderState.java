@@ -80,16 +80,16 @@ public abstract class PlayOrderState {
 		mCurrentAnimationStep++;
 		
 		if(mCurrentAnimationStep <= mAnimationStep)
-		{ //int tempX = (go.getMovePath().get(go.getCurrentPathPosition())).getNodeX();
-		 //int tempY = go.getMovePath().get(go.getCurrentPathPosition()).getNodeY();
-		 //int tempXnext = go.getMovePath().get(go.getCurrentPathPosition()+1).getNodeX();
-		 //int tempYnext = go.getMovePath().get(go.getCurrentPathPosition()+1).getNodeY();
+		{ int tempX = (go.getMovePath().get(go.getCurrentPathPosition()-1)).getNodeX();
+		int tempY = go.getMovePath().get(go.getCurrentPathPosition()-1).getNodeY();
+		 int tempXnext = go.getMovePath().get(go.getCurrentPathPosition()).getNodeX();
+		int tempYnext = go.getMovePath().get(go.getCurrentPathPosition()).getNodeY();
 			//Log.i("drawXpos:", "" + interpolate(go.getParentNode().getNodeX(), go.moveToColCoordinate, mCurrentAnimationStep));
 			//Log.i("x:", "" + go.getParentNode().getNodeX() + "  " + go.moveToColCoordinate);
-		go.setDrawXPos(interpolate(go.getParentNode().getNodeX(), go.moveToColCoordinate, mCurrentAnimationStep));
-	//		go.setDrawXPos(interpolate(tempX, tempXnext,mCurrentAnimationStep) );
-			go.setDrawYPos(interpolate(go.getParentNode().getNodeY(), go.moveToRowCoordinate, mCurrentAnimationStep));
-		//	go.setDrawYPos(interpolate(tempY, tempYnext,mCurrentAnimationStep));
+	//	go.setDrawXPos(interpolate(go.getParentNode().getNodeX(), go.moveToColCoordinate, mCurrentAnimationStep));
+			go.setDrawXPos(interpolate(tempX, tempXnext,mCurrentAnimationStep) );
+	//		go.setDrawYPos(interpolate(go.getParentNode().getNodeY(), go.moveToRowCoordinate, mCurrentAnimationStep));
+			go.setDrawYPos(interpolate(tempY, tempYnext,mCurrentAnimationStep));
 		}
 		else
 		{
@@ -103,6 +103,7 @@ public abstract class PlayOrderState {
 				go.isMoving = false;
 				mCurrentAnimationStep = (int) mAnimationStep + 1; //återställer animationstep så vi har rätt defaultvärde till nästa objekt
 				go.setParentNode(path.get(path.size()-1));
+				go.getParentNode().setGameObject(go);
 				go.setCurrentPathPosition(0);
 				
 			}
@@ -117,13 +118,17 @@ public abstract class PlayOrderState {
 				
 				if(go.getCurrentPathPosition() != 0)
 				{
-					go.getParentNode().setGameObject(null);
-					moveToNode.setGameObject(go);
+					//go.getParentNode().setGameObject(null);
+				//	moveToNode.setGameObject(go);
 				}
 				go.setParentNode(path.get(go.getCurrentPathPosition()));
 			}
-			go.setCurrentPathPosition(go.getCurrentPathPosition() + 1);
+			if(go.isMoving){
+				go.setCurrentPathPosition(go.getCurrentPathPosition() + 1);
+			}
+			path.get(0).setGameObject(null);
 		}
+		
 
 	}
 	
