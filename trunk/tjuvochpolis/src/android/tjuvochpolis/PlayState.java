@@ -106,7 +106,7 @@ public class PlayState implements GameState
 		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[2][3]));
 		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
 		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
-		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[5][7]));
+		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[7][7]));
 		mObjectArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
 		mObjectArray.add(new BankObject("NEST1",mGrid.mGridArray[2][1]));
 		

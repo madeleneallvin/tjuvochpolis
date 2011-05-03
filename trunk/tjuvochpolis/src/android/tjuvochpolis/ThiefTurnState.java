@@ -28,15 +28,16 @@ public class ThiefTurnState extends PlayOrderState {
 	{
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
 		}
 	}
 	
 	public void doTouch(View v, MotionEvent event) 
 	{
 		//om x och y är giltiga destinationer
-		int row = ((int) event.getY() - mPlayState.getOffsetY() - 48)/Grid.GRID_SIZE;
+		int row = ((int) event.getY() - mPlayState.getOffsetY())/Grid.GRID_SIZE;
 		int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
+		
 		
 		GridNode clickedNode =	mGrid.getGridNode(row, col);
 		currentObject =	clickedNode.getGameObject();
