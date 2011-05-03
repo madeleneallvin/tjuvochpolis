@@ -17,8 +17,10 @@ public abstract class GameObject {
 	private int objectIndex;
 	private String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
+	private int mCurrentPathPosition = 0;
 	private ArrayList<ArrayList<GridNode>> mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
 	private ArrayList<GridNode> mMovePath = new ArrayList<GridNode>();
+	
 	
 	private float mDrawXPos;
 	private float mDrawYPos;
@@ -26,9 +28,6 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
-	
-	
-	
 	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.name = name;
@@ -286,6 +285,14 @@ public abstract class GameObject {
 			return true;
 		
 		return false;
+	}
+
+	public void setCurrentPathPosition(int mCurrentPathPosition) {
+		this.mCurrentPathPosition = mCurrentPathPosition;
+	}
+
+	public int getCurrentPathPosition() {
+		return mCurrentPathPosition;
 	}
 }
 	
