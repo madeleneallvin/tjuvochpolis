@@ -30,30 +30,39 @@ public class GridNode {
 	public void setUpNode(GridNode upNode) {
 		this.mUpNode = upNode;
 	}
+	
 	public GridNode getUpNode() {
 		return mUpNode;
 	}
+	
 	public void setDownNode(GridNode downNode) {
 		this.mDownNode = downNode;
 	}
+	
 	public GridNode getDownNode() {
 		return mDownNode;
 	}
+	
 	public void setLeftNode(GridNode leftNode) {
 		this.mLeftNode = leftNode;
 	}
+	
 	public GridNode getLeftNode() {
 		return mLeftNode;
 	}
+	
 	public void setRightNode(GridNode rightNode) {
 		this.mRightNode = rightNode;
 	}
+	
 	public GridNode getRightNode() {
 		return mRightNode;
 	}
+	
 	public void setType(int type) {
 		this.mType = type;
 	}
+	
 	public int getType() {
 		return mType;
 	}
@@ -61,6 +70,7 @@ public class GridNode {
 	public void setGameObject(GameObject gameObject) {
 		this.mGameObject = gameObject;
 	}
+	
 	public GameObject getGameObject() {
 		return mGameObject;
 	}
@@ -76,39 +86,48 @@ public class GridNode {
 	public void setNodeState(boolean nodeState) {
 		this.mNodeState = nodeState;
 	}
+	
 	public boolean isNodeState() {
 		return mNodeState;
 	}
+	
 	public void setPixelX(int x) {
 		this.mX = x;
 	}
+	
 	public int getPixelX() {
 		return mX;
 	}
+	
 	public void setPixelY(int y) {
 		this.mY = (48+y);
 	}
+	
 	public int getPixelY() {
 		return mY;
 	}
+	
 	public void setNodeByX(int x) {
 		this.mNodeX = x/Grid.GRID_SIZE;
 	}
+	
 	public int getNodeByX(int x) {
 		return x/Grid.GRID_SIZE;
 	}
+	
 	public void setNodeByY(int y) {
 		this.mNodeY = y/Grid.GRID_SIZE;
 	}
+	
 	public int getNodeByY(int y) {
 		return y/Grid.GRID_SIZE;
 	}
+	
 	public int getNodeX() {
 		return getNodeByX(this.mX);
 	}
+	
 	public int getNodeY() {
 		return getNodeByY(this.mY);
 	}
-
-	
 }
