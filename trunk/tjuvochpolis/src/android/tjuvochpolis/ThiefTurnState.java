@@ -10,8 +10,8 @@ import android.view.View;
 
 public class ThiefTurnState extends PlayOrderState {
 
-	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
-		super(ps, gameObjects , grid);
+	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
+		super(ps, gameObjects, gameStaticObjects, grid);
 	}
 	boolean hasMoved = false;
 	boolean everythingHasMoved = false;

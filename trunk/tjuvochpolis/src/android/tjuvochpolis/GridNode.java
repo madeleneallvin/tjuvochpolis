@@ -12,6 +12,7 @@ public class GridNode {
 	private GridNode mRightNode;
 	private int mType; //kanske inte int 
 	private GameObject mGameObject;
+	private GameStaticObject mGameStaticObject;
 	private boolean mNodeState;
 	
 	public static int STREET = 0;
@@ -63,6 +64,15 @@ public class GridNode {
 	public GameObject getGameObject() {
 		return mGameObject;
 	}
+	
+	public void setGameStaticObject(GameStaticObject gameStaticObject) {
+		this.mGameStaticObject = gameStaticObject;
+	}
+
+	public GameStaticObject getGameStaticObject() {
+		return mGameStaticObject;
+	}
+	
 	public void setNodeState(boolean nodeState) {
 		this.mNodeState = nodeState;
 	}
@@ -99,4 +109,6 @@ public class GridNode {
 	public int getNodeY() {
 		return getNodeByY(this.mY);
 	}
+
+	
 }

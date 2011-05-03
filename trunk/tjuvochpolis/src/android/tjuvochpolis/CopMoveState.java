@@ -14,8 +14,8 @@ public class CopMoveState extends PlayOrderState {
 	float y = 120;
 	
 	//
-	public CopMoveState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
-		super(ps, gameObjects , grid);
+	public CopMoveState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid){
+		super(ps, gameObjects, gameStaticObjects, grid);
 	}
 	
 	public void handleState(int frame)

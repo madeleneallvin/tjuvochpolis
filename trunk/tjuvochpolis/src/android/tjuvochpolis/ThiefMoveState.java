@@ -11,8 +11,8 @@ public class ThiefMoveState extends PlayOrderState {
 	float x = 120;
 	float y = 120;
 
-	public ThiefMoveState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid) {
-		super(ps, gameObjects , grid);
+	public ThiefMoveState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
+		super(ps, gameObjects, gameStaticObjects, grid);
 	}
 
 

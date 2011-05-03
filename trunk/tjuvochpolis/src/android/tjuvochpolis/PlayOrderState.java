@@ -14,6 +14,7 @@ public abstract class PlayOrderState {
 	//CopObject cop;
 	//ThiefObject thief;
 	protected ArrayList<GameObject> mGameObjects;
+	protected ArrayList<GameStaticObject> mGameStaticObjects;
 //	
 	protected Grid mGrid;
 	protected PlayState mPlayState;
@@ -21,10 +22,13 @@ public abstract class PlayOrderState {
 	protected float mAnimationStep = 15;
 	protected int mCurrentAnimationStep = (int) mAnimationStep + 1;
 	private String currentObjectSelected;
-	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, Grid grid){
+	
+	
+	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid){
 		
 		this.mPlayState = ps;
 		this.mGameObjects = gameObjects;
+		this.mGameStaticObjects = gameStaticObjects;
 		this.mGrid = grid;
 		
 	}
