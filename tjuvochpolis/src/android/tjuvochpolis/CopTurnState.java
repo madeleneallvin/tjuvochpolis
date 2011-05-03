@@ -19,21 +19,15 @@ public class CopTurnState extends PlayOrderState {
 	GameObject currentObject, lastSelected = null;
 	private Rect mRectLeft;
 	private Rect mRectRight;
-	private Rect mRectCop1;
-	private Rect mRectCop2;
-	private Rect mRectCop3;
 	private Bitmap mHudBottomImage;
-	private Bitmap mCopImage;
+	private Bitmap mHudTopImage;
 
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid){	
 		super(ps, gameObjects, gameStaticObjects, grid);
 
-		Resources res = (ps.getContext()).getResources();
-		mHudBottomImage = BitmapFactory.decodeResource(res, R.drawable.hud_bottom);       
-		mCopImage = BitmapFactory.decodeResource(res, R.drawable.cop);
-		mRectCop1 = new Rect();
-		mRectCop2 = new Rect();
-		mRectCop3 = new Rect();
+		
+		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageCops();
+		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();
 	}
 	@Override
 	public void handleState(int frame){
@@ -61,22 +55,15 @@ public class CopTurnState extends PlayOrderState {
 		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
 		
 		c.drawBitmap(mHudBottomImage, null, mRectRight, null);
-	
-		int width = mHudBottomImage.getWidth();
-		int height = mHudBottomImage.getHeight();
-	
-		Matrix matrixLeft = new Matrix();
-		matrixLeft.postRotate(180);
+	 
+		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 
-		Bitmap resizedBitmapLeft = Bitmap.createBitmap(mHudBottomImage, 0, 0, width, height, matrixLeft, true); 
-		c.drawBitmap(resizedBitmapLeft, null, mRectLeft, null);
-
-		mRectCop1.set(0, canvasHeight - thickness, thickness, canvasHeight);
-		c.drawBitmap(mCopImage, null, mRectCop1, null);
-		mRectCop2.set(thickness*2, canvasHeight - thickness, thickness*3, canvasHeight);
-		c.drawBitmap(mCopImage, null, mRectCop2, null);
-		mRectCop3.set(thickness*4, canvasHeight - thickness, thickness*5, canvasHeight);
-		c.drawBitmap(mCopImage, null, mRectCop3, null);
+	//	mRectCop1.set(0, canvasHeight - thickness, thickness, canvasHeight);
+	//	c.drawBitmap(mCopImage, null, mRectCop1, null);
+	//	mRectCop2.set(thickness*2, canvasHeight - thickness, thickness*3, canvasHeight);
+	//	c.drawBitmap(mCopImage, null, mRectCop2, null);
+	//	mRectCop3.set(thickness*4, canvasHeight - thickness, thickness*5, canvasHeight);
+	//	c.drawBitmap(mCopImage, null, mRectCop3, null);
 
 	}
 
@@ -118,16 +105,16 @@ public class CopTurnState extends PlayOrderState {
 		}
 		else{ // Fifflar på HUD:en
 		
-			float x = event.getX();
-			float y = event.getY();
-			int thickness = mRectCop1.width();
-
-			if(x > 0 && x < thickness && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-				Log.i("Cop", "1");
-			else if(x > thickness*2 && x < thickness*3 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-				Log.i("Cop", "2");
-			else if(x > thickness*4 && x < thickness*5 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-				Log.i("Cop", "3");
+//			float x = event.getX();
+//			float y = event.getY();
+//			int thickness = mRectCop1.width();
+//
+//			if(x > 0 && x < thickness && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
+//				Log.i("Cop", "1");
+//			else if(x > thickness*2 && x < thickness*3 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
+//				Log.i("Cop", "2");
+//			else if(x > thickness*4 && x < thickness*5 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
+//				Log.i("Cop", "3");
 		}
 
 	}

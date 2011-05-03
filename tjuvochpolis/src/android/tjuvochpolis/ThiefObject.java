@@ -1,12 +1,19 @@
 package android.tjuvochpolis;
 
 import android.graphics.Canvas;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 public class ThiefObject extends GameObject{
 
 	private int pocketMoney;
+	private Rect rectThief;
+	private Bitmap thiefIm;
 	
 	public ThiefObject(String name, GridNode parentNode) {
 		super(name, parentNode);
@@ -16,10 +23,21 @@ public class ThiefObject extends GameObject{
 	}
 
 	@Override
-	public void doDraw(Canvas canvas, int offsetX, int offsetY) {
+	public void doDraw(Canvas canvas, int offsetX, int offsetY, Context context) {
 		Paint paint = new Paint();
 		paint.setColor(Color.RED); //bara tillfälligt
-		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
+		//canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
+		
+		int left = (int) this.getDrawXPos() + offsetX + 7;
+		int right = left + 33;
+		int top = (int) this.getDrawYPos() + offsetY;
+		int bottom = (int) top + 48;
+		
+		Resources res = context.getResources();
+		thiefIm = Bitmaps.instance(context).getThiefImage();
+		rectThief = new Rect(left, top, right, bottom);
+		canvas.drawBitmap(thiefIm, null, rectThief, null);
+		
 	}
 
 	@Override
