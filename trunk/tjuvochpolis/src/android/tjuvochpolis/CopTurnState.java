@@ -59,7 +59,8 @@ public class CopTurnState extends PlayOrderState {
 	{
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-			currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
+			//currentObject.drawHighlightSquare(c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
+			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
 		}
 		
 		this.drawHud(c, mZoom);

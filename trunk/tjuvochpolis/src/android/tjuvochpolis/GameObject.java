@@ -28,6 +28,9 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
+	
+	
+	
 	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.name = name;
@@ -158,55 +161,6 @@ public abstract class GameObject {
 		
 		isMoving = true;
 	}
-//	
-	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY)
-	{
-		Paint paint = new Paint();
-		
-		ArrayList<GridNode> endSquares = new ArrayList<GridNode>();
-		ArrayList<GridNode> normalSquares = new ArrayList<GridNode>();
-		
-		for(ArrayList<GridNode> paths : mPossiblePaths)
-		{
-			endSquares.add(paths.get(paths.size() - 1));
-		}
-		
-		for(ArrayList<GridNode> paths : mPossiblePaths)
-		{
-			for(GridNode node : paths)
-			{
-				if(!normalSquares.contains(node) && !endSquares.contains(node))
-				{
-					normalSquares.add(node);
-				}
-			}
-		}
-		
-		paint.setARGB(128, 0, 255, 0);
-		for(GridNode node : endSquares)
-		{
-			int xPos = node.getPixelX();
-			int yPos = node.getPixelY();
-			canvas.drawCircle((float)Math.random()*2 + xPos+OffsetX+Grid.GRID_SIZE/2, (float)Math.random()*2 + yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
-		}
-		
-		paint.setARGB(110, 0, 10, 200);
-		for(GridNode node : normalSquares)
-		{
-			int xPos = node.getPixelX();
-			int yPos = node.getPixelY();
-			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2.5f, paint);
-		}
-		/*
-
-			//Rect rectangle = new Rect();
-			//rectangle.set(xPos-OffsetX, yPos-OffsetY, xPos-OffsetX+Grid.GRID_SIZE, yPos-OffsetY+Grid.GRID_SIZE);
-			//canvas.drawRect(rectangle, paint);
-			canvas.drawCircle(xPos+OffsetX+Grid.GRID_SIZE/2, yPos+OffsetY+Grid.GRID_SIZE/2, Grid.GRID_SIZE/2, paint);
-
-		*/
-	}
-	
 	
 	public int getCurrentDiceValue()
 	{
