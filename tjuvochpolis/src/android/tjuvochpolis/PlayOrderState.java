@@ -3,7 +3,12 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +26,11 @@ public abstract class PlayOrderState {
 	protected PlayOrderState mNextState;
 	protected float mAnimationStep = 15;
 	protected int mCurrentAnimationStep = (int) mAnimationStep + 1;
+	
+	protected Bitmap mBlueSquareImage;
+	protected Bitmap mGreenSquareImage;
+	protected Bitmap mRedSquareImage;
+	
 	private String currentObjectSelected;
 	
 	
@@ -31,9 +41,13 @@ public abstract class PlayOrderState {
 		this.mGameStaticObjects = gameStaticObjects;
 		this.mGrid = grid;
 		
+		Resources res = (ps.getContext()).getResources();
+		mBlueSquareImage = BitmapFactory.decodeResource(res, R.drawable.blue_square); 
+		mGreenSquareImage = BitmapFactory.decodeResource(res, R.drawable.green_square);
+		mRedSquareImage = BitmapFactory.decodeResource(res, R.drawable.red_square);
 	}
-	/*
-	public boolean canGoTo(int row, int col){
+	
+	/*public boolean canGoTo(int row, int col){
 		if(grid.gridArray[row][col].getType() == GridNode.STREET)
 		{			
 			return true;
@@ -52,8 +66,6 @@ public abstract class PlayOrderState {
 	public abstract void handleState(int frame);
 	
 	public abstract void doTouch(View v, MotionEvent event);
-
-	//public abstract void doTouch(View v, MotionEvent event);
 	
 	public abstract PlayOrderState getNextState();
 	
@@ -121,6 +133,51 @@ public abstract class PlayOrderState {
 		return ((float)gridStart*Grid.GRID_SIZE) + ((float) gridEnd*Grid.GRID_SIZE - gridStart*Grid.GRID_SIZE) * ((float) mCurrentAnimationStep/mAnimationStep);
 	}
 
+	public void drawHighlightSquare(GameObject go, Canvas canvas, int OffsetX, int OffsetY)
+	{
+		Paint paint = new Paint();
+		
+		ArrayList<GridNode> endSquares = new ArrayList<GridNode>();
+		ArrayList<GridNode> normalSquares = new ArrayList<GridNode>();
+		
+		for(ArrayList<GridNode> paths : go.getPossiblePaths())
+		{
+			endSquares.add(paths.get(paths.size() - 1));
+		}
+		
+		for(ArrayList<GridNode> paths : go.getPossiblePaths())
+		{
+			for(GridNode node : paths)
+			{
+				if(!normalSquares.contains(node) && !endSquares.contains(node))
+				{
+					normalSquares.add(node);
+				}
+			}
+		}
+		
+		paint.setARGB(128, 0, 255, 0);
+		for(GridNode node : endSquares)
+		{
+			int xPos = node.getPixelX() + OffsetX;
+			int yPos = node.getPixelY() + OffsetY;
+			Rect rec = new Rect(xPos, yPos, xPos + Grid.GRID_SIZE, yPos + Grid.GRID_SIZE);
+			if(node.getGameStaticObject() == null)
+				canvas.drawBitmap(mGreenSquareImage, null, rec, null);
+			else
+				canvas.drawBitmap(mRedSquareImage, null, rec, null);
+		}
+		
+		paint.setARGB(110, 0, 10, 200);
+		for(GridNode node : normalSquares)
+		{
+			int xPos = node.getPixelX() + OffsetX;
+			int yPos = node.getPixelY() + OffsetY;
+			Rect rec = new Rect(xPos, yPos, xPos + Grid.GRID_SIZE, yPos + Grid.GRID_SIZE);
+			canvas.drawBitmap(mBlueSquareImage, null, rec, null);	
+		}
+	}
+	
 	public void setCurrentObjectSelected(String currentObjectSelected) {
 		this.currentObjectSelected = currentObjectSelected;
 	}
