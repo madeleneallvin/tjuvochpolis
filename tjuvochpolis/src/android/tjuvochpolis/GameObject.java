@@ -156,7 +156,7 @@ public abstract class GameObject {
 		
 		isMoving = true;
 	}
-	
+//	
 	public void drawHighlightSquare(Canvas canvas, int OffsetX, int OffsetY)
 	{
 		Paint paint = new Paint();

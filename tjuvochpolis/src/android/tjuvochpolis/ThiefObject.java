@@ -77,4 +77,4 @@ public class ThiefObject extends GameObject{
 		}
 		return false;
 	}
-}
+}//
