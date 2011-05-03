@@ -2,11 +2,14 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 
 
 public abstract class GameObject {
 
+	
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
 	private int objectMoney;
@@ -22,14 +25,14 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
-
+	
 	public GameObject(String name,GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.name = name;
-
+		
 		this.getParentNode().setGameObject(this);
 	}
-
+	
 	public abstract boolean isWalkable(GridNode node);
 	public abstract void doDraw(Canvas canvas, int offsetX, int offsetY); 
 	public abstract boolean hasMoney();
@@ -37,7 +40,7 @@ public abstract class GameObject {
 	public boolean canStopHere(GridNode node){
 		return false;
 	}
-
+	
 	public void doNodeWalker(GridNode currentNode, GridNode previousNode, int diceValue)
 	{
 		mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
@@ -45,15 +48,15 @@ public abstract class GameObject {
 		nodeWalker(path, currentNode,  previousNode,  diceValue);
 
 	}
-
+	
 	private void nodeWalker(ArrayList<GridNode> path, GridNode currentNode, GridNode previousNode, int diceValue) {
-
+			
 		// Sparar noden man står på i nuvarande path
 		path.add(currentNode);
-
+		
 		// Tar fram alla möjliga noder man kan gå till från currentNode
 		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
-
+		
 		// Kolla gameobjects
 		if(nextNodes.size() != 0 && this.canStopHere(currentNode))
 		{
@@ -76,18 +79,18 @@ public abstract class GameObject {
 			path.remove(path.size()-1);
 			return;
 		}
-
+		
 		// loopar alla möjliga vägar
 		for(GridNode nextNode : nextNodes) {
 			// Anropar nodeWalker igen med ett mindre tärningsvärde och nästa nod
 			this.nodeWalker(path, nextNode, currentNode, diceValue-1);
 		}
-
+		
 		path.remove(path.size()-1);
 		return;
 	}
-
-
+	
+	
 	private ArrayList<GridNode> getNextNodes(GridNode currentNode, GridNode previousNode){
 		// hämta alla noder runt current
 		// ta inte med previous!
@@ -97,39 +100,39 @@ public abstract class GameObject {
 		if(currentNode.getUpNode() != null && !currentNode.getUpNode().equals(previousNode) && this.isWalkable(currentNode.getUpNode())) {
 			possibleNextNodes.add(currentNode.getUpNode());
 		}
-
+		
 		//kollar om nedre nod inte är samma som föregående nod och att den går att gå på
 		if(currentNode.getDownNode() != null && !currentNode.getDownNode().equals(previousNode) && this.isWalkable(currentNode.getDownNode())) {
 			possibleNextNodes.add(currentNode.getDownNode());
 		}
-
+		
 		//kollar om vänstra nod inte är samma som föregående nod och att den går att gå på
 		if(currentNode.getLeftNode() != null && !currentNode.getLeftNode().equals(previousNode) && this.isWalkable(currentNode.getLeftNode())) {
 			possibleNextNodes.add(currentNode.getLeftNode());
 		}
-
+		
 		//kollar om högra nod inte är samma som föregående nod och att den går att gå på
 		if(currentNode.getRightNode() != null && !currentNode.getRightNode().equals(previousNode) && this.isWalkable(currentNode.getRightNode())) {
 			possibleNextNodes.add(currentNode.getRightNode());
 		}
-
+		
 		return possibleNextNodes;
 	}
-
-
+	
+	
 	public void moveToCoordinates(int rowCoordinate, int colCoordinate)
 	{
 		this.moveToRowCoordinate = rowCoordinate;
 		this.moveToColCoordinate = colCoordinate;
-
+		
 		isMoving = true;
 	}
-
+	
 	public int getCurrentDiceValue()
 	{
 		return mCurrentDiceValue;
 	}
-
+	
 	public void setCurrentDiceValue(int val)
 	{
 		mCurrentDiceValue = val;
@@ -166,17 +169,17 @@ public abstract class GameObject {
 	public ArrayList<ArrayList<GridNode>> getPossiblePaths() {
 		return mPossiblePaths;
 	}
-
+	
 	public void setMovePath(ArrayList<GridNode> path)
 	{
 		this.mMovePath = (ArrayList<GridNode>) path.clone();
 	}
-
+	
 	public ArrayList<GridNode> getMovePath()
 	{
 		return mMovePath;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -192,15 +195,15 @@ public abstract class GameObject {
 	public int getObjectMoney() {
 		return objectMoney;
 	}
-
-	public boolean equals(GameObject go){
-
+		
+	public boolean equals(GameObject go)
+	{
 		if(go == null)
 			return false;
-
+		
 		if(this.getName() == go.getName())
 			return true;
-
+		
 		return false;
 	}
 
@@ -211,6 +214,19 @@ public abstract class GameObject {
 	public int getCurrentPathPosition() {
 		return mCurrentPathPosition;
 	}
-}
 
+	public void saveState(Context mContext)
+	{
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+	
+		SharedPreferences.Editor ed = mPrefs.edit();
+	
+		ed.putInt(name + "_row", (mParentNode.getPixelX())/48);
+		ed.putInt(name + "_col", (mParentNode.getPixelY()-48)/48);
+		ed.putInt(name + "_money", objectMoney);
+		
+		ed.commit();
+	}
+}
+	
 
