@@ -24,7 +24,7 @@ public class MenuActivity extends Activity {
         btnPlay.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				
+
 				Intent intent = new Intent(activity, GameActivity.class);
 				startActivity(intent);
 			}
@@ -39,6 +39,7 @@ public class MenuActivity extends Activity {
 		});
         
                
+        
         
         // avkommentera när saved states blir aktuellt
         /*// get handles to the GameView from XML, and its GameThread
