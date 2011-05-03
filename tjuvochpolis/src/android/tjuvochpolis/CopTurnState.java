@@ -45,7 +45,7 @@ public class CopTurnState extends PlayOrderState {
 		mRectCop2 = new Rect();
 		mRectCop3 = new Rect();
 	}
-
+	@Override
 	public void handleState(int frame)
 	{
 		
