@@ -1,13 +1,20 @@
 package android.tjuvochpolis;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class CopObject extends GameObject{
 
-
+	private Rect rectCop;
+	private Bitmap copIm;
+	
 	public CopObject(String name,GridNode parentNode) {
 		super(name, parentNode);
 
@@ -58,12 +65,20 @@ public class CopObject extends GameObject{
 
 	}
 	@Override
-	public void doDraw(Canvas canvas, int offsetX, int offsetY) {
+	public void doDraw(Canvas canvas, int offsetX, int offsetY, Context context) {
 
 		Paint paint = new Paint();
 		paint.setColor(Color.BLUE); 
-		canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
+		//canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
 
+		int left = (int) this.getDrawXPos() + offsetX + 7;
+		int right = left + 33;
+		int top = (int) this.getDrawYPos() + offsetY;
+		int bottom = (int) top + 48;
+		
+		copIm = Bitmaps.instance(context).getCopImage();
+		rectCop = new Rect(left, top, right, bottom);
+		canvas.drawBitmap(copIm, null, rectCop, null);
 	}
 
 	@Override
