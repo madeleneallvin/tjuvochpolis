@@ -17,14 +17,15 @@ public class ThiefObject extends GameObject{
 	private Rect rectThief;
 	private Bitmap thiefIm;
 	private long moviestart;
+	private int direction;
 	
 	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney, int pocketMoney) {
 		super(name, parentNode, diceValue, objectMoney);
 		
-		this.pocketMoney = pocketMoney;
-
+		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
+		
 	}
 
 	@Override
@@ -35,9 +36,8 @@ public class ThiefObject extends GameObject{
 		
 		int xPos = (int) this.getDrawXPos() + offsetX ;
 		int right = xPos + 48;
-		int yPos = (int) this.getDrawYPos() + offsetY-26;
-		int bottom = (int) yPos + 74;
-		
+		int yPos = (int) this.getDrawYPos() + offsetY-24;
+		int bottom = (int) yPos + 72;
 		
 		//lite "kod" som sätter frameraten rätt.
 		long now=android.os.SystemClock.uptimeMillis();
@@ -46,7 +46,30 @@ public class ThiefObject extends GameObject{
 		}
 		if(this.isMoving == true){
 			
-			int direction = Bitmaps.DOWN; //välj denna beroende på vilket håll nästa nod är åt
+			//ta reda på vilket håll tjuven ska vända sig när han går
+			
+			//Log.i("path size", ""+this.getMovePath().size());
+			//Log.i("path position", ""+this.getCurrentPathPosition());
+			if(this.getCurrentPathPosition()>0 && this.getCurrentPathPosition() < (this.getMovePath().size())){
+			
+				
+				
+				//Log.i("nextNodeX", ""+this.getMovePath().get(this.getCurrentPathPosition()+1).getNodeX());
+				if(this.getMovePath().get(this.getCurrentPathPosition()-1).getX() == this.getMovePath().get(this.getCurrentPathPosition()).getX()){
+					if(this.getMovePath().get(this.getCurrentPathPosition()-1).getY() < this.getMovePath().get(this.getCurrentPathPosition()).getY()){
+						direction = Bitmaps.DOWN;
+					}else{
+						direction = Bitmaps.UP;
+					}
+				}
+				else if( this.getMovePath().get(this.getCurrentPathPosition()-1).getX() < this.getMovePath().get(this.getCurrentPathPosition()).getX())
+				{
+					direction = Bitmaps.RIGHT;
+				}
+				else{
+					direction = Bitmaps.LEFT;
+				}
+			}
 			
 			int relTime = (int)((now - moviestart) % Bitmaps.instance(context).getThiefmovies(direction).duration()) ;
 			Bitmaps.instance(context).getThiefmovies(direction).setTime(relTime);
@@ -54,9 +77,11 @@ public class ThiefObject extends GameObject{
 			//this.invalidate();
 		}
 		else{
+			Resources res = context.getResources();
 			thiefIm = Bitmaps.instance(context).getThiefImage();
 			rectThief = new Rect(xPos, yPos, right, bottom);
 			canvas.drawBitmap(thiefIm, null, rectThief, null);
+			direction = Bitmaps.DOWN;
 		}
 	}
 
