@@ -23,7 +23,7 @@ public class Bitmaps {
 	private static Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
 	private static Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
-	private static ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4);
+	private static ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4), copmovies = new ArrayList<Movie>(4);
 	private Bitmaps() {
 
 	}
@@ -35,18 +35,28 @@ public class Bitmaps {
 			setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
 			setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
 			setHudTopImage(BitmapFactory.decodeResource(res, R.drawable.htc_top_bakgrund_256));
-			setCopImage(BitmapFactory.decodeResource(res, R.drawable.small_police));
+			setCopImage(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
 			setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
 			
 			//Lägg alla movies i en indexerbar array.
 			movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
-			movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_left_animate));
+			movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.derp));
 			movieThiefUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_up_animate));
 			movieThiefDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_down_animate));
 			thiefmovies.add(UP, movieThiefUp);
 			thiefmovies.add(RIGHT, movieThiefRight);
 			thiefmovies.add(DOWN, movieThiefDown);
 			thiefmovies.add(LEFT, movieThiefLeft);
+			
+			movieCopRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_right_animate));
+			movieCopLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_left_animate));
+			movieCopUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_up_animate));
+			movieCopDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_down_animate));
+			copmovies.add(UP, movieCopUp);
+			copmovies.add(RIGHT, movieCopRight);
+			copmovies.add(DOWN, movieCopDown);
+			copmovies.add(LEFT, movieCopLeft);
+			
 			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_houses));       
 		}
 		return bitmaps;
@@ -107,5 +117,8 @@ public class Bitmaps {
 	
 	public Movie getThiefmovies(int index) {
 		return thiefmovies.get(index);
+	}
+	public Movie getCopmovies(int index) {
+		return copmovies.get(index);
 	}
 }

@@ -44,10 +44,9 @@ public class ThiefObject extends GameObject{
 		if (moviestart == 0) { // first time
 			moviestart = now;
 		}
+		
+		//ta reda på vilket håll tjuven ska vända sig när han går
 		if(this.isMoving == true){
-			
-			//ta reda på vilket håll tjuven ska vända sig när han går
-			
 			//Log.i("path size", ""+this.getMovePath().size());
 			//Log.i("path position", ""+this.getCurrentPathPosition());
 			if(this.getCurrentPathPosition()>0 && this.getCurrentPathPosition() < (this.getMovePath().size())){
@@ -97,31 +96,7 @@ public class ThiefObject extends GameObject{
 	}
 	
 	public boolean canStopHere(GridNode node) {
-		// Det står en tjuv på noden
-		/*if(node.getGameObject() != null){
-			if(node.getGameObject().getClass().equals(ThiefObject.class))
-			{
-				Log.i("canStopHere","Thief");
-				/*if(node.getGameObject().hasMoney()){
-					return true;
-				}
-				else{
-					return false;
-				}
-			}
-		}*/
-		
-		// Det finns en powerup på noden
-		/*else if(node.getGameObject().getClass().equals(PowerupObject.class)){
-			Log.i("canStopHere","powerup");
-			return true;
-		}
-		// Det står en polis på noden
-		else if(node.getGameObject().getClass().equals(CopObject.class))
-		{
-			Log.i("canStopHere","cop");
-			return false;
-		}*/
+		//Guffe: vi kanske ska ha denna metoden senare :P
 		return false;
 	}
 
