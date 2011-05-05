@@ -339,6 +339,11 @@ public class PlayState implements GameState {
 		}
 	}
 
+	public PlayOrderState getCurrentPlayOrderState()
+	{
+		return mCurrentState;
+	}
+	
 	protected CopTurnState getCopTurnState() {
 		return (CopTurnState) copTurnState;
 	}
@@ -450,4 +455,8 @@ public class PlayState implements GameState {
 		}
 	}
 	
+	public GameObject getGameObject(mObjectIndex objectIndex)
+	{
+		return mObjectArray.get(objectIndex.index);
+	}
 }
