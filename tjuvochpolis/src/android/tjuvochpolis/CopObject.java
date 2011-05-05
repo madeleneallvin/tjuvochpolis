@@ -14,12 +14,76 @@ public class CopObject extends GameObject{
 
 	private Rect rectCop;
 	private Bitmap copIm;
+	private long moviestart;
+	private int direction;
 	
 	public CopObject(String name,GridNode parentNode, int diceValue, int objectMoney) {
 		super(name, parentNode, diceValue, objectMoney);
-
+		
+		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
+	}
+	
+	@Override
+	public void doDraw(Canvas canvas, int offsetX, int offsetY, Context context) {
+
+		Paint paint = new Paint();
+		paint.setColor(Color.BLUE); 
+		
+		int xPos = (int) this.getDrawXPos() + offsetX ;
+		int right = xPos + 48;
+		int yPos = (int) this.getDrawYPos() + offsetY-24;
+		int bottom = (int) yPos + 72;
+		
+		//lite "kod" som sätter frameraten rätt.
+		long now=android.os.SystemClock.uptimeMillis();
+		if (moviestart == 0) { // first time
+			moviestart = now;
+		}
+		
+		//ta reda på vilket håll tjuven ska vända sig när han går
+		if(this.isMoving == true){
+			//Log.i("path size", ""+this.getMovePath().size());
+			//Log.i("path position", ""+this.getCurrentPathPosition());
+			if(this.getCurrentPathPosition()>0 && this.getCurrentPathPosition() < (this.getMovePath().size())){
+			
+				
+				
+				//Log.i("nextNodeX", ""+this.getMovePath().get(this.getCurrentPathPosition()+1).getNodeX());
+				if(this.getMovePath().get(this.getCurrentPathPosition()-1).getX() == this.getMovePath().get(this.getCurrentPathPosition()).getX()){
+					if(this.getMovePath().get(this.getCurrentPathPosition()-1).getY() < this.getMovePath().get(this.getCurrentPathPosition()).getY()){
+						direction = Bitmaps.DOWN;
+					}else{
+						direction = Bitmaps.UP;
+					}
+				}
+				else if( this.getMovePath().get(this.getCurrentPathPosition()-1).getX() < this.getMovePath().get(this.getCurrentPathPosition()).getX())
+				{
+					direction = Bitmaps.RIGHT;
+				}
+				else{
+					direction = Bitmaps.LEFT;
+				}
+			}
+			
+			int relTime = (int)((now - moviestart) % Bitmaps.instance(context).getCopmovies(direction).duration()) ;
+			Bitmaps.instance(context).getCopmovies(direction).setTime(relTime);
+			Bitmaps.instance(context).getCopmovies(direction).draw(canvas,xPos, yPos, paint);
+			//this.invalidate();
+		}
+		else{
+			Resources res = context.getResources();
+			copIm = Bitmaps.instance(context).getCopImage();
+			rectCop = new Rect(xPos, yPos, right, bottom);
+			canvas.drawBitmap(copIm, null, rectCop, null);
+			direction = Bitmaps.DOWN;
+		}
+		
+		
+		/*copIm = Bitmaps.instance(context).getCopImage();
+		rectCop = new Rect(left, top, right, bottom);
+		canvas.drawBitmap(copIm, null, rectCop, null);*/
 	}
 	
 	public boolean isWalkable(GridNode node){
@@ -63,21 +127,6 @@ public class CopObject extends GameObject{
 		}
 		return false;
 
-	}
-	@Override
-	public void doDraw(Canvas canvas, int offsetX, int offsetY, Context context) {
-
-		Paint paint = new Paint();
-		paint.setColor(Color.BLUE); 
-		
-		int left = (int) this.getDrawXPos() + offsetX + 7;
-		int right = left + 33;
-		int top = (int) this.getDrawYPos() + offsetY;
-		int bottom = (int) top + 48;
-		
-		copIm = Bitmaps.instance(context).getCopImage();
-		rectCop = new Rect(left, top, right, bottom);
-		canvas.drawBitmap(copIm, null, rectCop, null);
 	}
 
 	@Override
