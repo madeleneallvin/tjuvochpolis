@@ -90,10 +90,9 @@ public class PlayState implements GameState {
 	private boolean zoomOut = false;
 	private boolean moveAction = false;
 	private float distance = 0.0f;
-
-	private int canvasH=0;
-
-	public PlayState(Context context) {
+	
+	public PlayState(Context context)
+	{
 		mGrid = new Grid(context);
 
 		setContext(context);
@@ -108,11 +107,11 @@ public class PlayState implements GameState {
 		
 		//GameObjects
 		mObjectArray = new ArrayList<GameObject>();
-		
-		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[9][9]));
-		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[3][3]));
-		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[4][7]));
-		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[7][7]));
+
+		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[mPrefs.getInt("COP1_col",2)][mPrefs.getInt("COP1_row",3)], mPrefs.getInt("COP1_diceValue",0), mPrefs.getInt("COP1_money",0)));
+		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[mPrefs.getInt("COP2_col",3)][mPrefs.getInt("COP2_row",2)], mPrefs.getInt("COP2_diceValue",0), mPrefs.getInt("COP2_money",0)));
+		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[mPrefs.getInt("THIEF1_col",4)][mPrefs.getInt("THIEF1_row",7)], mPrefs.getInt("THIEF1_diceValue",0), mPrefs.getInt("THIEF1_money",0), mPrefs.getInt("THIEF1_pocketmoney",0)));
+		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[mPrefs.getInt("THIEF2_col",5)][mPrefs.getInt("THIEF2_row",7)], mPrefs.getInt("THIEF2_diceValue",0), mPrefs.getInt("THIEF2_money",0), mPrefs.getInt("THIEF1_pocketmoney",0)));
 
 		//GameStaticObjects
 		mObjectStaticArray = new ArrayList<GameStaticObject>();
@@ -124,22 +123,51 @@ public class PlayState implements GameState {
 		
 		
 		// Create the states
-		copTurnState = new CopTurnState(this, mObjectArray, mObjectStaticArray, mGrid);
-		copMoveState = new CopMoveState(this, mObjectArray, mObjectStaticArray, mGrid);
-		copRollDiceState = new CopRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid);
+		copTurnState = new CopTurnState(this, mObjectArray, mObjectStaticArray, mGrid, 0);
+		copMoveState = new CopMoveState(this, mObjectArray, mObjectStaticArray, mGrid, 1);
+		copRollDiceState = new CopRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid, 2);
 
-		thiefRollDiceState = new ThiefRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid);
-		thiefTurnState = new ThiefTurnState(this, mObjectArray, mObjectStaticArray, mGrid);
-		thiefMoveState = new ThiefMoveState(this, mObjectArray, mObjectStaticArray, mGrid);
+		thiefRollDiceState = new ThiefRollDiceState(this, mObjectArray, mObjectStaticArray, mGrid, 3);
+		thiefTurnState = new ThiefTurnState(this, mObjectArray, mObjectStaticArray, mGrid, 4);
+		thiefMoveState = new ThiefMoveState(this, mObjectArray, mObjectStaticArray, mGrid, 5);
 		
-		setEventState(new EventState(this, mObjectArray, mObjectStaticArray, mGrid));
+		setEventState(new EventState(this, mObjectArray, mObjectStaticArray, mGrid, 6));
 		
 		// Set current state
-		this.mCurrentState = getCopRollDiceState();
-
-		mBackgroundImage = Bitmaps.instance(context).getBackgroundImage();
+		int currentState = mPrefs.getInt("currentState", 2);
 		
-        mFrame = 0;
+		Log.i("Current state", "" + currentState);
+		
+		switch(currentState)
+		{
+			case 0:
+				this.mCurrentState = getCopTurnState();
+				break;
+			case 1:
+				this.mCurrentState = getCopMoveState();
+				break;
+			case 2:
+				this.mCurrentState = getCopRollDiceState();
+				break;
+			case 3:
+				this.mCurrentState = getThiefRollDiceState();
+				break;
+			case 4:
+				this.mCurrentState = getThiefTurnState();
+				break;
+			case 5:
+				this.mCurrentState = getThiefMoveState();
+				break;
+			default:
+				this.mCurrentState = getCopRollDiceState();
+				break;
+		}
+		//this.mCurrentState = getCopRollDiceState();
+
+		
+		mBackgroundImage = Bitmaps.instance(context).getBackgroundImage();
+
+		mFrame = 0;
 	}
 	
 	public void handleState(Canvas canvas) {
@@ -155,8 +183,6 @@ public class PlayState implements GameState {
 		mCurrentState = mCurrentState.getNextState();
 		mCurrentState.setCurrentObjectSelected(currentObjectSelected);
 		this.draw(canvas);
-
-		canvasH=canvas.getHeight();
 	}
 
 	public void nextState(GameThread gt) {
@@ -166,12 +192,12 @@ public class PlayState implements GameState {
 		c.scale(mZoom, mZoom);
 		c.drawBitmap(mBackgroundImage, getOffsetX(), getOffsetY(), null);
 
-		mCurrentState.doDraw(c, mZoom);
-
 		mObjectArray.get(mObjectIndex.COP1.getIndex()).doDraw(c, getOffsetX(), getOffsetY(), mContext);
 		mObjectArray.get(mObjectIndex.COP2.getIndex()).doDraw(c, getOffsetX(), getOffsetY(), mContext);
 		mObjectArray.get(mObjectIndex.THIEF1.getIndex()).doDraw(c, getOffsetX(), getOffsetY(), mContext);
 		mObjectArray.get(mObjectIndex.THIEF2.getIndex()).doDraw(c, getOffsetX(), getOffsetY(), mContext);
+
+		mCurrentState.doDraw(c, mZoom);		
 		
 		//this.drawHud(c,mZoom);
 	}
@@ -220,7 +246,7 @@ public class PlayState implements GameState {
 							mZoom = v.getHeight() * 1.0f / mBackgroundImage.getHeight();
 						}
 					}
-	
+					
 					// Kolla offset kriterier
 					if(mScrollOffsetX > 0){
 						mScrollOffsetX = 0;
@@ -292,6 +318,15 @@ public class PlayState implements GameState {
 	protected ThiefTurnState getThiefTurnState() {
 		return (ThiefTurnState) thiefTurnState;
 	}
+	protected CopMoveState getCopMoveState()
+	{
+		return (CopMoveState) copMoveState;
+	}
+	protected ThiefMoveState getThiefMoveState()
+	{
+		
+		return (ThiefMoveState) thiefMoveState;
+	}
 	
 	public void setOffsetX(int offset) {
 		mScrollOffsetX = offset;
@@ -340,10 +375,51 @@ public class PlayState implements GameState {
 	public Context getContext() {
 		return mContext;
 	}
-
-	public void saveState() {
-		for(int i = 0; i < mObjectArray.size(); i++) {
+	
+	public void saveState()
+	{
+		Log.i("PlayState", "savestate");
+		
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		
+		SharedPreferences.Editor ed = mPrefs.edit();
+		
+		int currentState = mCurrentState.getIndex();
+		switch(currentState)
+		{
+			case 0:
+				ed.putInt("currentState", 0);
+				ed.putBoolean("copEverythingHasMoved", getCopTurnState().everythingHasMoved);
+				ed.putBoolean("copHasMoved", getCopTurnState().hasMoved);
+				break;
+			case 1:
+				ed.putInt("currentState", 1);
+				break;
+			case 2:
+				ed.putInt("currentState", 2);
+				break;
+			case 3:
+				ed.putInt("currentState", 3);
+				break;
+			case 4:
+				ed.putInt("currentState", 4);
+				ed.putBoolean("thiefEverythingHasMoved", getThiefTurnState().everythingHasMoved);
+				ed.putBoolean("thiefHasMoved", getThiefTurnState().hasMoved);
+				break;
+			case 5:
+				ed.putInt("currentState", 5);
+				break;
+			default:
+				ed.putInt("currentState", 2);
+				break;
+		}
+		
+		ed.commit();
+		
+		for(int i = 0; i < mObjectArray.size(); i++)
+		{
 			mObjectArray.get(i).saveState(mContext);
 		}
 	}
+	
 }

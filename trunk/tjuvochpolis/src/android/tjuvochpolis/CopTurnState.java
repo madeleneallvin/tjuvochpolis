@@ -1,6 +1,8 @@
 package android.tjuvochpolis;
 
 import java.util.ArrayList;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,9 +24,15 @@ public class CopTurnState extends PlayOrderState {
 	private Bitmap mHudBottomImage;
 	private Bitmap mHudTopImage;
 
-	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid){	
-		super(ps, gameObjects, gameStaticObjects, grid);
-
+	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index){	
+		super(ps, gameObjects, gameStaticObjects, grid, index);
+		
+		SharedPreferences mPrefs = (ps.getContext()).getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		everythingHasMoved = mPrefs.getBoolean("copEverythingHasMoved", false);
+		hasMoved = mPrefs.getBoolean("copHasMoved", false);
+		
+		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue());
+		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
 		
 		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageCops();
 		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();
@@ -36,12 +44,14 @@ public class CopTurnState extends PlayOrderState {
 
 	public void doDraw(Canvas c, float mZoom){
 	
+		this.drawHud(c, mZoom);
+		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 
-		this.drawHud(c, mZoom);
+		
 	}
 	
 	public void drawHud(Canvas c, float mZoom){
@@ -56,14 +66,15 @@ public class CopTurnState extends PlayOrderState {
 		c.drawBitmap(mHudBottomImage, null, mRectRight, null);
 		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
-	
-	public void doTouch(View v, MotionEvent event) 
-	{
+
+	public void doTouch(View v, MotionEvent event){
+		
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
+			//om x och y är giltiga destinationer
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
 			int col = GridNode.getCol(event, mPlayState.getOffsetX());
-			
+
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
 			

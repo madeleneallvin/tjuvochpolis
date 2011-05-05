@@ -9,8 +9,8 @@ import android.view.View;
 
 public class EventState extends PlayOrderState {
 
-	public EventState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
-		super(ps, gameObjects, gameStaticObjects, grid);
+	public EventState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
+		super(ps, gameObjects, gameStaticObjects, grid, index);
 	}
 
 	@Override

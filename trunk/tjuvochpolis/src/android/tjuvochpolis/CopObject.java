@@ -15,8 +15,8 @@ public class CopObject extends GameObject{
 	private Rect rectCop;
 	private Bitmap copIm;
 	
-	public CopObject(String name,GridNode parentNode) {
-		super(name, parentNode);
+	public CopObject(String name,GridNode parentNode, int diceValue, int objectMoney) {
+		super(name, parentNode, diceValue, objectMoney);
 
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());

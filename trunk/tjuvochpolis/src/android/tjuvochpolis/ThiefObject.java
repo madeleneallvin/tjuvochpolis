@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import android.graphics.Canvas;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,16 +18,17 @@ public class ThiefObject extends GameObject{
 	private Bitmap thiefIm;
 	private long moviestart;
 	
-	public ThiefObject(String name, GridNode parentNode) {
-		super(name, parentNode);
-		// TODO Auto-generated constructor stub
+	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney, int pocketMoney) {
+		super(name, parentNode, diceValue, objectMoney);
+		
+		this.pocketMoney = pocketMoney;
+
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
 	}
 
 	@Override
 	public void doDraw(Canvas canvas, int offsetX, int offsetY, Context context) {
-		
 		Paint paint = new Paint();
 		paint.setColor(Color.RED); //bara tillfälligt
 		//canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
@@ -103,5 +105,18 @@ public class ThiefObject extends GameObject{
 			return true;
 		}
 		return false;
+	}
+	
+	public void saveState(Context mContext)
+	{
+		super.saveState(mContext);
+		
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		
+		SharedPreferences.Editor ed = mPrefs.edit();
+	
+		ed.putInt(name + "_pocketmoney", pocketMoney);
+		
+		ed.commit();
 	}
 }

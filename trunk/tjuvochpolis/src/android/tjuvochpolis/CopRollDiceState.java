@@ -7,8 +7,8 @@ import android.view.View;
 
 public class CopRollDiceState extends PlayOrderState {
 
-	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
-		super(ps, gameObjects, gameStaticObjects, grid);
+	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
+		super(ps, gameObjects, gameStaticObjects, grid, index);
 		this.mNextState = this;
 	}
 
