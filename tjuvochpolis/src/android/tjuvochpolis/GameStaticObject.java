@@ -9,9 +9,10 @@ public abstract class GameStaticObject {
 	public GameStaticObject(String name, GridNode parentNode) {
 		this.setParentNode(parentNode);
 		this.setName(name);
-		this.getParentNode().setGameStaticObject(this);
 	}
-
+	
+	public abstract void handleEvent();
+	
 	public void setParentNode(GridNode parentNode) {
 		this.mParentNode = parentNode;
 	}

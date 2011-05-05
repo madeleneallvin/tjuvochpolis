@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -42,26 +43,10 @@ public abstract class PlayOrderState {
 		mRedSquareImage = BitmapFactory.decodeResource(res, R.drawable.red_square);
 	}
 
-	/*public boolean canGoTo(int row, int col){
-		if(grid.gridArray[row][col].getType() == GridNode.STREET)
-		{			
-			return true;
-		}
-		else if (grid.gridArray[row][col].getType() == GridNode.POLICE_STATION){
-			return true;
-		}
-		else if (grid.gridArray[row][col].getType() == GridNode.TELEGRAPH){
-			return true;
-		}
-
-		return false;
-	}
-	 */
-
 	public abstract void handleState(int frame);
 
 	public abstract void doTouch(View v, MotionEvent event);
-
+	
 	public abstract PlayOrderState getNextState();
 
 	public void doDraw(Canvas c, float mZoom) {
@@ -71,15 +56,19 @@ public abstract class PlayOrderState {
 
 	protected void interpolatedMove(GameObject go, int frame) { 
 		mCurrentAnimationStep++;
-
-		if(mCurrentAnimationStep <= mAnimationStep) { 
-			tempX = go.getMovePath().get(go.getCurrentPathPosition()-1).getNodeX();
-			tempY = go.getMovePath().get(go.getCurrentPathPosition()-1).getNodeY();
-			tempXnext = go.getMovePath().get(go.getCurrentPathPosition()).getNodeX();
-			tempYnext = go.getMovePath().get(go.getCurrentPathPosition()).getNodeY();
+		
+		if(mCurrentAnimationStep <= mAnimationStep)
+		{
+			//Log.i("x:", "" + go.getParentNode().getNodeX() + "  " + go.moveToColCoordinate);
+			//go.setDrawXPos(interpolate(go.getParentNode().getCol(), go.moveToColCoordinate, mCurrentAnimationStep));
+			//go.setDrawYPos(interpolate(go.getParentNode().getRow(), go.moveToRowCoordinate, mCurrentAnimationStep));
+			tempX = go.getMovePath().get(go.getCurrentPathPosition()-1).getCol();
+			tempY = go.getMovePath().get(go.getCurrentPathPosition()-1).getRow();
+			tempXnext = go.getMovePath().get(go.getCurrentPathPosition()).getCol();
+			tempYnext = go.getMovePath().get(go.getCurrentPathPosition()).getRow();
 
 			go.setDrawXPos(interpolate(tempX, tempXnext,mCurrentAnimationStep) );
-			go.setDrawYPos(interpolate(go.getParentNode().getNodeY(), go.moveToRowCoordinate, mCurrentAnimationStep));
+			go.setDrawYPos(interpolate(go.getParentNode().getRow(), go.moveToRowCoordinate, mCurrentAnimationStep));
 			go.setDrawYPos(interpolate(tempY, tempYnext,mCurrentAnimationStep));
 		}
 		else {
@@ -92,16 +81,17 @@ public abstract class PlayOrderState {
 				go.setParentNode(path.get(path.size()-1));
 				go.getParentNode().setGameObject(go);
 				go.setCurrentPathPosition(0);
+				Log.i("PlayOrderState", "" + go.getParentNode());
 				
 				//återställer animationstep så vi har rätt defaultvärde till nästa objekt
 				mCurrentAnimationStep = (int) mAnimationStep + 1;
 			}
 			else {
 				GridNode moveToNode = path.get(go.getCurrentPathPosition() + 1); //detta kommer inte att ske om pathsize är mindre än 2.
-
-				go.moveToColCoordinate = moveToNode.getNodeX();
-				go.moveToRowCoordinate = moveToNode.getNodeY();
-
+				
+				go.moveToColCoordinate = moveToNode.getCol();
+				go.moveToRowCoordinate = moveToNode.getRow();
+				
 				go.setParentNode(path.get(go.getCurrentPathPosition()));
 			}
 			
@@ -112,7 +102,7 @@ public abstract class PlayOrderState {
 			path.get(0).setGameObject(null);
 		}
 	}
-
+	
 	private float interpolate(int gridStart, int gridEnd, int frame) {
 		return ((float)gridStart*Grid.GRID_SIZE) + ((float) gridEnd*Grid.GRID_SIZE - gridStart*Grid.GRID_SIZE) * ((float) mCurrentAnimationStep/mAnimationStep);
 	}
@@ -138,8 +128,8 @@ public abstract class PlayOrderState {
 		paint.setARGB(128, 0, 255, 0);
 		
 		for(GridNode node : endSquares) {
-			int xPos = node.getPixelX() + OffsetX;
-			int yPos = node.getPixelY() + OffsetY;
+			int xPos = node.getX() + OffsetX;
+			int yPos = node.getY() + OffsetY;
 			Rect rec = new Rect(xPos, yPos, xPos + Grid.GRID_SIZE, yPos + Grid.GRID_SIZE);
 			if(node.getGameStaticObject() == null) {
 				canvas.drawBitmap(mGreenSquareImage, null, rec, null);
@@ -152,8 +142,8 @@ public abstract class PlayOrderState {
 		paint.setARGB(110, 0, 10, 200);
 		
 		for(GridNode node : normalSquares) {
-			int xPos = node.getPixelX() + OffsetX;
-			int yPos = node.getPixelY() + OffsetY;
+			int xPos = node.getX() + OffsetX;
+			int yPos = node.getY() + OffsetY;
 			Rect rec = new Rect(xPos, yPos, xPos + Grid.GRID_SIZE, yPos + Grid.GRID_SIZE);
 			canvas.drawBitmap(mBlueSquareImage, null, rec, null);	
 		}

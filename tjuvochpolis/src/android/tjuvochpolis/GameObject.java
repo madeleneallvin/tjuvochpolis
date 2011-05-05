@@ -197,12 +197,14 @@ public abstract class GameObject {
 
 	public boolean equals(GameObject go){
 
-		if(go == null)
+		if(go == null){
 			return false;
-
-		if(this.getName() == go.getName())
+		}
+		
+		if(this.getName() == go.getName()){
 			return true;
-
+		}
+		
 		return false;
 	}
 
@@ -220,12 +222,10 @@ public abstract class GameObject {
 	
 		SharedPreferences.Editor ed = mPrefs.edit();
 	
-		ed.putInt(name + "_row", (mParentNode.getPixelX())/48);
-		ed.putInt(name + "_col", (mParentNode.getPixelY()-48)/48);
+		ed.putInt(name + "_row", (mParentNode.getRow()));
+		ed.putInt(name + "_col", (mParentNode.getCol()));
 		ed.putInt(name + "_money", objectMoney);
 		
 		ed.commit();
 	}
 }
-
-

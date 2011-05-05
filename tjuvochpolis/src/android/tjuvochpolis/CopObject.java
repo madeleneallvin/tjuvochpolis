@@ -18,10 +18,10 @@ public class CopObject extends GameObject{
 	public CopObject(String name,GridNode parentNode) {
 		super(name, parentNode);
 
-		this.setDrawXPos(this.getParentNode().getPixelX());
-		this.setDrawYPos(this.getParentNode().getPixelY());
+		this.setDrawXPos(this.getParentNode().getX());
+		this.setDrawYPos(this.getParentNode().getY());
 	}
-
+	
 	public boolean isWalkable(GridNode node){
 		int type = node.getType();
 
@@ -69,8 +69,7 @@ public class CopObject extends GameObject{
 
 		Paint paint = new Paint();
 		paint.setColor(Color.BLUE); 
-		//canvas.drawCircle(this.getDrawXPos()+Grid.GRID_SIZE/2 + offsetX, this.getDrawYPos()+Grid.GRID_SIZE/2 + offsetY, Grid.GRID_SIZE/2, paint);
-
+		
 		int left = (int) this.getDrawXPos() + offsetX + 7;
 		int right = left + 33;
 		int top = (int) this.getDrawYPos() + offsetY;

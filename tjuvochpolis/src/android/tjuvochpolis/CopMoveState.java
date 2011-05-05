@@ -17,22 +17,29 @@ public class CopMoveState extends PlayOrderState {
 
 	public void handleState(int frame)
 	{
-
 		interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
 	}
 
 	public PlayOrderState getNextState()
 	{	
 
-		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving)
-
-		{
+		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving){
 			return this;
 		}
-
-
-		else
-		{ 
+		else{ 
+			/*GridNode n2 = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
+			Log.i("CopMoveState", "" + n2.toString());
+			if(n2.getType() == GridNode.POLICE_STATION)
+			{
+				Log.i("CopMoveState", "ITS a POLICE_STATION");
+				return mPlayState.getEventState();
+			}
+			else if(n2.getType() == GridNode.TELEGRAPH)
+			{
+				Log.i("CopMoveState", "ITS a TELEGRAPH");
+				return mPlayState.getEventState();
+			}
+			*/
 			return mPlayState.getCopTurnState();
 		}
 	}
