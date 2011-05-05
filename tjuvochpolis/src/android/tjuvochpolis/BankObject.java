@@ -2,6 +2,10 @@ package android.tjuvochpolis;
 
 import java.util.Random;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class BankObject extends GameStaticObject {
@@ -41,7 +45,19 @@ public class BankObject extends GameStaticObject {
 
 	@Override
 	public void handleEvent() {
-		Log.i("BankObject", "You are on the bank");
 		
+	}
+	
+	/**
+	 * Function that handles the drawing of the splash screen
+	 */
+	@Override
+	public void drawSplashScreen(Canvas c, float mZoom) {
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		Rect rect = new Rect(50, 300, 430, 500);
+		c.drawRect(rect, paint);		
+		paint.setColor(Color.WHITE);
+		c.drawText("Bank", 75, 325, paint);
 	}
 }

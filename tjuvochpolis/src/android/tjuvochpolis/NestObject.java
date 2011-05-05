@@ -1,5 +1,9 @@
 package android.tjuvochpolis;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class NestObject extends GameStaticObject {
@@ -27,7 +31,21 @@ public class NestObject extends GameStaticObject {
 
 	@Override
 	public void handleEvent() {
-		Log.i("NestObject", "You are on the nest");
+
+	}
+
+	/**
+	 * Function that handles the drawing of the splash screen
+	 */
+	@Override
+	public void drawSplashScreen(Canvas c, float mZoom) {
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		Rect rect = new Rect(50, 300, 430, 500);
+		c.drawRect(rect, paint);		
+		paint.setColor(Color.WHITE);
+		c.drawText("Tjuvnäste", 75, 325, paint);
+		
 	}
 	
 }

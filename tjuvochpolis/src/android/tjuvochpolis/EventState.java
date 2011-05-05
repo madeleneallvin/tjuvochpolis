@@ -2,12 +2,16 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 
+import android.graphics.Canvas;
 import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class EventState extends PlayOrderState {
+	
+	boolean hasBeenTouched = false; //test
+	private GameStaticObject staticObject;
 
 	public EventState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
 		super(ps, gameObjects, gameStaticObjects, grid, index);
@@ -15,30 +19,41 @@ public class EventState extends PlayOrderState {
 
 	@Override
 	public void doTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
+		
+		Log.i("EventState", "handelState");
+		
+		staticObject.handleEvent();
+		
+		hasBeenTouched = true;
+		
+		
 	}
 
 	@Override
 	public PlayOrderState getNextState() {
-		// TODO Auto-generated method stub
+		if(hasBeenTouched) {
+			hasBeenTouched = false;
+			return mPlayState.mPreviousState;
+		}
 		return this;
 	}
 
+	/**
+	 * Draw the splash screen
+	 */
+	public void drawSplash(Canvas c, float mZoom) {
+		
+		staticObject = mGameObjects.get(mObjectIndex.valueOf(
+				getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
+		staticObject.drawSplashScreen(c, mZoom);
+	}
+	
 	@Override
 	public void handleState(int frame) {
 		
-		Log.i("EventState", "handelState");
 		
-		GridNode n = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
-		//Log.i("EventState", "" + getCurrentObjectSelected());
-		GameObject gm = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex());
-		Log.i("EventState", "" + n.toString());
-		//gm.getParentNode().getGameStaticObject().handleEvent();
-		n.getGameStaticObject().handleEvent();
 		
-		/*if(gm.getParentNode().getGameStaticObject() != null)
-			Log.i("lulu", "");*/
-		//n.getGameStaticObject().handleEvent();
+
 		
 		
 

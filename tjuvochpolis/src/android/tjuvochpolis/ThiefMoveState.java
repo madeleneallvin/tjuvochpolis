@@ -24,6 +24,16 @@ public class ThiefMoveState extends PlayOrderState {
 			return this;
 		}
 		else {
+			// Gets the current node
+			GridNode currentNode = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
+			
+			// Depending of the type the event state is activated
+			if(currentNode.getType() == GridNode.THIEF_NEST || currentNode.getType() == GridNode.BANK)
+			{
+				mPlayState.mPreviousState = mPlayState.getThiefTurnState();
+				return mPlayState.getEventState();
+			}
+			
 			return mPlayState.getThiefTurnState();
 		}
 	}
