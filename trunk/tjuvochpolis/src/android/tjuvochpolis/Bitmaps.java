@@ -47,7 +47,7 @@ public class Bitmaps {
 			thiefmovies.add(RIGHT, movieThiefRight);
 			thiefmovies.add(DOWN, movieThiefDown);
 			thiefmovies.add(LEFT, movieThiefLeft);
-			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_small));       
+			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_houses));       
 		}
 		return bitmaps;
 	}

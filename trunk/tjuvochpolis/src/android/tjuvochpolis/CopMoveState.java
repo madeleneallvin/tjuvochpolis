@@ -27,17 +27,19 @@ public class CopMoveState extends PlayOrderState {
 			return this;
 		}
 		else{ 
-			/*GridNode n2 = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
-			Log.i("CopMoveState", "" + n2.toString());
-			if(n2.getType() == GridNode.POLICE_STATION)
+			GridNode currentNode = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
+			
+			// Depending of the type the event state is activated
+			if(currentNode.getType() == GridNode.POLICE_STATION)
 			{
-				Log.i("CopMoveState", "ITS a POLICE_STATION");
+				mPlayState.mPreviousState = mPlayState.getCopTurnState();
 				return mPlayState.getEventState();
 			}
-			else if(n2.getType() == GridNode.TELEGRAPH)
+			/* SPARA UTIFALL VI SKULLE VILJA HA SENARE
+			else if(currentNode.getType() == GridNode.TELEGRAPH)
 			{
-				Log.i("CopMoveState", "ITS a TELEGRAPH");
-				return mPlayState.getEventState();
+				mPlayState.mPreviousState = mPlayState.getCopTurnState();
+				//return mPlayState.getEventState();
 			}
 			*/
 			return mPlayState.getCopTurnState();

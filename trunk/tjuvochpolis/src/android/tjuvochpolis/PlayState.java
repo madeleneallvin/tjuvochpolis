@@ -41,9 +41,19 @@ public class PlayState implements GameState {
     
     public enum mObjectStaticIndex {
         BANK1 (0),
-        NEST1 (1),
-        POLICESTATION1(2),
-        POLICESTATION2(3);
+        BANK2 (1),
+        BANK3 (2),
+        BANK4 (3),
+        BANK5 (4),
+        BANK6 (5),
+        BANK7 (6),
+        BANK8 (7),
+        NEST1 (8),
+        NEST2 (9),
+        NEST3 (10),
+        NEST4 (11),
+        POLICESTATION1(12),
+        POLICESTATION2(13);
     
         private final int index;
         mObjectStaticIndex(int index) {
@@ -55,6 +65,7 @@ public class PlayState implements GameState {
     }
     
     protected PlayOrderState mCurrentState;
+    protected PlayOrderState mPreviousState;
     
     private PlayOrderState copRollDiceState;
     protected PlayOrderState copTurnState;
@@ -91,8 +102,7 @@ public class PlayState implements GameState {
 	private boolean moveAction = false;
 	private float distance = 0.0f;
 	
-	public PlayState(Context context)
-	{
+	public PlayState(Context context) {
 		mGrid = new Grid(context);
 
 		setContext(context);
@@ -116,10 +126,25 @@ public class PlayState implements GameState {
 		//GameStaticObjects
 		mObjectStaticArray = new ArrayList<GameStaticObject>();
 
+		//Banks
 		mObjectStaticArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
-		mObjectStaticArray.add(new NestObject("NEST1",mGrid.mGridArray[2][1]));
-		mObjectStaticArray.add(new PoliceStationObject("POLICESTATION1",mGrid.mGridArray[10][9]));
-		mObjectStaticArray.add(new PoliceStationObject("POLICESTATION2",mGrid.mGridArray[10][10]));
+		mObjectStaticArray.add(new BankObject("BANK2",mGrid.mGridArray[5][16]));
+		mObjectStaticArray.add(new BankObject("BANK3",mGrid.mGridArray[6][10]));
+		mObjectStaticArray.add(new BankObject("BANK4",mGrid.mGridArray[12][5]));
+		mObjectStaticArray.add(new BankObject("BANK5",mGrid.mGridArray[12][15]));
+		mObjectStaticArray.add(new BankObject("BANK6",mGrid.mGridArray[16][2]));
+		mObjectStaticArray.add(new BankObject("BANK7",mGrid.mGridArray[16][10]));
+		mObjectStaticArray.add(new BankObject("BANK8",mGrid.mGridArray[16][18]));
+		
+		//Nests
+		mObjectStaticArray.add(new NestObject("NEST1",mGrid.mGridArray[1][2]));
+		mObjectStaticArray.add(new NestObject("NEST2",mGrid.mGridArray[1][16]));
+		mObjectStaticArray.add(new NestObject("NEST3",mGrid.mGridArray[12][1]));
+		mObjectStaticArray.add(new NestObject("NEST4",mGrid.mGridArray[12][19]));
+		
+		//Police stations
+		mObjectStaticArray.add(new PoliceStationObject("POLICESTATION1",mGrid.mGridArray[8][10]));
+		mObjectStaticArray.add(new PoliceStationObject("POLICESTATION2",mGrid.mGridArray[9][10]));
 		
 		
 		// Create the states
@@ -164,10 +189,9 @@ public class PlayState implements GameState {
 		}
 		//this.mCurrentState = getCopRollDiceState();
 
-		
 		mBackgroundImage = Bitmaps.instance(context).getBackgroundImage();
-
-		mFrame = 0;
+		
+        mFrame = 0;
 	}
 	
 	public void handleState(Canvas canvas) {
@@ -199,6 +223,10 @@ public class PlayState implements GameState {
 
 		mCurrentState.doDraw(c, mZoom);		
 		
+		// Draw the splash screen if the current state is EventState
+		if(this.mCurrentState.getClass() == EventState.class){
+			((EventState)mCurrentState).drawSplash(c, mZoom);
+		}
 		//this.drawHud(c,mZoom);
 	}
 	

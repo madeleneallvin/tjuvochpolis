@@ -81,7 +81,7 @@ public abstract class PlayOrderState {
 				go.setParentNode(path.get(path.size()-1));
 				go.getParentNode().setGameObject(go);
 				go.setCurrentPathPosition(0);
-				Log.i("PlayOrderState", "" + go.getParentNode());
+				//Log.i("PlayOrderState", "" + go.getParentNode());
 				
 				//återställer animationstep så vi har rätt defaultvärde till nästa objekt
 				mCurrentAnimationStep = (int) mAnimationStep + 1;
