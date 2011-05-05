@@ -35,60 +35,46 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void doDraw(Canvas c, float mZoom){
-
+	
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-
-			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY()-48);
+			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 
 		this.drawHud(c, mZoom);
 	}
-
+	
 	public void drawHud(Canvas c, float mZoom){
-
+		
 		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
 		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
 		int thickness = (int) Math.floor(48/mZoom);
 		
 		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
 		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
-		
+
 		c.drawBitmap(mHudBottomImage, null, mRectRight, null);
-	 
 		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
-
-	//	mRectCop1.set(0, canvasHeight - thickness, thickness, canvasHeight);
-	//	c.drawBitmap(mCopImage, null, mRectCop1, null);
-	//	mRectCop2.set(thickness*2, canvasHeight - thickness, thickness*3, canvasHeight);
-	//	c.drawBitmap(mCopImage, null, mRectCop2, null);
-	//	mRectCop3.set(thickness*4, canvasHeight - thickness, thickness*5, canvasHeight);
-	//	c.drawBitmap(mCopImage, null, mRectCop3, null);
-
 	}
-
-	public void doTouch(View v, MotionEvent event){
-		
-		if(event.getY() > 48 && event.getY() < v.getHeight() - 48){
+	
+	public void doTouch(View v, MotionEvent event) 
+	{
+		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
+		{
+			int row = GridNode.getRow(event, mPlayState.getOffsetY());
+			int col = GridNode.getCol(event, mPlayState.getOffsetX());
 			
-			//om x och y är giltiga destinationer
-			int row = ((int) event.getY() - mPlayState.getOffsetY())/Grid.GRID_SIZE;
-			int col = ((int) event.getX() - mPlayState.getOffsetX())/Grid.GRID_SIZE;
-
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
-
+			
 			//kollar om alla poliser har gått
 			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
 				everythingHasMoved = true;
 			}
-
+			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0){
-				
 				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
-					
 					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
-						
 						hasMoved = true;
 						lastSelected.setMovePath(paths);
 						lastSelected.isMoving = true;
@@ -118,7 +104,7 @@ public class CopTurnState extends PlayOrderState {
 		}
 
 	}
-
+	
 	public PlayOrderState getNextState() {
 
 		if(hasMoved && everythingHasMoved == false){

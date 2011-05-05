@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class ThiefObject extends GameObject{
 
@@ -18,9 +19,9 @@ public class ThiefObject extends GameObject{
 	
 	public ThiefObject(String name, GridNode parentNode) {
 		super(name, parentNode);
-		this.isMoving = false;
-		this.setDrawXPos(this.getParentNode().getPixelX());
-		this.setDrawYPos(this.getParentNode().getPixelY());
+		// TODO Auto-generated constructor stub
+		this.setDrawXPos(this.getParentNode().getX());
+		this.setDrawYPos(this.getParentNode().getY());
 	}
 
 	@Override
@@ -51,7 +52,6 @@ public class ThiefObject extends GameObject{
 			//this.invalidate();
 		}
 		else{
-			Resources res = context.getResources();
 			thiefIm = Bitmaps.instance(context).getThiefImage();
 			rectThief = new Rect(xPos, yPos, right, bottom);
 			canvas.drawBitmap(thiefIm, null, rectThief, null);
@@ -71,7 +71,6 @@ public class ThiefObject extends GameObject{
 	
 	public boolean canStopHere(GridNode node) {
 		// Det står en tjuv på noden
-		//Log.i("canStopHere","fail or not?");
 		/*if(node.getGameObject() != null){
 			if(node.getGameObject().getClass().equals(ThiefObject.class))
 			{

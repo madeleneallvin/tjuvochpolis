@@ -1,20 +1,20 @@
 package android.tjuvochpolis;
 
+import android.view.MotionEvent;
+
 public class GridNode {
 
-	private int mX;
-	private int mY;
-	private int mNodeX;
-	private int mNodeY;
+	private int mRow;
+	private int mCol;
+	
 	private GridNode mUpNode;
 	private GridNode mDownNode;
 	private GridNode mLeftNode;
 	private GridNode mRightNode;
-	private int mType; 
+	private int mType;
 	private GameObject mGameObject;
 	private GameStaticObject mGameStaticObject;
-	private boolean mNodeState;
-	
+
 	public static int STREET = 0;
 	public static int HOUSE = 1;
 	public static int POLICE_STATION = 2;
@@ -22,9 +22,13 @@ public class GridNode {
 	public static int BANK = 4;
 	public static int TELEGRAPH = 5;
 	
-	public String toString()
-	{
-		return "c" + this.getNodeX() + " r" + this.getNodeY();
+	public GridNode(int row, int col) {
+		mRow = row;
+		mCol = col;
+	}
+	
+	public String toString() {
+		return "Row:" + this.getRow() + " Col:" + this.getCol();
 	}
 	
 	public void setUpNode(GridNode upNode) {
@@ -83,51 +87,30 @@ public class GridNode {
 		return mGameStaticObject;
 	}
 	
-	public void setNodeState(boolean nodeState) {
-		this.mNodeState = nodeState;
+	// return the nodes pixel position
+	public int getX() {
+		return mCol * Grid.GRID_SIZE;
+	}
+	// return the nodes pixel position
+	public int getY() {
+		return mRow * Grid.GRID_SIZE;
 	}
 	
-	public boolean isNodeState() {
-		return mNodeState;
+	public int getRow() {
+		return mRow;
+	}
+	public int getCol() {
+		return mCol;
 	}
 	
-	public void setPixelX(int x) {
-		this.mX = x;
+	public static int getRow(MotionEvent event, int offset)
+	{
+		return ((int) event.getY() - offset) / Grid.GRID_SIZE;
 	}
 	
-	public int getPixelX() {
-		return mX;
+	public static int getCol(MotionEvent event, int offset)
+	{
+		return ((int) event.getX() - offset) / Grid.GRID_SIZE;
 	}
 	
-	public void setPixelY(int y) {
-		this.mY = (48+y);
-	}
-	
-	public int getPixelY() {
-		return mY;
-	}
-	
-	public void setNodeByX(int x) {
-		this.mNodeX = x/Grid.GRID_SIZE;
-	}
-	
-	public int getNodeByX(int x) {
-		return x/Grid.GRID_SIZE;
-	}
-	
-	public void setNodeByY(int y) {
-		this.mNodeY = y/Grid.GRID_SIZE;
-	}
-	
-	public int getNodeByY(int y) {
-		return y/Grid.GRID_SIZE;
-	}
-	
-	public int getNodeX() {
-		return getNodeByX(this.mX);
-	}
-	
-	public int getNodeY() {
-		return getNodeByY(this.mY);
-	}
 }

@@ -22,7 +22,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 
 	@Override
 	public void handleState(int frame) {
-
+		//Roll the dice
 		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
 		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
 

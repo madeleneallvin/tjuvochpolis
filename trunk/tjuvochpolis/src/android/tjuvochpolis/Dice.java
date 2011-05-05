@@ -18,8 +18,7 @@ public class Dice {
 		return diceObject;
 	}
 
-	public int rollDice()
-	{	
+	public int rollDice(){
 		int roll = mGenerator.nextInt(6) + 1;
 		return roll;
 	}
