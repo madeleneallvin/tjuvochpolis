@@ -28,21 +28,21 @@ public abstract class PlayOrderState {
 
 	private String currentObjectSelected;
 	
-	private int tempX, tempY, tempXnext, tempYnext;
+	private int tempX, tempY, tempXnext, tempYnext, index;
 
-	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
+	public PlayOrderState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
 
 		this.mPlayState = ps;
 		this.mGameObjects = gameObjects;
 		this.mGameStaticObjects = gameStaticObjects;
 		this.mGrid = grid;
+		this.index = index;
 
 		Resources res = (ps.getContext()).getResources();
 		mBlueSquareImage = BitmapFactory.decodeResource(res, R.drawable.blue_square); 
 		mGreenSquareImage = BitmapFactory.decodeResource(res, R.drawable.green_square);
 		mRedSquareImage = BitmapFactory.decodeResource(res, R.drawable.red_square);
 	}
-
 	public abstract void handleState(int frame);
 
 	public abstract void doTouch(View v, MotionEvent event);
@@ -151,9 +151,15 @@ public abstract class PlayOrderState {
 
 	public void setCurrentObjectSelected(String currentObjectSelected) {
 		this.currentObjectSelected = currentObjectSelected;
+		
 	}
 
 	public String getCurrentObjectSelected() {
 		return currentObjectSelected;
+	}
+	
+	public int getIndex()
+	{
+		return index;
 	}
 }

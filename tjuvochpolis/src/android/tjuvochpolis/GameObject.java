@@ -13,7 +13,7 @@ public abstract class GameObject {
 	private int mCurrentDiceValue;
 	private int objectMoney;
 	private int objectIndex;
-	private String name;
+	protected String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
 	private int mCurrentPathPosition = 0;
 	private ArrayList<ArrayList<GridNode>> mPossiblePaths = new ArrayList<ArrayList<GridNode>>();
@@ -24,11 +24,14 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
-
-	public GameObject(String name,GridNode parentNode) {
+	
+	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int objectMoney) {
 		this.setParentNode(parentNode);
 		this.name = name;
-
+		
+		this.mCurrentDiceValue = mCurrentdiceValue;
+		this.objectMoney = objectMoney;
+		
 		this.getParentNode().setGameObject(this);
 	}
 
@@ -168,17 +171,17 @@ public abstract class GameObject {
 	public ArrayList<ArrayList<GridNode>> getPossiblePaths() {
 		return mPossiblePaths;
 	}
-
+	
 	public void setMovePath(ArrayList<GridNode> path)
 	{
 		this.mMovePath = (ArrayList<GridNode>) path.clone();
 	}
-
+	
 	public ArrayList<GridNode> getMovePath()
 	{
 		return mMovePath;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -194,16 +197,14 @@ public abstract class GameObject {
 	public int getObjectMoney() {
 		return objectMoney;
 	}
-
-	public boolean equals(GameObject go){
-
-		if(go == null){
-			return false;
-		}
 		
-		if(this.getName() == go.getName()){
+	public boolean equals(GameObject go)
+	{
+		if(go == null)
+			return false;
+		
+		if(this.getName() == go.getName())
 			return true;
-		}
 		
 		return false;
 	}
@@ -222,10 +223,13 @@ public abstract class GameObject {
 	
 		SharedPreferences.Editor ed = mPrefs.edit();
 	
-		ed.putInt(name + "_row", (mParentNode.getRow()));
-		ed.putInt(name + "_col", (mParentNode.getCol()));
+		ed.putInt(name + "_row", (mParentNode.getCol()));
+		ed.putInt(name + "_col", (mParentNode.getRow()));
 		ed.putInt(name + "_money", objectMoney);
+		ed.putInt(name + "_diceValue", mCurrentDiceValue);
 		
 		ed.commit();
 	}
 }
+	
+

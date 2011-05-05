@@ -3,6 +3,8 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
@@ -15,18 +17,25 @@ public class ThiefTurnState extends PlayOrderState {
 	boolean hasMoved = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
-	
+
 	private Rect mRectLeft;
 	private Rect mRectRight;
 	
 	private Bitmap mHudBottomImage;
 	private Bitmap mHudTopImage;
-	
-	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid) {
-		super(ps, gameObjects, gameStaticObjects, grid);
+
+	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
+		super(ps, gameObjects, gameStaticObjects, grid, index);
+		
+		SharedPreferences mPrefs = (ps.getContext()).getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		everythingHasMoved = mPrefs.getBoolean("thiefEverythingHasMoved", false);
+		hasMoved = mPrefs.getBoolean("thiefHasMoved", false);
+		
+		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue());
+		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue());
 		
 		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageThieves();
-		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();
+		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();		
 	}
 	
 	@Override
@@ -34,13 +43,16 @@ public class ThiefTurnState extends PlayOrderState {
 	}
 
 	public void doDraw(Canvas c, float mZoom) {
+		
+		this.drawHud(c, mZoom);
+		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
-		this.drawHud(c, mZoom);
+		
 	}
-	
+
 	public void drawHud(Canvas c, float mZoom){
 
 		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
@@ -54,7 +66,7 @@ public class ThiefTurnState extends PlayOrderState {
 	 
 		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
-	
+
 	public void doTouch(View v, MotionEvent event) {
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
