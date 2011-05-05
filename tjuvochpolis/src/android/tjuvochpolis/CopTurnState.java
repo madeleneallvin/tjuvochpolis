@@ -63,7 +63,7 @@ public class CopTurnState extends PlayOrderState {
 		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
 		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
 
-		c.drawBitmap(mHudBottomImage, null, mRectRight, null);
+		c.drawBitmap(HudFactory.getBottomHud(mPlayState, c), null, mRectRight, null);
 		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
 
