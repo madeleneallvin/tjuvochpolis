@@ -42,7 +42,7 @@ public class NestObject extends GameStaticObject {
 	public boolean handleEvent(MotionEvent e, Context context) {
 		boolean tempBool = false;
 		
-		if(takeMoneyButton.hasBeenClicked(e))
+	/*	if(takeMoneyButton.hasBeenClicked(e))
 		{ //ger nästets pengar till tjuven
 			int thiefMoney = this.getParentNode().getGameObject().getObjectMoney();
 			//sätter pengar på tjuvens ficka
@@ -53,6 +53,7 @@ public class NestObject extends GameStaticObject {
 			
 			
 		}
+		*/
 		if(leaveMoneyButton.hasBeenClicked(e))
 		{	tempBool = true;
 			//lämnar tjuvens pengar i nästet
