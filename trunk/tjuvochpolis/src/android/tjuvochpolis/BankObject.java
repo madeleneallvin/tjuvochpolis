@@ -7,9 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 public class BankObject extends GameStaticObject {
 
+	private SplashButton rob;
+	
 	public BankObject(String name, GridNode parentNode) {
 		super(name, parentNode);
 		this.setObjectMoney(getBankMoney());
@@ -43,9 +47,17 @@ public class BankObject extends GameStaticObject {
 		
 	}
 
+
 	@Override
-	public void handleEvent() {
+	public void handleEvent(MotionEvent e) {
 		
+		//snor pengar från banken
+		if(rob.hasBeenClicked(e))
+		{ int thiefMoney = this.getParentNode().getGameObject().getObjectMoney();
+			this.getParentNode().getGameObject().setObjectMoney(thiefMoney+this.getObjectMoney());
+			this.setObjectMoney(getBankMoney());
+			
+		}
 	}
 	
 	/**
@@ -59,5 +71,10 @@ public class BankObject extends GameStaticObject {
 		c.drawRect(rect, paint);		
 		paint.setColor(Color.WHITE);
 		c.drawText("Bank", 75, 325, paint);
+		paint.setColor(Color.YELLOW);
+		Rect button = new Rect(100, 350, 150, 400);
+		c.drawRect(button, paint);		
+		
+		rob = new SplashButton(100,350, 50,50);
 	}
 }

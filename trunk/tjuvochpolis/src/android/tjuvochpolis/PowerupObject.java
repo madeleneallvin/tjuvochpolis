@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class PowerupObject extends GameStaticObject{
 
@@ -9,8 +10,8 @@ public class PowerupObject extends GameStaticObject{
 		super(name, parentNode);
 	}
 
-	@Override
-	public void handleEvent() {
+
+	public void handleEvent(MotionEvent e) {
 		Log.i("PowerupObject", "You are on a power up");
 		
 	}

@@ -22,7 +22,7 @@ public class EventState extends PlayOrderState {
 		
 		Log.i("EventState", "handelState");
 		
-		staticObject.handleEvent();
+		staticObject.handleEvent(event);
 		
 		hasBeenTouched = true;
 		

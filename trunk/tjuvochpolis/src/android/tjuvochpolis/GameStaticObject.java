@@ -1,6 +1,7 @@
 package android.tjuvochpolis;
 
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 public abstract class GameStaticObject {
 
@@ -15,7 +16,7 @@ public abstract class GameStaticObject {
 		this.getParentNode().setGameStaticObject(this);
 	}
 	
-	public abstract void handleEvent();
+	public abstract void handleEvent(MotionEvent e);
 	
 	public abstract void drawSplashScreen(Canvas c, float mZoom);
 	
