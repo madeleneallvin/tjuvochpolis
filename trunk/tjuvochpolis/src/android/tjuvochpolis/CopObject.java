@@ -101,6 +101,9 @@ public class CopObject extends GameObject{
 
 	public boolean canStopHere(GridNode node)
 	{
+		if(node.getType() == GridNode.POLICE_STATION){
+			return true;
+		}
 		// Det står en tjuv på noden
 		if(node.getGameObject() != null){
 			if(node.getGameObject().getClass().equals(ThiefObject.class))

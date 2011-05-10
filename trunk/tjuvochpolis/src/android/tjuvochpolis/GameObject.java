@@ -64,7 +64,8 @@ public abstract class GameObject {
 		{
 			// Save the node
 			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
-			return;
+			//path.remove(path.size()-1);
+			//return;
 		}
 
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
