@@ -11,7 +11,7 @@ public abstract class GameObject {
 
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
-	private int objectMoney;
+	protected int objectMoney;
 	private int objectIndex;
 	protected String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
@@ -24,6 +24,7 @@ public abstract class GameObject {
 	protected int moveToRowCoordinate;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
+	private int waitingLeft = 0;
 	
 	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int objectMoney) {
 		this.setParentNode(parentNode);
@@ -135,6 +136,9 @@ public abstract class GameObject {
 		//this.moveToRowCoordinate = rowCoordinate;
 		//this.moveToColCoordinate = colCoordinate;
 		
+		this.mDrawXPos = mGrid.GRID_SIZE*colCoordinate;
+		this.mDrawYPos = mGrid.GRID_SIZE*rowCoordinate;
+		
 		this.getParentNode().setGameObject(null);
 		mGrid.getGridNode(rowCoordinate, colCoordinate).setGameObject(this);
 		this.setParentNode(mGrid.getGridNode(rowCoordinate, colCoordinate));
@@ -238,6 +242,14 @@ public abstract class GameObject {
 		ed.putInt(name + "_diceValue", mCurrentDiceValue);
 		
 		ed.commit();
+	}
+
+	public void setWaitingLeft(int waitingLeft) {
+		this.waitingLeft = waitingLeft;
+	}
+
+	public int getWaitingLeft() {
+		return waitingLeft;
 	}
 }
 	

@@ -3,6 +3,7 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,13 +23,30 @@ public class ThiefRollDiceState extends PlayOrderState {
 
 	@Override
 	public void handleState(int frame) {
-		//Roll the dice
-		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
-		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
-
+		ThiefObject thief1 = (ThiefObject) this.mGameObjects.get(mObjectIndex.THIEF1.getIndex());
+		ThiefObject thief2 = (ThiefObject) this.mGameObjects.get(mObjectIndex.THIEF2.getIndex());
+		
+		
+		//Slå tärning för tjyvarna.
+		if(thief1.getWaitingLeft() != 0){
+			thief1.setCurrentDiceValue(0);
+			thief1.setWaitingLeft(thief1.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+thief1.getWaitingLeft());
+		}else{
+			thief1.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
+		if(thief2.getWaitingLeft() != 0){
+			thief2.setCurrentDiceValue(0);
+			thief2.setWaitingLeft(thief2.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+thief2.getWaitingLeft());
+		}else{
+			thief2.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
 		//Calculate the nodeWalker
-		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue());
-		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue());
+		thief1.doNodeWalker(thief1.getParentNode(), thief1.getParentNode(), thief1.getCurrentDiceValue());
+		thief2.doNodeWalker(thief2.getParentNode(), thief2.getParentNode(), thief2.getCurrentDiceValue());
 
 		//Change state
 		this.mNextState = mPlayState.thiefTurnState;

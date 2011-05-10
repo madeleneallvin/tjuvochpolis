@@ -66,7 +66,7 @@ public class Bitmaps {
 			copmovies.add(DOWN, movieCopDown);
 			copmovies.add(LEFT, movieCopLeft);
 			
-			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_houses));       
+			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));       
 		}
 		return bitmaps;
 	}

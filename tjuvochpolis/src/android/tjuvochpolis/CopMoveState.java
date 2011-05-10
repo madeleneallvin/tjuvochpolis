@@ -32,23 +32,48 @@ public class CopMoveState extends PlayOrderState {
 		else{
 			if(((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught() != null){
 				
-				//FIXA TILL SÅ ATT DE RITAS UT IGEN PÅ SINA NYA PLATSER!!!
+				CopObject currentCop = ((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()));
+				ThiefObject currentThief = currentCop.getThiefCaught();
 				
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).transportToJail(8, 8, mGrid);
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().transportToJail(8,11, mGrid);
+				int policeCol, policeRow, thiefCol, thiefRow;
+				//hårdkodade positioner för tjuvarnas och polisernas platser i fängelset och polisstationen :P
+				if(currentCop.name.equalsIgnoreCase("cop1")){
+					policeCol = 11;
+					policeRow = 9;
+				}else{
+					policeCol = 11;
+					policeRow = 8;
+				}
+				if(currentThief.name.equalsIgnoreCase("thief1")){
+					thiefCol = 9;
+					thiefRow = 8;
+				}else{
+					thiefCol = 9;
+					thiefRow = 9;
+				}
 				
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setDrawXPos(mGrid.GRID_SIZE*8);
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setDrawYPos(mGrid.GRID_SIZE*8);
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setDrawXPos(mGrid.GRID_SIZE*11);
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setDrawYPos(mGrid.GRID_SIZE*8);
+				currentCop.transportToJail(policeRow, policeCol, mGrid);
+				currentThief.transportToJail(thiefRow,thiefCol, mGrid);
 				
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setCaught(false);
-				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setThiefCaught(null);
+				currentCop.setObjectMoney(currentThief.getObjectMoney()/2);
+				currentThief.setObjectMoney(0);
 				
+				int wait = Dice.getDice().rollDice();
+				currentCop.setWaitingLeft(wait-1); // -1 är för att polisen ska få komma ut en omgång före tjuven
+				currentThief.setWaitingLeft(wait);
+				Log.i("wait...", ""+wait);
 				
+				//currentCop.setDrawXPos(mGrid.GRID_SIZE*policeCol); currentCop.setDrawYPos(mGrid.GRID_SIZE*policeRow);
+				//currentThief.setDrawXPos(mGrid.GRID_SIZE*8); currentThief.setDrawYPos(mGrid.GRID_SIZE*8);
 				
-				//mPlayState.mPreviousState = mPlayState.getCopTurnState();
-				//return mPlayState.getEventState();
+				Log.i("cop name", currentCop.name);
+				Log.i("thief name", currentThief.name);
+				
+				//reset, låt detta stå efter alla ställen vi försöker accessa aktuell tjuv och polis
+				currentThief.setCaught(false);
+				currentCop.setThiefCaught(null);
+				mPlayState.mPreviousState = mPlayState.getCopTurnState();
+				return mPlayState.getEventState();
 			}
 			GridNode currentNode = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
 			
@@ -57,6 +82,7 @@ public class CopMoveState extends PlayOrderState {
 			{
 				mPlayState.mPreviousState = mPlayState.getCopTurnState();
 				return mPlayState.getEventState();
+				
 			}
 			/* SPARA UTIFALL VI SKULLE VILJA HA SENARE
 			else if(currentNode.getType() == GridNode.TELEGRAPH)
