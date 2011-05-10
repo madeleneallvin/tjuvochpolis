@@ -13,7 +13,6 @@ public abstract class GameObject {
 	private int mCurrentDiceValue;
 	private int objectMoney;
 	private int objectIndex;
-	private int pocketMoney;
 	protected String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
 	private int mCurrentPathPosition = 0;
@@ -39,6 +38,7 @@ public abstract class GameObject {
 	public abstract boolean isWalkable(GridNode node);
 	public abstract void doDraw(Canvas canvas, int offsetX, int offsetY, Context context); 
 	public abstract boolean hasMoney();
+	
 
 	public boolean canStopHere(GridNode node){
 		return false;
@@ -131,7 +131,14 @@ public abstract class GameObject {
 
 		isMoving = true;
 	}
-
+	public void transportToJail(int rowCoordinate, int colCoordinate, Grid mGrid){
+		//this.moveToRowCoordinate = rowCoordinate;
+		//this.moveToColCoordinate = colCoordinate;
+		
+		this.getParentNode().setGameObject(null);
+		mGrid.getGridNode(rowCoordinate, colCoordinate).setGameObject(this);
+		this.setParentNode(mGrid.getGridNode(rowCoordinate, colCoordinate));
+	}
 	public int getCurrentDiceValue()
 	{
 		return mCurrentDiceValue;
@@ -225,28 +232,13 @@ public abstract class GameObject {
 	
 		SharedPreferences.Editor ed = mPrefs.edit();
 	
-		ed.putInt(name + "_row", (mParentNode.getCol()));
-		ed.putInt(name + "_col", (mParentNode.getRow()));
+		ed.putInt(name + "_row", (mParentNode.getRow()));
+		ed.putInt(name + "_col", (mParentNode.getCol()));
 		ed.putInt(name + "_money", objectMoney);
 		ed.putInt(name + "_diceValue", mCurrentDiceValue);
 		
 		ed.commit();
 	}
-	
-	public int getPocketMoney(){
-		return 0;
-	
-	}
-	
-	public int setPocketMoney(){
-		return pocketMoney;
-	}
-
-	public void setPocketMoney(int money) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
 	
 

@@ -68,7 +68,7 @@ public abstract class PlayOrderState {
 			tempYnext = go.getMovePath().get(go.getCurrentPathPosition()).getRow();
 
 			go.setDrawXPos(interpolate(tempX, tempXnext,mCurrentAnimationStep) );
-			go.setDrawYPos(interpolate(go.getParentNode().getRow(), go.moveToRowCoordinate, mCurrentAnimationStep));
+			//go.setDrawYPos(interpolate(go.getParentNode().getRow(), go.moveToRowCoordinate, mCurrentAnimationStep));
 			go.setDrawYPos(interpolate(tempY, tempYnext,mCurrentAnimationStep));
 		}
 		else {
