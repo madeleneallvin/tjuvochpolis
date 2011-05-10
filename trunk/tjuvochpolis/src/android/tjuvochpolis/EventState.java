@@ -2,7 +2,10 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,9 +13,14 @@ import android.view.View;
 
 public class EventState extends PlayOrderState {
 	
+	
+	private Rect mRectLeft;
+	private Rect mRectRight;
+	private Bitmap mHudBottomImage;
+	private Bitmap mHudTopImage;
 	boolean hasBeenTouched = false; //test
 	private GameStaticObject staticObject;
-
+	Context context;
 	public EventState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 	}
@@ -22,11 +30,27 @@ public class EventState extends PlayOrderState {
 		
 		Log.i("EventState", "handleState");
 		
-		this.staticObject.handleEvent(event);
+		hasBeenTouched = staticObject.handleEvent(event, context);
 		
-		hasBeenTouched = true;
+	
 		
 		
+	}
+	
+
+	
+	
+public void drawHud(Canvas c, float mZoom){
+		
+		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
+		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
+		int thickness = (int) Math.floor(48/mZoom);
+		
+		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
+		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
+
+		c.drawBitmap(HudFactory.getBottomHud(mPlayState, c), null, mRectRight, null);
+		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
 
 	@Override
@@ -42,9 +66,13 @@ public class EventState extends PlayOrderState {
 	 * Draw the splash screen
 	 */
 	public void drawSplash(Canvas c, float mZoom) {
+	//	this.drawHud(c, mZoom);
 		
-		staticObject = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
-		staticObject.drawSplashScreen(c, mZoom);
+		staticObject = mGameObjects.get(mObjectIndex.valueOf(
+				getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
+		staticObject.drawSplashScreen(c, mZoom, context);
+		
+	
 	}
 	
 	@Override

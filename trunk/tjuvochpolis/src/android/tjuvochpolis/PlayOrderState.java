@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,12 +46,14 @@ public abstract class PlayOrderState {
 	}
 	public abstract void handleState(int frame);
 
-	public abstract void doTouch(View v, MotionEvent event);
-	
 	public abstract PlayOrderState getNextState();
 
 	public void doDraw(Canvas c, float mZoom) {
 		return;
+	}
+	
+	public void doTouch(View v, MotionEvent event) { 
+	
 	}
 
 

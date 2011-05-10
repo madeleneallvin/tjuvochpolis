@@ -23,7 +23,7 @@ public class CopTurnState extends PlayOrderState {
 	private Rect mRectRight;
 	private Bitmap mHudBottomImage;
 	private Bitmap mHudTopImage;
-
+	private SplashButton turn;
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index){	
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 		
@@ -39,11 +39,16 @@ public class CopTurnState extends PlayOrderState {
 	}
 	@Override
 	public void handleState(int frame){
-
+			
+		
+		
 	}
 
 	public void doDraw(Canvas c, float mZoom){
 	
+
+		
+		
 		this.drawHud(c, mZoom);
 		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
@@ -51,6 +56,23 @@ public class CopTurnState extends PlayOrderState {
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 
+		
+	}
+	
+	
+
+	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
+
+		
+		Bitmaps.instance(context);
+		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		int left = c.getWidth()/6;
+		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
+		c.drawBitmap(bankSplash, null, copTurnRect, null);
+		
+		turn = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
+	
 		
 	}
 	

@@ -1,6 +1,8 @@
 package android.tjuvochpolis;
 
 import java.util.ArrayList;
+
+import android.content.Context;
 import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -67,8 +69,8 @@ public class CopMoveState extends PlayOrderState {
 		}
 	}
 
-	@Override
-	public void doTouch(View v, MotionEvent event) {
+	//@Override
+	public void doTouch(View v, MotionEvent event, Context context) {
 
 	}
 

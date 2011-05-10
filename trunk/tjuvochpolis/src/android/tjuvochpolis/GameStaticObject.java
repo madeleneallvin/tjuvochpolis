@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
@@ -16,10 +17,10 @@ public abstract class GameStaticObject {
 		this.getParentNode().setGameStaticObject(this);
 	}
 	
-	public abstract void handleEvent(MotionEvent e);
+	public abstract boolean handleEvent(MotionEvent e, Context context);
 	
-	public abstract void drawSplashScreen(Canvas c, float mZoom);
-	
+	public abstract void drawSplashScreen(Canvas c, float mZoom, Context context);
+
 	public void setParentNode(GridNode parentNode) {
 		this.mParentNode = parentNode;
 	}
