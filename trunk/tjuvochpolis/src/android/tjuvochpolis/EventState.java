@@ -68,8 +68,8 @@ public void drawHud(Canvas c, float mZoom){
 	public void drawSplash(Canvas c, float mZoom) {
 	//	this.drawHud(c, mZoom);
 		
-		staticObject = mGameObjects.get(mObjectIndex.valueOf(
-				getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
+		staticObject = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
+
 		staticObject.drawSplashScreen(c, mZoom, context);
 		
 	
@@ -78,12 +78,6 @@ public void drawHud(Canvas c, float mZoom){
 	@Override
 	public void handleState(int frame) {
 		
-		
-		
-
-		
-		
-
 	}
 
 }

@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,13 +20,30 @@ public class CopRollDiceState extends PlayOrderState {
 
 	@Override
 	public void handleState(int frame) {
-
-		//Roll dice for all cops
-		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
-		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).setCurrentDiceValue(Dice.getDice().rollDice());
+		CopObject cop1 = (CopObject) this.mGameObjects.get(mObjectIndex.COP1.getIndex());
+		CopObject cop2 = (CopObject) this.mGameObjects.get(mObjectIndex.COP2.getIndex());
+		
+		
+		//Slå tärning för poliserna.
+		if(cop1.getWaitingLeft() != 0){
+			cop1.setCurrentDiceValue(0);
+			cop1.setWaitingLeft(cop1.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+cop1.getWaitingLeft());
+		}else{
+			cop1.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
+		if(cop2.getWaitingLeft() != 0){
+			cop2.setCurrentDiceValue(0);
+			cop2.setWaitingLeft(cop2.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+cop2.getWaitingLeft());
+		}else{
+			cop2.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
 		//Calculate the nodeWalker
-		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue());
-		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
+		cop1.doNodeWalker(cop1.getParentNode(), cop1.getParentNode(), cop1.getCurrentDiceValue());
+		cop2.doNodeWalker(cop2.getParentNode(), cop2.getParentNode(), cop2.getCurrentDiceValue());
 		//Change state
 		this.mNextState = mPlayState.copTurnState;
 	}

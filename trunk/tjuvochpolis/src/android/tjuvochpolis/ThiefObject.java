@@ -12,18 +12,17 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class ThiefObject extends GameObject{
-
-	private int pocketMoney;
+	
 	private Rect rectThief;
 	private Bitmap thiefIm;
 	private long moviestart;
 	private int direction;
 	private boolean isCaught = false;
 	
-	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney, int pocketMoney) {
+	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney) {
 		super(name, parentNode, diceValue, objectMoney);
 		
-		this.pocketMoney = pocketMoney;
+		this.objectMoney = objectMoney;
 		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
@@ -106,14 +105,14 @@ public class ThiefObject extends GameObject{
 	}
 
 	public boolean hasMoney() {
-		if(pocketMoney > 0) {
+		if(objectMoney > 0) {
 			return true;
 		}
 		return false;
 	}
 	
 	public int getMoney(){
-		return this.pocketMoney;
+		return this.objectMoney;
 	}
 	
 	public void saveState(Context mContext)
@@ -124,7 +123,7 @@ public class ThiefObject extends GameObject{
 		
 		SharedPreferences.Editor ed = mPrefs.edit();
 	
-		ed.putInt(name + "_pocketmoney", pocketMoney);
+		ed.putInt(name + "_objectMoney", objectMoney);
 		
 		ed.commit();
 	}
