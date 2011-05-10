@@ -8,12 +8,11 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class ThiefTurnState extends PlayOrderState {
-
+	private boolean drawSplashThief = false;
 	boolean hasMoved = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
@@ -43,6 +42,12 @@ public class ThiefTurnState extends PlayOrderState {
 	}
 
 	public void doDraw(Canvas c, float mZoom) {
+		if (lastSelected != null){
+		if(drawSplashThief == true && lastSelected.isMoving == false){
+			drawSplashScreen(c , mPlayState.getContext());
+		}
+		}
+		
 		
 		this.drawHud(c, mZoom);
 		
@@ -51,8 +56,11 @@ public class ThiefTurnState extends PlayOrderState {
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 		
+
+		
 	}
 
+	
 	public void drawHud(Canvas c, float mZoom){
 
 		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
@@ -66,8 +74,26 @@ public class ThiefTurnState extends PlayOrderState {
 	 
 		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
+	
+public void drawSplashScreen(Canvas c, Context context) {
 
+		
+		Bitmaps.instance(context);
+		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		int left = c.getWidth()/6;
+		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
+		c.drawBitmap(bankSplash, null, copTurnRect, null);
+		
+		
+		
+	}
+	
+	
 	public void doTouch(View v, MotionEvent event) {
+		
+		
+		
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
@@ -77,9 +103,12 @@ public class ThiefTurnState extends PlayOrderState {
 			currentObject =	clickedNode.getGameObject();
 		
 			//kollar om alla tjuvar har gått
+		
 			if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0){
 				everythingHasMoved = true;
-			}
+			}	
+			
+			
 	
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
 				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
@@ -89,22 +118,37 @@ public class ThiefTurnState extends PlayOrderState {
 						lastSelected.isMoving = true;
 						lastSelected.setCurrentDiceValue(0);
 						setCurrentObjectSelected(lastSelected.getName());
+						
+						
+						
 					}
+					
 				}
+				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0){
+					
+					drawSplashThief = true;
+					
+				}
+				
 			}
 			else{
 				lastSelected = currentObject;
 			}	
 		}
+		
+	
 	}
-
+	
+	
 	public PlayOrderState getNextState() {		
 		if(hasMoved && everythingHasMoved == false) {
+			
 			hasMoved = false;
 			
 			return mPlayState.thiefMoveState;
 		}
 		else if(everythingHasMoved == true) {
+			drawSplashThief = false;
 			everythingHasMoved = false;
 			
 			return mPlayState.getCopRollDiceState();

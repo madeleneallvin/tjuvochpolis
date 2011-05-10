@@ -233,6 +233,15 @@ public class PlayState implements GameState {
 		if(this.mCurrentState.getClass() == EventState.class){
 			((EventState)mCurrentState).drawSplash(c, mZoom);
 		}
+		//rita splash för CopTurnState och thiefTurnState
+		
+	//	if(this.mCurrentState.getClass() == CopTurnState.class){
+	//		((CopTurnState)mCurrentState).drawSplash = true;
+	//	}
+		
+	/*	if(this.mCurrentState.getClass() == ThiefTurnState.class){
+			((ThiefTurnState)mCurrentState).drawSplash(c, mZoom);
+		}*/
 		//this.drawHud(c,mZoom);
 	}
 	

@@ -17,13 +17,14 @@ import android.view.View;
 public class CopTurnState extends PlayOrderState {
 
 	boolean hasMoved = false;
+	private boolean drawSplashCop = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
 	private Rect mRectLeft;
 	private Rect mRectRight;
 	private Bitmap mHudBottomImage;
 	private Bitmap mHudTopImage;
-	private SplashButton turn;
+	private SplashButton turnButton;
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index){	
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 		
@@ -40,14 +41,21 @@ public class CopTurnState extends PlayOrderState {
 	@Override
 	public void handleState(int frame){
 			
-		
+	
 		
 	}
-
-	public void doDraw(Canvas c, float mZoom){
 	
 
+	
+
+	public void doDraw(Canvas c, float mZoom){
 		
+		if (lastSelected != null){
+			if(drawSplashCop == true && lastSelected.isMoving == false){
+				drawSplashScreen(c , mPlayState.getContext());
+				
+			}
+			}
 		
 		this.drawHud(c, mZoom);
 		
@@ -55,23 +63,30 @@ public class CopTurnState extends PlayOrderState {
 		{
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
+	
+		
+			
+		
 
 		
 	}
 	
+
+	
+	
 	
 
-	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
+	public void drawSplashScreen(Canvas c, Context context) {
 
 		
 		Bitmaps.instance(context);
-		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		Bitmap bankSplash = Bitmaps.getThiefturnsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(bankSplash, null, copTurnRect, null);
 		
-		turn = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
+		
 	
 		
 	}
@@ -90,6 +105,12 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void doTouch(View v, MotionEvent event){
+		//kollar om alla poliser har gått
+	
+					
+	
+		
+		
 		
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
@@ -100,11 +121,10 @@ public class CopTurnState extends PlayOrderState {
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
 			
-			//kollar om alla poliser har gått
 			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
 				everythingHasMoved = true;
+				
 			}
-
 			
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0){
 				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
@@ -113,6 +133,10 @@ public class CopTurnState extends PlayOrderState {
 						lastSelected.setMovePath(paths);
 						lastSelected.isMoving = true;
 						lastSelected.setCurrentDiceValue(0);
+						
+						
+					
+						
 						
 						//sätt att en polis har tagit en tjuv och sen att tjuven är tagen, för att använda i CopMoveState
 						if(currentObject != null && currentObject.getClass().equals(ThiefObject.class)){
@@ -123,6 +147,12 @@ public class CopTurnState extends PlayOrderState {
 						setCurrentObjectSelected(lastSelected.getName());
 					}
 
+				}
+				
+				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
+					
+					drawSplashCop = true;
+					
 				}
 
 			}
@@ -143,8 +173,10 @@ public class CopTurnState extends PlayOrderState {
 //			else if(x > thickness*4 && x < thickness*5 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
 //				Log.i("Cop", "3");
 		}
-
+		
+		
 	}
+	
 	
 	public PlayOrderState getNextState() {
 
@@ -155,7 +187,7 @@ public class CopTurnState extends PlayOrderState {
 
 		}
 		else if(everythingHasMoved == true){
-
+			drawSplashCop = false;
 			everythingHasMoved=false;
 			return mPlayState.getThiefRollDiceState();
 
