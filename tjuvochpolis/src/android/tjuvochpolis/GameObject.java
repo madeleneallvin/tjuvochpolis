@@ -13,6 +13,7 @@ public abstract class GameObject {
 	private int mCurrentDiceValue;
 	private int objectMoney;
 	private int objectIndex;
+	private int pocketMoney;
 	protected String name;
 	private ArrayList<GridNode> path = new ArrayList<GridNode>();
 	private int mCurrentPathPosition = 0;
@@ -231,6 +232,21 @@ public abstract class GameObject {
 		
 		ed.commit();
 	}
+	
+	public int getPocketMoney(){
+		return 0;
+	
+	}
+	
+	public int setPocketMoney(){
+		return pocketMoney;
+	}
+
+	public void setPocketMoney(int money) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
 	
 

@@ -122,4 +122,13 @@ public class ThiefObject extends GameObject{
 		
 		ed.commit();
 	}
+	@Override
+	public int getPocketMoney(){
+		return pocketMoney;
+	
+	}
+	@Override
+	public void setPocketMoney(int money){
+		this.pocketMoney = money;
+	}
 }
