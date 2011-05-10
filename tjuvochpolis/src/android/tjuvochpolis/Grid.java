@@ -7,7 +7,7 @@ public class Grid {
 	public static int GRID_SIZE = 48;
 	private static int mNumRows = 18;
 	private static int mNumCols = 21;
-	GridNode mGridArray[][] = new GridNode[mNumRows][mNumCols];
+	public GridNode mGridArray[][] = new GridNode[mNumRows][mNumCols];
 
 	public Grid(Context context) {
 		int[][] blocksType;

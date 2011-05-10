@@ -16,6 +16,7 @@ public class CopObject extends GameObject{
 	private Bitmap copIm;
 	private long moviestart;
 	private int direction;
+	private ThiefObject thiefCaught = null;
 	
 	public CopObject(String name,GridNode parentNode, int diceValue, int objectMoney) {
 		super(name, parentNode, diceValue, objectMoney);
@@ -135,5 +136,13 @@ public class CopObject extends GameObject{
 	@Override
 	public boolean hasMoney() {
 		return false;
+	}
+
+	public void setThiefCaught(ThiefObject thiefCaught) {
+		this.thiefCaught = thiefCaught;
+	}
+
+	public ThiefObject getThiefCaught() {
+		return thiefCaught;
 	}
 }

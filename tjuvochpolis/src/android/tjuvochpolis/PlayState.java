@@ -121,7 +121,7 @@ public class PlayState implements GameState {
 		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[mPrefs.getInt("COP1_row",7)][mPrefs.getInt("COP1_col",8)], mPrefs.getInt("COP1_diceValue",0), mPrefs.getInt("COP1_money",0)));
 		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[mPrefs.getInt("COP2_row",10)][mPrefs.getInt("COP2_col",8)], mPrefs.getInt("COP2_diceValue",0), mPrefs.getInt("COP2_money",0)));
 		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[mPrefs.getInt("THIEF1_row",7)][mPrefs.getInt("THIEF1_col",4)], mPrefs.getInt("THIEF1_diceValue",0), mPrefs.getInt("THIEF1_money",0), mPrefs.getInt("THIEF1_pocketmoney",0)));
-		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[mPrefs.getInt("THIEF2_row",7)][mPrefs.getInt("THIEF2_col",5)], mPrefs.getInt("THIEF2_diceValue",0), mPrefs.getInt("THIEF2_money",0), mPrefs.getInt("THIEF1_pocketmoney",0)));
+		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[mPrefs.getInt("THIEF2_row",7)][mPrefs.getInt("THIEF2_col",5)], mPrefs.getInt("THIEF2_diceValue",0), mPrefs.getInt("THIEF2_money",0), mPrefs.getInt("THIEF2_pocketmoney",10)));
 
 		//GameStaticObjects
 		mObjectStaticArray = new ArrayList<GameStaticObject>();

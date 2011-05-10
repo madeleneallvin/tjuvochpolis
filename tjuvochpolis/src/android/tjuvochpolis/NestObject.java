@@ -39,9 +39,9 @@ public class NestObject extends GameStaticObject {
 	public void handleEvent(MotionEvent e) {
 		if(takeMoneyButton.hasBeenClicked(e))
 		{ //ger nästets pengar till tjuven
-			int thiefMoney = this.getParentNode().getGameObject().getPocketMoney();
+			int thiefMoney = this.getParentNode().getGameObject().getObjectMoney();
 			//sätter pengar på tjuvens ficka
-			this.getParentNode().getGameObject().setPocketMoney(thiefMoney+this.takeMoney());
+			this.getParentNode().getGameObject().setObjectMoney(thiefMoney+this.takeMoney());
 			Log.i("NestObject", "ThiefMoney : " +thiefMoney);
 			Log.i("NestObject", "nestMoney : " +this.getObjectMoney());
 			
@@ -51,10 +51,10 @@ public class NestObject extends GameStaticObject {
 		if(leaveMoneyButton.hasBeenClicked(e))
 		{	
 			//lämnar tjuvens pengar i nästet
-			this.storeMoney(this.getParentNode().getGameObject().getPocketMoney());
-			this.getParentNode().getGameObject().setPocketMoney(0);
+			this.storeMoney(this.getParentNode().getGameObject().getObjectMoney());
+			this.getParentNode().getGameObject().setObjectMoney(0);
 			
-			int thiefMoney = this.getParentNode().getGameObject().getPocketMoney();
+			int thiefMoney = this.getParentNode().getGameObject().getObjectMoney();
 			Log.i("NestObject", "ThiefMoney : " +thiefMoney);
 			Log.i("NestObject", "nestMoney : " +this.getObjectMoney());
 		}

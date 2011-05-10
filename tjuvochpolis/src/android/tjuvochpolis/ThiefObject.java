@@ -18,10 +18,12 @@ public class ThiefObject extends GameObject{
 	private Bitmap thiefIm;
 	private long moviestart;
 	private int direction;
+	private boolean isCaught = false;
 	
 	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney, int pocketMoney) {
 		super(name, parentNode, diceValue, objectMoney);
 		
+		this.pocketMoney = pocketMoney;
 		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
@@ -110,6 +112,10 @@ public class ThiefObject extends GameObject{
 		return false;
 	}
 	
+	public int getMoney(){
+		return this.pocketMoney;
+	}
+	
 	public void saveState(Context mContext)
 	{
 		super.saveState(mContext);
@@ -122,13 +128,12 @@ public class ThiefObject extends GameObject{
 		
 		ed.commit();
 	}
-	@Override
-	public int getPocketMoney(){
-		return pocketMoney;
-	
+
+	public void setCaught(boolean isCaught) {
+		this.isCaught = isCaught;
 	}
-	@Override
-	public void setPocketMoney(int money){
-		this.pocketMoney = money;
+
+	public boolean isCaught() {
+		return isCaught;
 	}
 }

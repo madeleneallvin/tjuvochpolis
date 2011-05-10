@@ -20,9 +20,9 @@ public class EventState extends PlayOrderState {
 	@Override
 	public void doTouch(View v, MotionEvent event) {
 		
-		Log.i("EventState", "handelState");
+		Log.i("EventState", "handleState");
 		
-		staticObject.handleEvent(event);
+		this.staticObject.handleEvent(event);
 		
 		hasBeenTouched = true;
 		
@@ -43,8 +43,7 @@ public class EventState extends PlayOrderState {
 	 */
 	public void drawSplash(Canvas c, float mZoom) {
 		
-		staticObject = mGameObjects.get(mObjectIndex.valueOf(
-				getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
+		staticObject = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
 		staticObject.drawSplashScreen(c, mZoom);
 	}
 	

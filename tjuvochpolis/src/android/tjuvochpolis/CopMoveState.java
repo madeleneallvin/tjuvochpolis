@@ -2,6 +2,7 @@ package android.tjuvochpolis;
 
 import java.util.ArrayList;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,7 +18,7 @@ public class CopMoveState extends PlayOrderState {
 
 	public void handleState(int frame)
 	{
-		interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
+		this.interpolatedMove(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()), frame);
 	}
 
 	public PlayOrderState getNextState()
@@ -26,7 +27,27 @@ public class CopMoveState extends PlayOrderState {
 		if(mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).isMoving){
 			return this;
 		}
-		else{ 
+		else{
+			if(((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught() != null){
+				
+				//FIXA TILL SÅ ATT DE RITAS UT IGEN PÅ SINA NYA PLATSER!!!
+				
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).transportToJail(8, 8, mGrid);
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().transportToJail(8,11, mGrid);
+				
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setDrawXPos(mGrid.GRID_SIZE*8);
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setDrawYPos(mGrid.GRID_SIZE*8);
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setDrawXPos(mGrid.GRID_SIZE*11);
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setDrawYPos(mGrid.GRID_SIZE*8);
+				
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).getThiefCaught().setCaught(false);
+				((CopObject)mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex())).setThiefCaught(null);
+				
+				
+				
+				//mPlayState.mPreviousState = mPlayState.getCopTurnState();
+				//return mPlayState.getEventState();
+			}
 			GridNode currentNode = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode();
 			
 			// Depending of the type the event state is activated
