@@ -96,7 +96,10 @@ public class ThiefObject extends GameObject{
 	}
 	
 	public boolean canStopHere(GridNode node) {
-		//Guffe: vi kanske ska ha denna metoden senare :P
+		if(node.getType() == GridNode.THIEF_NEST || node.getType() == GridNode.BANK){
+			return true;
+		}
+		
 		return false;
 	}
 
