@@ -83,7 +83,11 @@ public class CopTurnState extends PlayOrderState {
 				everythingHasMoved = true;
 			}
 			
+	
+			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0){
+				
+				
 				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
 					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
 						hasMoved = true;
@@ -96,6 +100,24 @@ public class CopTurnState extends PlayOrderState {
 				}
 
 			}
+			
+			//gör så att en polis kan gå till en tjuv som har pengar för att arrestera honom 
+		/*	else if( currentObject.getClass() == ThiefObject.class &&  currentObject.hasMoney() && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0){
+				
+				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
+					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
+						hasMoved = true;
+						lastSelected.setMovePath(paths);
+						lastSelected.isMoving = true;
+						lastSelected.setCurrentDiceValue(0);
+						setCurrentObjectSelected(lastSelected.getName());
+					}
+
+				}
+				
+			}
+			*/
+			
 			else{
 				lastSelected = currentObject;
 			}

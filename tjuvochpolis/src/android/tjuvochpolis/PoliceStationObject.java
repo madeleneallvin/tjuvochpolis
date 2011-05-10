@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class PoliceStationObject extends GameStaticObject {
 
@@ -12,8 +13,8 @@ public class PoliceStationObject extends GameStaticObject {
 		super(name, parentNode);
 	}
 
-	@Override
-	public void handleEvent() {
+	//@Override
+	public void handleEvent(MotionEvent e) {
 		
 
 	}
