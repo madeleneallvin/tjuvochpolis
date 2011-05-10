@@ -2,6 +2,8 @@ package android.tjuvochpolis;
 
 import java.util.Random;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -48,8 +50,10 @@ public class BankObject extends GameStaticObject {
 	}
 
 
-	@Override
-	public void handleEvent(MotionEvent e) {
+	//@Override
+	public boolean handleEvent(MotionEvent e, Context context) {
+		
+		boolean tempBool = false;
 		
 		//snor pengar från banken
 		if(rob.hasBeenClicked(e))
@@ -58,25 +62,27 @@ public class BankObject extends GameStaticObject {
 			this.setObjectMoney(getBankMoney());
 			Log.i("NestObject", "ThiefMoney : " +thiefMoney);
 			Log.i("NestObject", "bankMoney : " +this.getObjectMoney());
+			tempBool = true;
 			
 		}
+		
+		return tempBool;
 	}
 	
 	/**
 	 * Function that handles the drawing of the splash screen
 	 */
 	@Override
-	public void drawSplashScreen(Canvas c, float mZoom) {
-		Paint paint = new Paint();
-		paint.setColor(Color.BLACK);
-		Rect rect = new Rect(50, 300, 430, 500);
-		c.drawRect(rect, paint);		
-		paint.setColor(Color.WHITE);
-		c.drawText("Bank", 75, 325, paint);
-		paint.setColor(Color.YELLOW);
-		Rect button = new Rect(100, 350, 150, 400);
-		c.drawRect(button, paint);		
+	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
+
+		Bitmaps.instance(context);
+		Bitmap bankSplash = Bitmaps.getBankSplash();
+		int left = c.getWidth()/6;
+		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect bankRect = new Rect(left, top, left+4*left, top+left*4);
+		c.drawBitmap(bankSplash, null, bankRect, null);
 		
-		rob = new SplashButton(100,350, 50,50);
+		rob = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
+		
 	}
 }

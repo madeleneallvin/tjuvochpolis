@@ -20,6 +20,11 @@ public class Bitmaps {
 	private static Bitmap mCopImage;
 	private static Bitmap mThiefImage;
 	private static Bitmap mBackgroundImage;
+	private static Bitmap nestSplash;
+	private static Bitmap bankSplash;
+	private static Bitmap copturnsplash;
+	private static Bitmap getthiefsplash;
+	private static Bitmap thiefturnsplash;
 	private static Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
 	private static Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
@@ -37,7 +42,11 @@ public class Bitmaps {
 			setHudTopImage(BitmapFactory.decodeResource(res, R.drawable.htc_top_bakgrund_256));
 			setCopImage(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
 			setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
-			
+			setBankSplash(BitmapFactory.decodeResource(res, R.drawable.banksplash));
+			setNestSplash(BitmapFactory.decodeResource(res, R.drawable.nestsplash));
+			setCopturnsplash(BitmapFactory.decodeResource(res, R.drawable.copturnsplash));
+			setGetthiefsplash(BitmapFactory.decodeResource(res, R.drawable.getthiefsplash));
+			setThiefturnsplash(BitmapFactory.decodeResource(res, R.drawable.thiefturnsplash));
 			//Lägg alla movies i en indexerbar array.
 			movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
 			movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.derp));
@@ -105,6 +114,14 @@ public class Bitmaps {
 	private static void setBackgroundImage(Bitmap mBackgroundImage) {
 		Bitmaps.mBackgroundImage = mBackgroundImage;
 	}
+	
+	private static void setNestSplash(Bitmap nestSplash) {
+		Bitmaps.nestSplash = nestSplash;
+	}
+	
+	private static void setBankSplash(Bitmap bankSplash) {
+		Bitmaps.bankSplash = bankSplash;
+	}
 
 	public Bitmap getBackgroundImage() {
 		return mBackgroundImage;
@@ -120,5 +137,39 @@ public class Bitmaps {
 	}
 	public Movie getCopmovies(int index) {
 		return copmovies.get(index);
+	}
+	
+	public static Bitmap getBankSplash(){
+		return bankSplash;
+	}
+
+
+
+	public static Bitmap getNestSplash() {
+		return nestSplash;
+	}
+
+	private static void setCopturnsplash(Bitmap copturnsplash) {
+		Bitmaps.copturnsplash = copturnsplash;
+	}
+
+	public static Bitmap getCopturnsplash() {
+		return copturnsplash;
+	}
+
+	private static void setGetthiefsplash(Bitmap getthiefsplash) {
+		Bitmaps.getthiefsplash = getthiefsplash;
+	}
+
+	public static Bitmap getGetthiefsplash() {
+		return getthiefsplash;
+	}
+
+	private static void setThiefturnsplash(Bitmap thiefturnsplash) {
+		Bitmaps.thiefturnsplash = thiefturnsplash;
+	}
+
+	public static Bitmap getThiefturnsplash() {
+		return thiefturnsplash;
 	}
 }

@@ -1,5 +1,6 @@
 package android.tjuvochpolis;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,16 +15,16 @@ public class PoliceStationObject extends GameStaticObject {
 	}
 
 	//@Override
-	public void handleEvent(MotionEvent e) {
+	public boolean handleEvent(MotionEvent e, Context context) {
 		
-
+		return true;
 	}
 
 	/**
 	 * Function that handles the drawing of the splash screen
 	 */
-	@Override
-	public void drawSplashScreen(Canvas c, float mZoom) {
+	//@Override
+	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
 		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
 		Rect rect = new Rect(50, 300, 430, 500);
