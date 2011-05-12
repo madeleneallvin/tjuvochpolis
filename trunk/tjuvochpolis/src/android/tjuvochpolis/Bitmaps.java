@@ -25,6 +25,9 @@ public class Bitmaps {
 	private static Bitmap copturnsplash;
 	private static Bitmap getthiefsplash;
 	private static Bitmap thiefturnsplash;
+	private static Bitmap fikaSplash;
+	private static Bitmap poliswin;
+	private static Bitmap thiefwin;
 	private static Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
 	private static Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
@@ -47,6 +50,9 @@ public class Bitmaps {
 			setCopturnsplash(BitmapFactory.decodeResource(res, R.drawable.copturnsplash));
 			setGetthiefsplash(BitmapFactory.decodeResource(res, R.drawable.getthiefsplash));
 			setThiefturnsplash(BitmapFactory.decodeResource(res, R.drawable.thiefturnsplash));
+			setFikaSplash(BitmapFactory.decodeResource(res, R.drawable.fika));
+			setPoliswin(BitmapFactory.decodeResource(res, R.drawable.poliswin));
+			setThiefwin(BitmapFactory.decodeResource(res, R.drawable.thiefwin));
 			//Lägg alla movies i en indexerbar array.
 			movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
 			movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.derp));
@@ -172,5 +178,29 @@ public class Bitmaps {
 
 	public static Bitmap getThiefturnsplash() {
 		return thiefturnsplash;
+	}
+
+	private static void setFikaSplash(Bitmap fika) {
+		Bitmaps.fikaSplash = fika;
+	}
+
+	public static Bitmap getFikaSplash() {
+		return fikaSplash;
+	}
+
+	private static void setPoliswin(Bitmap poliswin) {
+		Bitmaps.poliswin = poliswin;
+	}
+
+	public static Bitmap getPoliswin() {
+		return poliswin;
+	}
+
+	private static void setThiefwin(Bitmap thiefwin) {
+		Bitmaps.thiefwin = thiefwin;
+	}
+
+	public static Bitmap getThiefwin() {
+		return thiefwin;
 	}
 }

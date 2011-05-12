@@ -138,14 +138,14 @@ public class PlayState implements GameState {
 		mObjectStaticArray = new ArrayList<GameStaticObject>();
 
 		//Banks
-		mObjectStaticArray.add(new BankObject("BANK1",mGrid.mGridArray[5][4]));
-		mObjectStaticArray.add(new BankObject("BANK2",mGrid.mGridArray[5][16]));
+		mObjectStaticArray.add(new BankObject("BANK1",mGrid.mGridArray[5][5]));
+		mObjectStaticArray.add(new BankObject("BANK2",mGrid.mGridArray[5][15]));
 		mObjectStaticArray.add(new BankObject("BANK3",mGrid.mGridArray[6][10]));
 		mObjectStaticArray.add(new BankObject("BANK4",mGrid.mGridArray[12][5]));
 		mObjectStaticArray.add(new BankObject("BANK5",mGrid.mGridArray[12][15]));
-		mObjectStaticArray.add(new BankObject("BANK6",mGrid.mGridArray[16][2]));
+	//	mObjectStaticArray.add(new BankObject("BANK6",mGrid.mGridArray[16][2]));
 		mObjectStaticArray.add(new BankObject("BANK7",mGrid.mGridArray[16][10]));
-		mObjectStaticArray.add(new BankObject("BANK8",mGrid.mGridArray[16][18]));
+	//	mObjectStaticArray.add(new BankObject("BANK8",mGrid.mGridArray[16][18]));
 		
 		//Nests
 		mObjectStaticArray.add(new NestObject("NEST1",mGrid.mGridArray[1][2]));
