@@ -4,14 +4,11 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:background="@drawable/menybild" android:paddingTop="200dip">
   
-  <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:width="10px" android:layout_width="wrap_content" android:text="Spela"></Button><Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avsluta"></Button>
+  <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:width="10px" android:layout_width="wrap_content" android:text="Nytt Spel"></Button>
+  <Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fortsätt Spel"></Button>
+  <Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avsluta"></Button>
   
   
-  
-
-
-
-
 
 
 </TableLayout>
