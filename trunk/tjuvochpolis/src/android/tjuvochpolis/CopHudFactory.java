@@ -19,6 +19,7 @@ public class CopHudFactory extends AbstractHudFactory {
 		canvas.drawBitmap(mBottomHudBackgroundImage, 0, 0, null);
 		canvas.drawBitmap(drawCop((CopObject) mPs.getGameObject(PlayState.mObjectIndex.COP1)), 0, 0, null);
 		canvas.drawBitmap(drawCop((CopObject) mPs.getGameObject(PlayState.mObjectIndex.COP2)), 96, 0, null);
+		//canvas.drawBitmap(drawCop((CopObject) mPs.getGameObject(PlayState.mObjectIndex.COP3)), 96, 0, null);
 		
 	}
 	

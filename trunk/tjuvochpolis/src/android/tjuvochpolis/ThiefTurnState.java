@@ -32,6 +32,7 @@ public class ThiefTurnState extends PlayOrderState {
 		
 		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue());
 		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue());
+		this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue());
 		
 		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageThieves();
 		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();		
@@ -104,7 +105,7 @@ public void drawSplashScreen(Canvas c, Context context) {
 		
 			//kollar om alla tjuvar har gått
 		
-			if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0){
+			if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
 				everythingHasMoved = true;
 			}	
 			
@@ -124,7 +125,7 @@ public void drawSplashScreen(Canvas c, Context context) {
 					}
 					
 				}
-				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0){
+				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
 					
 					drawSplashThief = true;
 					

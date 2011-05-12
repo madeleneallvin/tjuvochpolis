@@ -25,6 +25,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 	public void handleState(int frame) {
 		ThiefObject thief1 = (ThiefObject) this.mGameObjects.get(mObjectIndex.THIEF1.getIndex());
 		ThiefObject thief2 = (ThiefObject) this.mGameObjects.get(mObjectIndex.THIEF2.getIndex());
+		ThiefObject thief3 = (ThiefObject) this.mGameObjects.get(mObjectIndex.THIEF3.getIndex());
 		
 		
 		//Slå tärning för tjyvarna.
@@ -44,9 +45,18 @@ public class ThiefRollDiceState extends PlayOrderState {
 			thief2.setCurrentDiceValue(Dice.getDice().rollDice());
 		}
 		
+		if(thief3.getWaitingLeft() != 0){
+			thief3.setCurrentDiceValue(0);
+			thief3.setWaitingLeft(thief3.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+thief3.getWaitingLeft());
+		}else{
+			thief3.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
 		//Calculate the nodeWalker
 		thief1.doNodeWalker(thief1.getParentNode(), thief1.getParentNode(), thief1.getCurrentDiceValue());
 		thief2.doNodeWalker(thief2.getParentNode(), thief2.getParentNode(), thief2.getCurrentDiceValue());
+		thief3.doNodeWalker(thief3.getParentNode(), thief3.getParentNode(), thief3.getCurrentDiceValue());
 
 		//Change state
 		this.mNextState = mPlayState.thiefTurnState;

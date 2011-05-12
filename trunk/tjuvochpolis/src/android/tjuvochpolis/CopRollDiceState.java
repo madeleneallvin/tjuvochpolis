@@ -22,6 +22,7 @@ public class CopRollDiceState extends PlayOrderState {
 	public void handleState(int frame) {
 		CopObject cop1 = (CopObject) this.mGameObjects.get(mObjectIndex.COP1.getIndex());
 		CopObject cop2 = (CopObject) this.mGameObjects.get(mObjectIndex.COP2.getIndex());
+		CopObject cop3 = (CopObject) this.mGameObjects.get(mObjectIndex.COP3.getIndex());
 		
 		
 		//Slå tärning för poliserna.
@@ -41,9 +42,19 @@ public class CopRollDiceState extends PlayOrderState {
 			cop2.setCurrentDiceValue(Dice.getDice().rollDice());
 		}
 		
+		if(cop3.getWaitingLeft() != 0){
+			cop3.setCurrentDiceValue(0);
+			cop3.setWaitingLeft(cop3.getWaitingLeft()-1);
+			Log.i("waiting left:", ""+cop3.getWaitingLeft());
+		}else{
+			cop3.setCurrentDiceValue(Dice.getDice().rollDice());
+		}
+		
 		//Calculate the nodeWalker
 		cop1.doNodeWalker(cop1.getParentNode(), cop1.getParentNode(), cop1.getCurrentDiceValue());
 		cop2.doNodeWalker(cop2.getParentNode(), cop2.getParentNode(), cop2.getCurrentDiceValue());
+		cop3.doNodeWalker(cop3.getParentNode(), cop3.getParentNode(), cop3.getCurrentDiceValue());
+		
 		//Change state
 		this.mNextState = mPlayState.copTurnState;
 	}
