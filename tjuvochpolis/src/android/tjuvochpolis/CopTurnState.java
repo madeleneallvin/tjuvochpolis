@@ -3,14 +3,10 @@ package android.tjuvochpolis;
 import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,11 +17,9 @@ public class CopTurnState extends PlayOrderState {
 	private boolean drawSplashCop = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
-	private Rect mRectLeft;
-	private Rect mRectRight;
-	private Bitmap mHudBottomImage;
-	private Bitmap mHudTopImage;
+
 	private SplashButton turnButton;
+
 	public CopTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index){	
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 		
@@ -37,92 +31,36 @@ public class CopTurnState extends PlayOrderState {
 		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
 		this.mGameObjects.get(mObjectIndex.COP3.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue());
 		
-		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageCops();
-		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();
 	}
 	@Override
 	public void handleState(int frame){
-			
-	
-		
-	}
-	
 
-	
+	}
 
 	public void doDraw(Canvas c, float mZoom){
-		
+
 		if (lastSelected != null){
 			if(drawSplashCop == true && lastSelected.isMoving == false){
 				drawSplashScreen(c , mPlayState.getContext());
-				
 			}
-			}
-		
-		this.drawHud(c, mZoom);
-		
-		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0){  
-			
-			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 		
-	
-			
-	
-		
-			
-		
-
-		
+		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
+		{
+			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+		}
 	}
-	
-
-	
-	
-	
 
 	public void drawSplashScreen(Canvas c, Context context) {
 
-		
-		Bitmaps.instance(context);
-		Bitmap bankSplash = Bitmaps.getThiefturnsplash();
+		Bitmap bankSplash = Bitmaps.instance(context).getThiefturnsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(bankSplash, null, copTurnRect, null);
-		
-		
-	
-		
-	}
-	
-
-	
-	public void drawHud(Canvas c, float mZoom){
-		
-		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
-		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
-		int thickness = (int) Math.floor(48/mZoom);
-		
-		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
-		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
-
-		c.drawBitmap(HudFactory.getBottomHud(mPlayState, c), null, mRectRight, null);
-		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
 
 	public void doTouch(View v, MotionEvent event){
-		//kollar om alla poliser har gått
-	
-					
-		if(currentObject != null && currentObject.getCurrentDiceValue() != 0){  
-			
-			currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
-			
-			Log.i("Cop turn state"," move path size" + currentObject.getMovePath().size());
-		}
-		
-		
 		
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
@@ -132,10 +70,10 @@ public class CopTurnState extends PlayOrderState {
 
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
+			mPlayState.setActiveObject(currentObject);
 			
 			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0  ){
 				everythingHasMoved = true;
-				
 			}
 			
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
@@ -185,10 +123,8 @@ public class CopTurnState extends PlayOrderState {
 //			else if(x > thickness*4 && x < thickness*5 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
 //				Log.i("Cop", "3");
 		}
-		
-		
+
 	}
-	
 	
 	public PlayOrderState getNextState() {
 

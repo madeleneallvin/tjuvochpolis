@@ -50,7 +50,7 @@ public class CopRollDiceState extends PlayOrderState {
 			cop1.setWaitingLeft(cop1.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+cop1.getWaitingLeft());
 		}else{
-			cop1.setCurrentDiceValue(Dice.getDice().rollDice());
+			cop1.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		if(cop2.getWaitingLeft() != 0){
@@ -58,7 +58,7 @@ public class CopRollDiceState extends PlayOrderState {
 			cop2.setWaitingLeft(cop2.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+cop2.getWaitingLeft());
 		}else{
-			cop2.setCurrentDiceValue(Dice.getDice().rollDice());
+			cop2.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		if(cop3.getWaitingLeft() != 0){
@@ -66,7 +66,7 @@ public class CopRollDiceState extends PlayOrderState {
 			cop3.setWaitingLeft(cop3.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+cop3.getWaitingLeft());
 		}else{
-			cop3.setCurrentDiceValue(Dice.getDice().rollDice());
+			cop3.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		//Calculate the nodeWalker
@@ -80,17 +80,12 @@ public class CopRollDiceState extends PlayOrderState {
 	
 public void drawSplashScreen(Canvas c, Context context) {
 
-		
-		Bitmaps.instance(context);
-		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		Bitmap bankSplash = Bitmaps.instance(context).getCopturnsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(bankSplash, null, copTurnRect, null);
-		
-		
-	
-		
+
 	}
 
 	@Override

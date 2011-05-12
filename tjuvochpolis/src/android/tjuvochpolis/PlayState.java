@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,7 +82,7 @@ public class PlayState implements GameState {
     protected EventState eventState;
     
     protected int mFrame;
-	
+    
     private float mPrevX;
     private float mPrevY;
     private float mStartX;
@@ -107,9 +106,6 @@ public class PlayState implements GameState {
 	private boolean moveAction = false;
 	private float distance = 0.0f;
 	
-
-	
-	
 	public PlayState(Context context) {
 		mGrid = new Grid(context);
 
@@ -126,14 +122,13 @@ public class PlayState implements GameState {
 		//GameObjects
 		mObjectArray = new ArrayList<GameObject>();
 
-		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[mPrefs.getInt("COP1_row",9)][mPrefs.getInt("COP1_col",12)], mPrefs.getInt("COP1_diceValue",0), mPrefs.getInt("COP1_money",0)));
-		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[mPrefs.getInt("COP2_row",9)][mPrefs.getInt("COP2_col",11)], mPrefs.getInt("COP2_diceValue",0), mPrefs.getInt("COP2_money",0)));
-		mObjectArray.add(new CopObject("COP3",mGrid.mGridArray[mPrefs.getInt("COP3_row",8)][mPrefs.getInt("COP3_col",11)], mPrefs.getInt("COP3_diceValue",0), mPrefs.getInt("COP3_money",0)));
+		mObjectArray.add(new CopObject("COP1",mGrid.mGridArray[mPrefs.getInt("COP1_row",9)][mPrefs.getInt("COP1_col",12)], mPrefs.getInt("COP1_diceValue",0), mPrefs.getInt("COP1_rolledDiceValue",1), mPrefs.getInt("COP1_money",0)));
+		mObjectArray.add(new CopObject("COP2",mGrid.mGridArray[mPrefs.getInt("COP2_row",9)][mPrefs.getInt("COP2_col",11)], mPrefs.getInt("COP2_diceValue",0), mPrefs.getInt("COP2_rolledDiceValue",1), mPrefs.getInt("COP2_money",0)));
+		mObjectArray.add(new CopObject("COP3",mGrid.mGridArray[mPrefs.getInt("COP3_row",8)][mPrefs.getInt("COP3_col",11)], mPrefs.getInt("COP3_diceValue",0), mPrefs.getInt("COP3_rolledDiceValue",1), mPrefs.getInt("COP3_money",0)));
 		
-		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[mPrefs.getInt("THIEF1_row",12)][mPrefs.getInt("THIEF1_col",19)], mPrefs.getInt("THIEF1_diceValue",0), mPrefs.getInt("THIEF1_money",0)));
-		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[mPrefs.getInt("THIEF2_row",12)][mPrefs.getInt("THIEF2_col",1)], mPrefs.getInt("THIEF2_diceValue",0), mPrefs.getInt("THIEF2_money",0)));
-		mObjectArray.add(new ThiefObject("THIEF3",mGrid.mGridArray[mPrefs.getInt("THIEF3_row",1)][mPrefs.getInt("THIEF3_col",2)], mPrefs.getInt("THIEF3_diceValue",0), mPrefs.getInt("THIEF3_money",0)));
-
+		mObjectArray.add(new ThiefObject("THIEF1",mGrid.mGridArray[mPrefs.getInt("THIEF1_row",12)][mPrefs.getInt("THIEF1_col",19)], mPrefs.getInt("THIEF1_diceValue",0), mPrefs.getInt("THIEF1_rolledDiceValue",1), mPrefs.getInt("THIEF1_money",0)));
+		mObjectArray.add(new ThiefObject("THIEF2",mGrid.mGridArray[mPrefs.getInt("THIEF2_row",12)][mPrefs.getInt("THIEF2_col",1)], mPrefs.getInt("THIEF2_diceValue",0), mPrefs.getInt("THIEF2_rolledDiceValue",1), mPrefs.getInt("THIEF2_money",0)));
+		mObjectArray.add(new ThiefObject("THIEF3",mGrid.mGridArray[mPrefs.getInt("THIEF3_row",1)][mPrefs.getInt("THIEF3_col",2)], mPrefs.getInt("THIEF3_diceValue",0), mPrefs.getInt("THIEF3_rolledDiceValue",1), mPrefs.getInt("THIEF3_money",0)));
 		//GameStaticObjects
 		mObjectStaticArray = new ArrayList<GameStaticObject>();
 
@@ -161,7 +156,7 @@ public class PlayState implements GameState {
 		mObjectStaticArray.add(new JailObject("JAIL1",mGrid.mGridArray[8][11]));
 		mObjectStaticArray.add(new JailObject("JAIL2",mGrid.mGridArray[9][11]));
 		mObjectStaticArray.add(new JailObject("JAIL3",mGrid.mGridArray[9][12]));
-		
+	
 		
 		// Create the states
 		copTurnState = new CopTurnState(this, mObjectArray, mObjectStaticArray, mGrid, 0);
@@ -245,16 +240,18 @@ public class PlayState implements GameState {
 		if(this.mCurrentState.getClass() == EventState.class){
 			((EventState)mCurrentState).drawSplash(c, mZoom);
 		}
+		
 		//rita splash för CopTurnState och thiefTurnState
 		
-	//	if(this.mCurrentState.getClass() == CopTurnState.class){
-	//		((CopTurnState)mCurrentState).drawSplash = true;
-	//	}
+		//	if(this.mCurrentState.getClass() == CopTurnState.class){
+		//		((CopTurnState)mCurrentState).drawSplash = true;
+		//	}
+			
+		/*	if(this.mCurrentState.getClass() == ThiefTurnState.class){
+				((ThiefTurnState)mCurrentState).drawSplash(c, mZoom);
+			}*/
 		
-	/*	if(this.mCurrentState.getClass() == ThiefTurnState.class){
-			((ThiefTurnState)mCurrentState).drawSplash(c, mZoom);
-		}*/
-		//this.drawHud(c,mZoom);
+		this.drawHud(c,mZoom);
 	}
 	
 	
@@ -485,5 +482,41 @@ public class PlayState implements GameState {
 	public GameObject getGameObject(mObjectIndex objectIndex)
 	{
 		return mObjectArray.get(objectIndex.index);
+	}
+	
+	public void setActiveObject(GameObject go)
+	{
+		if(go != null)
+		{
+			for(int i = 0; i < mObjectArray.size(); i++)
+			{
+				mObjectArray.get(i).isActive = false;
+			}
+			go.isActive = true;
+		}
+	}
+	
+	public GameObject getActiveObject()
+	{
+		for(int i = 0; i < mObjectArray.size(); i++)
+		{
+			if(mObjectArray.get(i).isActive)
+				return mObjectArray.get(i);
+		}
+		
+		return null; 
+	}
+	
+	protected void drawHud(Canvas c, float mZoom){
+		
+		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
+		int canvasHeight = (int) Math.ceil(((float) c.getHeight()/mZoom));
+		int thickness = (int) Math.floor(Grid.GRID_SIZE/mZoom);
+		
+		Rect mRectTop = new Rect(0, 0, canvasWidth, thickness);
+		Rect mRectBottom = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
+
+		c.drawBitmap(HudFactory.getBottomHud(this, c), null, mRectBottom, null);
+		c.drawBitmap(HudFactory.getTopHud(this, c), null, mRectTop, null);
 	}
 }

@@ -34,7 +34,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 			thief1.setWaitingLeft(thief1.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+thief1.getWaitingLeft());
 		}else{
-			thief1.setCurrentDiceValue(Dice.getDice().rollDice());
+			thief1.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		if(thief2.getWaitingLeft() != 0){
@@ -42,7 +42,7 @@ public class ThiefRollDiceState extends PlayOrderState {
 			thief2.setWaitingLeft(thief2.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+thief2.getWaitingLeft());
 		}else{
-			thief2.setCurrentDiceValue(Dice.getDice().rollDice());
+			thief2.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		if(thief3.getWaitingLeft() != 0){
@@ -50,17 +50,13 @@ public class ThiefRollDiceState extends PlayOrderState {
 			thief3.setWaitingLeft(thief3.getWaitingLeft()-1);
 			Log.i("waiting left:", ""+thief3.getWaitingLeft());
 		}else{
-			thief3.setCurrentDiceValue(Dice.getDice().rollDice());
+			thief3.setRolledDiceValue(Dice.getDice().rollDice());
 		}
 		
 		//Calculate the nodeWalker
 		thief1.doNodeWalker(thief1.getParentNode(), thief1.getParentNode(), thief1.getCurrentDiceValue());
 		thief2.doNodeWalker(thief2.getParentNode(), thief2.getParentNode(), thief2.getCurrentDiceValue());
 		thief3.doNodeWalker(thief3.getParentNode(), thief3.getParentNode(), thief3.getCurrentDiceValue());
-		
-		
-		
-		
 
 		//Change state
 		this.mNextState = mPlayState.thiefTurnState;

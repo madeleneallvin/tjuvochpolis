@@ -1,10 +1,6 @@
 package android.tjuvochpolis;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,120 +10,138 @@ import android.graphics.Movie;
 public class Bitmaps {
 
 	static Bitmaps bitmaps;
-	private static Bitmap mHudBottomImageCops;
-	private static Bitmap mHudBottomImageThieves;
-	private static Bitmap mHudTopImage;
-	private static Bitmap mCopImage;
-	private static Bitmap mThiefImage;
-	private static Bitmap mBackgroundImage;
-	private static Bitmap nestSplash;
-	private static Bitmap bankSplash;
-	private static Bitmap copturnsplash;
-	private static Bitmap getthiefsplash;
-	private static Bitmap thiefturnsplash;
-	private static Bitmap fikaSplash;
-	private static Bitmap poliswin;
-	private static Bitmap thiefwin;
-	private static Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
-	private static Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
+	
+	//Hud Images
+	private Bitmap mHudBottomImage;
+	private Bitmap mHudBottomImageCops;
+	private Bitmap mHudBottomImageThieves;
+	private Bitmap mHudTopImage;
+	private Bitmap mHudBottomCopBg;
+	private Bitmap mHudBottomThiefBg;
+	private Bitmap mHudCopPlayerIcon;
+	private Bitmap mHudThiefPlayerIcon;
+	private Bitmap mHudDiceImage;
+	
+	private Bitmap nestSplash;
+	private Bitmap bankSplash;
+	private Bitmap copturnsplash;
+	private Bitmap getthiefsplash;
+	private Bitmap thiefturnsplash;
+	private Bitmap fikaSplash;
+	private Bitmap poliswin;
+	private Bitmap thiefwin;
+	
+	private Bitmap mCopImage;
+	private Bitmap mThiefImage;
+	private Bitmap mBackgroundImage;
+	private Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
+	private Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
-	private static ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4), copmovies = new ArrayList<Movie>(4);
-	private Bitmaps() {
+	private ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4), copmovies = new ArrayList<Movie>(4);
+	
+	private Bitmaps(Context context) {
 
+		Resources res = context.getResources();
+		setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
+		setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
+		setHudTopImage(BitmapFactory.decodeResource(res, R.drawable.htc_top_bakgrund_256));
+		setCopImage(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
+		setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
+		setHudBottomCopBg(BitmapFactory.decodeResource(res, R.drawable.copbottom));
+		setHudBottomThiefBg(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv));
+		setHudCopPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
+		setHudThiefPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.buse1_walk_down_animate));
+		setHudDiceImage(BitmapFactory.decodeResource(res, R.drawable.dices));
+		setBankSplash(BitmapFactory.decodeResource(res, R.drawable.banksplash));
+		setNestSplash(BitmapFactory.decodeResource(res, R.drawable.nestsplash));
+		setCopturnsplash(BitmapFactory.decodeResource(res, R.drawable.copturnsplash));
+		setGetthiefsplash(BitmapFactory.decodeResource(res, R.drawable.getthiefsplash));
+		setThiefturnsplash(BitmapFactory.decodeResource(res, R.drawable.thiefturnsplash));
+		setHudBottomImage(Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888));
+		setFikaSplash(BitmapFactory.decodeResource(res, R.drawable.fika));
+		setPoliswin(BitmapFactory.decodeResource(res, R.drawable.poliswin));
+		setThiefwin(BitmapFactory.decodeResource(res, R.drawable.thiefwin));
+		
+		//Lägg alla movies i en indexerbar array.
+		movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
+		movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.derp));
+		movieThiefUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_up_animate));
+		movieThiefDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_down_animate));
+		thiefmovies.add(UP, movieThiefUp);
+		thiefmovies.add(RIGHT, movieThiefRight);
+		thiefmovies.add(DOWN, movieThiefDown);
+		thiefmovies.add(LEFT, movieThiefLeft);
+		
+		movieCopRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_right_animate));
+		movieCopLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_left_animate));
+		movieCopUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_up_animate));
+		movieCopDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_down_animate));
+		copmovies.add(UP, movieCopUp);
+		copmovies.add(RIGHT, movieCopRight);
+		copmovies.add(DOWN, movieCopDown);
+		copmovies.add(LEFT, movieCopLeft);
+		setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));  
+		
 	}
 	
 	public static Bitmaps instance(Context context){
 		if (bitmaps == null) {
-			bitmaps = new Bitmaps();
-			Resources res = context.getResources();
-			setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
-			setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
-			setHudTopImage(BitmapFactory.decodeResource(res, R.drawable.htc_top_bakgrund_256));
-			setCopImage(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
-			setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
-			setBankSplash(BitmapFactory.decodeResource(res, R.drawable.banksplash));
-			setNestSplash(BitmapFactory.decodeResource(res, R.drawable.nestsplash));
-			setCopturnsplash(BitmapFactory.decodeResource(res, R.drawable.copturnsplash));
-			setGetthiefsplash(BitmapFactory.decodeResource(res, R.drawable.getthiefsplash));
-			setThiefturnsplash(BitmapFactory.decodeResource(res, R.drawable.thiefturnsplash));
-			setFikaSplash(BitmapFactory.decodeResource(res, R.drawable.fika));
-			setPoliswin(BitmapFactory.decodeResource(res, R.drawable.poliswin));
-			setThiefwin(BitmapFactory.decodeResource(res, R.drawable.thiefwin));
-			//Lägg alla movies i en indexerbar array.
-			movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
-			movieThiefLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.derp));
-			movieThiefUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_up_animate));
-			movieThiefDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_down_animate));
-			thiefmovies.add(UP, movieThiefUp);
-			thiefmovies.add(RIGHT, movieThiefRight);
-			thiefmovies.add(DOWN, movieThiefDown);
-			thiefmovies.add(LEFT, movieThiefLeft);
-			
-			movieCopRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_right_animate));
-			movieCopLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_left_animate));
-			movieCopUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_up_animate));
-			movieCopDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_down_animate));
-			copmovies.add(UP, movieCopUp);
-			copmovies.add(RIGHT, movieCopRight);
-			copmovies.add(DOWN, movieCopDown);
-			copmovies.add(LEFT, movieCopLeft);
-			
-			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008)); 
-
+			bitmaps = new Bitmaps(context);
+     
 		}
 		return bitmaps;
 	}
 
-	private static void setHudBottomImageCops(Bitmap hudBottomImageCops) {
-		mHudBottomImageCops = hudBottomImageCops;
+	private void setHudBottomImageCops(Bitmap hudBottomImageCops) {
+		this.mHudBottomImageCops = hudBottomImageCops;
 	}
 
 	public Bitmap getHudBottomImageCops() {
 		return mHudBottomImageCops;
 	}
 
-	private static void setHudTopImage(Bitmap hudTopImage) {
-		mHudTopImage = hudTopImage;
+	private void setHudTopImage(Bitmap hudTopImage) {
+		this.mHudTopImage = hudTopImage;
 	}
 
 	public Bitmap getHudTopImage() {
 		return mHudTopImage;
 	}
 
-	private static void setCopImage(Bitmap copImage) {
-		mCopImage = copImage;
+	private void setCopImage(Bitmap copImage) {
+		this.mCopImage = copImage;
 	}
 
 	public Bitmap getCopImage() {
 		return mCopImage;
 	}
 
-	private static void setThiefImage(Bitmap thiefImage) {
-		Bitmaps.mThiefImage = thiefImage;
+	private void setThiefImage(Bitmap thiefImage) {
+		this.mThiefImage = thiefImage;
 	}
 
 	public Bitmap getThiefImage() {
 		return mThiefImage;
 	}
 
-	private static void setHudBottomImageThieves(Bitmap hudBottomImageThieves) {
-		Bitmaps.mHudBottomImageThieves = hudBottomImageThieves;
+	private void setHudBottomImageThieves(Bitmap hudBottomImageThieves) {
+		this.mHudBottomImageThieves = hudBottomImageThieves;
 	}
 
 	public Bitmap getHudBottomImageThieves() {
 		return mHudBottomImageThieves;
 	}
 
-	private static void setBackgroundImage(Bitmap mBackgroundImage) {
-		Bitmaps.mBackgroundImage = mBackgroundImage;
+	private void setBackgroundImage(Bitmap mBackgroundImage) {
+		this.mBackgroundImage = mBackgroundImage;
 	}
 	
-	private static void setNestSplash(Bitmap nestSplash) {
-		Bitmaps.nestSplash = nestSplash;
+	private void setNestSplash(Bitmap nestSplash) {
+		this.nestSplash = nestSplash;
 	}
 	
-	private static void setBankSplash(Bitmap bankSplash) {
-		Bitmaps.bankSplash = bankSplash;
+	private void setBankSplash(Bitmap bankSplash) {
+		this.bankSplash = bankSplash;
 	}
 
 	public Bitmap getBackgroundImage() {
@@ -135,8 +149,6 @@ public class Bitmaps {
 	}
 
 
-
-	
 	// ANIMATION ARRAYS
 	
 	public Movie getThiefmovies(int index) {
@@ -145,62 +157,108 @@ public class Bitmaps {
 	public Movie getCopmovies(int index) {
 		return copmovies.get(index);
 	}
+
+	private void setHudBottomCopBg(Bitmap mHudBottomCopBg) {
+		this.mHudBottomCopBg = mHudBottomCopBg;
+	}
+
+	public Bitmap getHudBottomCopBg() {
+		return mHudBottomCopBg;
+	}
+
+	public void setHudBottomThiefBg(Bitmap mHudBottomThiefBg) {
+		this.mHudBottomThiefBg = mHudBottomThiefBg;
+	}
+
+	public Bitmap getHudBottomThiefBg() {
+		return mHudBottomThiefBg;
+	}
+
+	public void setHudCopPlayerIcon(Bitmap mHudCopPlayerIcon) {
+		this.mHudCopPlayerIcon = mHudCopPlayerIcon;
+	}
+
+	public Bitmap getHudCopPlayerIcon() {
+		return mHudCopPlayerIcon;
+	}
+
+	public void setHudThiefPlayerIcon(Bitmap mHudThiefPlayerIcon) {
+		this.mHudThiefPlayerIcon = mHudThiefPlayerIcon;
+	}
+
+	public Bitmap getHudThiefPlayerIcon() {
+		return mHudThiefPlayerIcon;
+	}
+
+	public void setHudDiceImage(Bitmap mHudDiceImage) {
+		this.mHudDiceImage = mHudDiceImage;
+	}
+
+	public Bitmap getHudDiceImage() {
+		return mHudDiceImage;
+	}
 	
-	public static Bitmap getBankSplash(){
+	public  Bitmap getBankSplash(){
 		return bankSplash;
 	}
 
-
-
-	public static Bitmap getNestSplash() {
+	public Bitmap getNestSplash() {
 		return nestSplash;
 	}
 
-	private static void setCopturnsplash(Bitmap copturnsplash) {
-		Bitmaps.copturnsplash = copturnsplash;
+	private void setCopturnsplash(Bitmap copturnsplash) {
+		this.copturnsplash = copturnsplash;
 	}
 
-	public static Bitmap getCopturnsplash() {
+	public Bitmap getCopturnsplash() {
 		return copturnsplash;
 	}
 
-	private static void setGetthiefsplash(Bitmap getthiefsplash) {
-		Bitmaps.getthiefsplash = getthiefsplash;
+	private void setGetthiefsplash(Bitmap getthiefsplash) {
+		this.getthiefsplash = getthiefsplash;
 	}
 
-	public static Bitmap getGetthiefsplash() {
+	public Bitmap getGetthiefsplash() {
 		return getthiefsplash;
 	}
 
-	private static void setThiefturnsplash(Bitmap thiefturnsplash) {
-		Bitmaps.thiefturnsplash = thiefturnsplash;
+	private void setThiefturnsplash(Bitmap thiefturnsplash) {
+		this.thiefturnsplash = thiefturnsplash;
 	}
 
-	public static Bitmap getThiefturnsplash() {
+	public Bitmap getThiefturnsplash() {
 		return thiefturnsplash;
 	}
 
-	private static void setFikaSplash(Bitmap fika) {
-		Bitmaps.fikaSplash = fika;
+	public void setHudBottomImage(Bitmap mHudBottomImage) {
+		this.mHudBottomImage = mHudBottomImage;
 	}
 
-	public static Bitmap getFikaSplash() {
+	public Bitmap getHudBottomImage() {
+		return mHudBottomImage;
+	}
+	
+	private void setFikaSplash(Bitmap fika) {
+		this.fikaSplash = fika;
+	}
+
+	public Bitmap getFikaSplash() {
 		return fikaSplash;
 	}
 
-	private static void setPoliswin(Bitmap poliswin) {
-		Bitmaps.poliswin = poliswin;
+	private void setPoliswin(Bitmap poliswin) {
+		this.poliswin = poliswin;
 	}
 
-	public static Bitmap getPoliswin() {
+	public Bitmap getPoliswin() {
 		return poliswin;
 	}
 
-	private static void setThiefwin(Bitmap thiefwin) {
-		Bitmaps.thiefwin = thiefwin;
+	private void setThiefwin(Bitmap thiefwin) {
+		this.thiefwin = thiefwin;
 	}
 
-	public static Bitmap getThiefwin() {
+	public Bitmap getThiefwin() {
 		return thiefwin;
 	}
 }

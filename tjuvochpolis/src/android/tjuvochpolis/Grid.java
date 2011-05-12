@@ -10,6 +10,7 @@ public class Grid {
 	public GridNode mGridArray[][] = new GridNode[mNumRows][mNumCols];
 
 	public Grid(Context context) {
+		
 		int[][] blocksType;
 		blocksType = new int[mNumRows][mNumCols];
 		String[] items;
