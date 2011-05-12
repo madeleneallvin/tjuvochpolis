@@ -61,8 +61,8 @@ public class CopTurnState extends PlayOrderState {
 		
 		this.drawHud(c, mZoom);
 		
-		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
-		{
+		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0){  
+			
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 		
@@ -115,7 +115,12 @@ public class CopTurnState extends PlayOrderState {
 		//kollar om alla poliser har gått
 	
 					
-	
+		if(currentObject != null && currentObject.getCurrentDiceValue() != 0){  
+			
+			currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
+			
+			Log.i("Cop turn state"," move path size" + currentObject.getMovePath().size());
+		}
 		
 		
 		

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -54,7 +55,11 @@ public class ThiefTurnState extends PlayOrderState {
 		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
+			
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
+			
+		//	Log.i("THIEF ROLL DICE", " NODEWALKER THIEF: "+currentObject.getMovePath().size());
+			
 		}
 		
 
@@ -93,8 +98,13 @@ public void drawSplashScreen(Canvas c, Context context) {
 	
 	public void doTouch(View v, MotionEvent event) {
 		
+		if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
+		{
+		currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
 		
-		
+		Log.i("Thief turn state"," move path size" + currentObject.getMovePath().size());
+		Log.i("Thief turn state"," dice value" + currentObject.getCurrentDiceValue());
+		}
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
@@ -112,7 +122,8 @@ public void drawSplashScreen(Canvas c, Context context) {
 			
 	
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
-				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
+				
+					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
 					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))) {
 						hasMoved = true;
 						lastSelected.setMovePath(paths);

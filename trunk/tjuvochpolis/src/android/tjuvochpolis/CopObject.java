@@ -43,7 +43,7 @@ public class CopObject extends GameObject{
 			moviestart = now;
 		}
 		
-		//ta reda på vilket håll tjuven ska vända sig när han går
+		//ta reda på vilket håll polisen ska vända sig när han går
 		if(this.isMoving == true){
 			//Log.i("path size", ""+this.getMovePath().size());
 			//Log.i("path position", ""+this.getCurrentPathPosition());
