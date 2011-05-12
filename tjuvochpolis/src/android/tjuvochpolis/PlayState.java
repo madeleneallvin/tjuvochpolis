@@ -362,7 +362,31 @@ public class PlayState implements GameState {
 			break;
 		}
 	}
-
+	
+	public int calculateCopTeamMoney(){
+		int teamMoney = 0;
+		for(int i = 0; i<mObjectStaticArray.size(); i++){
+			
+			if(mObjectStaticArray.get(i).getClass() == PoliceStationObject.class){
+				teamMoney += mObjectStaticArray.get(i).getObjectMoney();
+			}
+		}
+		
+		return teamMoney;
+	}
+	
+	public int calculateThiefTeamMoney(){
+		int teamMoney = 0;
+		for(int i = 0; i<mObjectStaticArray.size(); i++){
+			
+			if(mObjectStaticArray.get(i).getClass() == NestObject.class){
+				teamMoney += mObjectStaticArray.get(i).getObjectMoney();
+			}
+		}
+		
+		return teamMoney;
+	}
+	
 	public PlayOrderState getCurrentPlayOrderState()
 	{
 		return mCurrentState;

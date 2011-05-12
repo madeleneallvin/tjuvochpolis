@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.tjuvochpolis.PlayState.mObjectStaticIndex;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,7 +62,8 @@ public class CopMoveState extends PlayOrderState {
 				currentCop.transportToJail(policeRow, policeCol, mGrid);
 				currentThief.transportToJail(thiefRow,thiefCol, mGrid);
 				
-				currentCop.setObjectMoney(currentThief.getObjectMoney()/2);
+				// Lagrar polisens pengar på polishus 1
+				this.mGameStaticObjects.get(mObjectStaticIndex.POLICESTATION1.getIndex()).setObjectMoney(this.mGameStaticObjects.get(mObjectStaticIndex.POLICESTATION1.getIndex()).getObjectMoney() + currentThief.getObjectMoney()/2);
 				currentThief.setObjectMoney(0);
 				
 				int wait = Dice.getDice().rollDice();
