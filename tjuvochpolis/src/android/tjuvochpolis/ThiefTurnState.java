@@ -58,9 +58,18 @@ public void drawSplashScreen(Canvas c, Context context) {
 	
 	public void doTouch(View v, MotionEvent event) {
 		
-		
-		
-		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
+		if(event.getY() > v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
+		{
+			if(event.getX() <= v.getWidth()*0.333)
+				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF1);
+			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666)
+				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF2);
+			else
+				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF3);
+			
+			lastSelected = currentObject;
+		}
+		else if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
 			int col = GridNode.getCol(event, mPlayState.getOffsetX());
