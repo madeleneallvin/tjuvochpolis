@@ -66,7 +66,7 @@ public class Bitmaps {
 			copmovies.add(DOWN, movieCopDown);
 			copmovies.add(LEFT, movieCopLeft);
 			
-			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));
+			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008)); 
 
 		}
 		return bitmaps;
@@ -115,7 +115,7 @@ public class Bitmaps {
 	private static void setBackgroundImage(Bitmap mBackgroundImage) {
 		Bitmaps.mBackgroundImage = mBackgroundImage;
 	}
-		
+	
 	private static void setNestSplash(Bitmap nestSplash) {
 		Bitmaps.nestSplash = nestSplash;
 	}
