@@ -1,6 +1,11 @@
 package android.tjuvochpolis;
 
 import java.util.ArrayList;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,10 +17,23 @@ public class CopRollDiceState extends PlayOrderState {
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 		this.mNextState = this;
 	}
+	
+	boolean oneTimeShot;
 
 	@Override
 	public void doTouch(View v, MotionEvent event) {
-
+		this.mNextState = mPlayState.copTurnState;
+	}
+	
+	public void doDraw(Canvas c, float mZoom){
+	
+	if (oneTimeShot = true){
+		
+		drawSplashScreen(c , mPlayState.getContext());
+		
+		oneTimeShot = false;
+	}
+	
 	}
 
 	@Override
@@ -56,7 +74,22 @@ public class CopRollDiceState extends PlayOrderState {
 		cop3.doNodeWalker(cop3.getParentNode(), cop3.getParentNode(), cop3.getCurrentDiceValue());
 		
 		//Change state
-		this.mNextState = mPlayState.copTurnState;
+		
+	}
+	
+public void drawSplashScreen(Canvas c, Context context) {
+
+		
+		Bitmaps.instance(context);
+		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		int left = c.getWidth()/6;
+		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
+		c.drawBitmap(bankSplash, null, copTurnRect, null);
+		
+		
+	
+		
 	}
 
 	@Override
