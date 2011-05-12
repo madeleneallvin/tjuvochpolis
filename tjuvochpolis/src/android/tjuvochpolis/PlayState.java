@@ -274,7 +274,7 @@ public class PlayState implements GameState {
 				
 				moveAction = false;
 				long timediff = System.currentTimeMillis() - mLastTap;
-				boolean doubleTap = timediff < 400;
+				boolean doubleTap = timediff < 200;
 				mLastTap = System.currentTimeMillis();
 				
 				if(doubleTap) {	

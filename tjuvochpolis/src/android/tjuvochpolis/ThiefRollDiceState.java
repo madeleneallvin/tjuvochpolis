@@ -57,6 +57,10 @@ public class ThiefRollDiceState extends PlayOrderState {
 		thief1.doNodeWalker(thief1.getParentNode(), thief1.getParentNode(), thief1.getCurrentDiceValue());
 		thief2.doNodeWalker(thief2.getParentNode(), thief2.getParentNode(), thief2.getCurrentDiceValue());
 		thief3.doNodeWalker(thief3.getParentNode(), thief3.getParentNode(), thief3.getCurrentDiceValue());
+		
+		
+		
+		
 
 		//Change state
 		this.mNextState = mPlayState.thiefTurnState;
