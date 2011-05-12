@@ -91,7 +91,8 @@ public class ThiefObject extends GameObject{
 		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK) {
 			return true;
 		}
-		else {
+		else 
+		{
 			return false;
 		}
 	}
@@ -99,9 +100,9 @@ public class ThiefObject extends GameObject{
 	public boolean canStopHere(GridNode node) {
 		if(node.getType() == GridNode.THIEF_NEST || node.getType() == GridNode.BANK){
 			return true;
+		}else{
+			return false;
 		}
-		
-		return false;
 	}
 
 	public boolean hasMoney() {
