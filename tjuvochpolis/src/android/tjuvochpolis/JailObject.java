@@ -3,6 +3,7 @@ package android.tjuvochpolis;
 import java.util.Random;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,8 +14,10 @@ import android.view.View;
 
 public class JailObject extends GameStaticObject {
 
-	private SplashButton rob;
 	
+	private Rect arrestRect;
+	private Bitmap arrestSplash;
+	private SplashButton arrestButton;
 	public JailObject(String name, GridNode parentNode) {
 		super(name, parentNode);
 	}
@@ -34,7 +37,20 @@ public class JailObject extends GameStaticObject {
 	/**
 	 * Function that handles the drawing of the splash screen
 	 */
-	public void drawSplashScreen(Canvas c, float mZoom, Context con) {
+	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
+		
+		Bitmaps.instance(context);
+		arrestSplash = Bitmaps.getGetthiefsplash();
+		int left = c.getWidth()/6;
+		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect nestRect = new Rect(left, top, left+4*left, top+left*4);
+		c.drawBitmap(arrestSplash, null, nestRect, null);
+		
+
+		
+
+		arrestButton = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
+		/*
 		Paint paint = new Paint();
 		paint.setColor(Color.GREEN);
 		Rect rect = new Rect(50, 300, 430, 500);
@@ -45,6 +61,6 @@ public class JailObject extends GameStaticObject {
 		Rect button = new Rect(100, 350, 150, 400);
 		c.drawRect(button, paint);		
 		
-		rob = new SplashButton(100,350, 50,50);
+		rob = new SplashButton(100,350, 50,50);*/
 	}
 }
