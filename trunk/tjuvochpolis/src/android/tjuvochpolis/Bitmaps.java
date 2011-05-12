@@ -20,7 +20,6 @@ public class Bitmaps {
 	private static Bitmap mCopImage;
 	private static Bitmap mThiefImage;
 	private static Bitmap mBackgroundImage;
-	private static Bitmap mMenuImage;
 	private static Bitmap nestSplash;
 	private static Bitmap bankSplash;
 	private static Bitmap copturnsplash;
@@ -67,8 +66,7 @@ public class Bitmaps {
 			copmovies.add(DOWN, movieCopDown);
 			copmovies.add(LEFT, movieCopLeft);
 			
-			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));    
-			setMenuImage(BitmapFactory.decodeResource(res, R.drawable.menybild));
+			setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));
 
 		}
 		return bitmaps;
@@ -117,14 +115,7 @@ public class Bitmaps {
 	private static void setBackgroundImage(Bitmap mBackgroundImage) {
 		Bitmaps.mBackgroundImage = mBackgroundImage;
 	}
-	
-	private static void setMenuImage(Bitmap mMenuImage) {
-		Bitmaps.mMenuImage = mMenuImage;
-	}
-	public Bitmap getMenuImage() {
-		return mMenuImage;
-	}
-	
+		
 	private static void setNestSplash(Bitmap nestSplash) {
 		Bitmaps.nestSplash = nestSplash;
 	}
