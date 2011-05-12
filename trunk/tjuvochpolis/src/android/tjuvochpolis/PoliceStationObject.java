@@ -30,8 +30,7 @@ public class PoliceStationObject extends GameStaticObject {
 	 */
 	//@Override
 	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
-		Bitmaps.instance(context);
-		stationSplash = Bitmaps.getFikaSplash();
+		stationSplash = Bitmaps.instance(context).getFikaSplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect stationRect = new Rect(left, top, left+4*left, top+left*4);

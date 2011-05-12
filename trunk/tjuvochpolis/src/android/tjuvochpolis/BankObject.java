@@ -86,7 +86,7 @@ public class BankObject extends GameStaticObject {
 		Bitmaps.instance(context);
 		
 		
-		Bitmap bankSplash = Bitmaps.getBankSplash();
+		Bitmap bankSplash = Bitmaps.instance(context).getBankSplash();
 		
 		Rect bankRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(bankSplash, null, bankRect, null);

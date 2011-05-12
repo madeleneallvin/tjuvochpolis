@@ -12,21 +12,20 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class ThiefObject extends GameObject{
-	
+
 	private Rect rectThief;
 	private Bitmap thiefIm;
 	private long moviestart;
 	private int direction;
 	private boolean isCaught = false;
 	
-	public ThiefObject(String name, GridNode parentNode, int diceValue, int objectMoney) {
-		super(name, parentNode, diceValue, objectMoney);
+	public ThiefObject(String name, GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney) {
+		super(name, parentNode, diceValue, rolledDiceValue, objectMoney);
 		
 		this.objectMoney = objectMoney;
 		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
 		this.setDrawYPos(this.getParentNode().getY());
-		
 	}
 
 	@Override
@@ -77,7 +76,6 @@ public class ThiefObject extends GameObject{
 			//this.invalidate();
 		}
 		else{
-			Resources res = context.getResources();
 			thiefIm = Bitmaps.instance(context).getThiefImage();
 			rectThief = new Rect(xPos, yPos, right, bottom);
 			canvas.drawBitmap(thiefIm, null, rectThief, null);
@@ -96,12 +94,10 @@ public class ThiefObject extends GameObject{
 			}
 		}
 		
-		
 		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK) {
 			return true;
 		}
-		else 
-		{
+		else {
 			return false;
 		}
 	}
@@ -120,11 +116,11 @@ public class ThiefObject extends GameObject{
 		}
 		return false;
 	}
-	
+
 	public int getMoney(){
 		return this.objectMoney;
 	}
-	
+
 	public void saveState(Context mContext)
 	{
 		super.saveState(mContext);
@@ -137,7 +133,7 @@ public class ThiefObject extends GameObject{
 		
 		ed.commit();
 	}
-
+	
 	public void setCaught(boolean isCaught) {
 		this.isCaught = isCaught;
 	}

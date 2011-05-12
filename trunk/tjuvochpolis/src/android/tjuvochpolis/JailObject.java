@@ -14,8 +14,8 @@ import android.view.View;
 
 public class JailObject extends GameStaticObject {
 
-	
-	
+
+		
 	private Bitmap arrestSplash;
 	private SplashButton arrestButton;
 	public JailObject(String name, GridNode parentNode) {
@@ -39,15 +39,12 @@ public class JailObject extends GameStaticObject {
 	 */
 	public void drawSplashScreen(Canvas c, float mZoom, Context context) {
 		
-		Bitmaps.instance(context);
-		arrestSplash = Bitmaps.getGetthiefsplash();
+		arrestSplash = Bitmaps.instance(context).getGetthiefsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect arrestRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(arrestSplash, null, arrestRect, null);
-		
 
-		
 
 		arrestButton = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
 		/*

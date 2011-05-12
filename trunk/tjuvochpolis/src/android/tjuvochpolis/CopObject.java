@@ -18,8 +18,8 @@ public class CopObject extends GameObject{
 	private int direction;
 	private ThiefObject thiefCaught = null;
 	
-	public CopObject(String name,GridNode parentNode, int diceValue, int objectMoney) {
-		super(name, parentNode, diceValue, objectMoney);
+	public CopObject(String name,GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney) {
+		super(name, parentNode, diceValue, rolledDiceValue, objectMoney);
 		
 		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());
@@ -89,6 +89,7 @@ public class CopObject extends GameObject{
 	
 	public boolean isWalkable(GridNode node){
 		int type = node.getType();
+
 		if(type == GridNode.STREET || type == GridNode.POLICE_STATION)
 		{
 			return true;
@@ -104,6 +105,7 @@ public class CopObject extends GameObject{
 		if(node.getType() == GridNode.POLICE_STATION){
 			return true;
 		}
+		
 		// Det står en tjuv på noden
 		if(node.getGameObject() != null){
 			if(node.getGameObject().getClass().equals(ThiefObject.class))
@@ -136,7 +138,7 @@ public class CopObject extends GameObject{
 	public boolean hasMoney() {
 		return false;
 	}
-
+	
 	public void setThiefCaught(ThiefObject thiefCaught) {
 		this.thiefCaught = thiefCaught;
 	}

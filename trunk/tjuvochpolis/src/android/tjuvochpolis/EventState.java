@@ -16,8 +16,6 @@ public class EventState extends PlayOrderState {
 	
 	private Rect mRectLeft;
 	private Rect mRectRight;
-	private Bitmap mHudBottomImage;
-	private Bitmap mHudTopImage;
 	boolean hasBeenTouched = false; //test
 	private GameStaticObject staticObject;
 	Context context;
@@ -32,25 +30,20 @@ public class EventState extends PlayOrderState {
 		
 		hasBeenTouched = staticObject.handleEvent(event, context);
 		
-	
-		
-		
 	}
-	
-
 	
 	
 public void drawHud(Canvas c, float mZoom){
 		
 		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
 		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
-		int thickness = (int) Math.floor(48/mZoom);
+		int thickness = (int) Math.floor(Grid.GRID_SIZE/mZoom);
 		
 		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
 		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
 
 		c.drawBitmap(HudFactory.getBottomHud(mPlayState, c), null, mRectRight, null);
-		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
+		c.drawBitmap(HudFactory.getTopHud(mPlayState, c), null, mRectLeft, null);
 	}
 
 	@Override
@@ -66,7 +59,7 @@ public void drawHud(Canvas c, float mZoom){
 	 * Draw the splash screen
 	 */
 	public void drawSplash(Canvas c, float mZoom) {
-	//	this.drawHud(c, mZoom);
+		this.drawHud(c, mZoom);
 		
 		staticObject = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
 
@@ -77,7 +70,7 @@ public void drawHud(Canvas c, float mZoom){
 	
 	@Override
 	public void handleState(int frame) {
-		
+
 	}
 
 }

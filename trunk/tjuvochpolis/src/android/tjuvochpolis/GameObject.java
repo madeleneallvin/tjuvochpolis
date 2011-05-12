@@ -11,6 +11,7 @@ public abstract class GameObject {
 
 	private GridNode mParentNode;
 	private int mCurrentDiceValue;
+	private int mRolledDiceValue;
 	protected int objectMoney;
 	private int objectIndex;
 	protected String name;
@@ -22,15 +23,17 @@ public abstract class GameObject {
 	private float mDrawYPos;
 	protected int moveToColCoordinate;
 	protected int moveToRowCoordinate;
+	protected boolean isActive = false;
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
 	private int waitingLeft = 0;
 	
-	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int objectMoney) {
+	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int mRolledDiceValue, int objectMoney) {
 		this.setParentNode(parentNode);
 		this.name = name;
 		
 		this.mCurrentDiceValue = mCurrentdiceValue;
+		this.mRolledDiceValue = mRolledDiceValue;
 		this.objectMoney = objectMoney;
 		
 		this.getParentNode().setGameObject(this);
@@ -39,7 +42,6 @@ public abstract class GameObject {
 	public abstract boolean isWalkable(GridNode node);
 	public abstract void doDraw(Canvas canvas, int offsetX, int offsetY, Context context); 
 	public abstract boolean hasMoney();
-	
 
 	public boolean canStopHere(GridNode node){
 		return false;
@@ -72,7 +74,7 @@ public abstract class GameObject {
 				return;
 			}
 		}
-		
+
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
 			// Sparar undan en möjlig väg
@@ -135,6 +137,7 @@ public abstract class GameObject {
 
 		isMoving = true;
 	}
+
 	public void transportToJail(int rowCoordinate, int colCoordinate, Grid mGrid){
 		//this.moveToRowCoordinate = rowCoordinate;
 		//this.moveToColCoordinate = colCoordinate;
@@ -146,16 +149,28 @@ public abstract class GameObject {
 		mGrid.getGridNode(rowCoordinate, colCoordinate).setGameObject(this);
 		this.setParentNode(mGrid.getGridNode(rowCoordinate, colCoordinate));
 	}
+
 	public int getCurrentDiceValue()
 	{
 		return mCurrentDiceValue;
+	}
+	
+	public int getRolledDiceValue()
+	{
+		return mRolledDiceValue;
 	}
 
 	public void setCurrentDiceValue(int val)
 	{
 		mCurrentDiceValue = val;
 	}
-
+	
+	public void setRolledDiceValue(int val)
+	{
+		mRolledDiceValue = val;
+		mCurrentDiceValue = val;
+	}
+	
 	public void setDrawXPos(float mDrawXPos) {
 		this.mDrawXPos = mDrawXPos;
 	}
@@ -243,10 +258,11 @@ public abstract class GameObject {
 		ed.putInt(name + "_col", (mParentNode.getCol()));
 		ed.putInt(name + "_money", objectMoney);
 		ed.putInt(name + "_diceValue", mCurrentDiceValue);
+		ed.putInt(name + "_rolledDiceValue", mRolledDiceValue);
 		
 		ed.commit();
 	}
-
+	
 	public void setWaitingLeft(int waitingLeft) {
 		this.waitingLeft = waitingLeft;
 	}

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,12 +16,6 @@ public class ThiefTurnState extends PlayOrderState {
 	boolean hasMoved = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
-
-	private Rect mRectLeft;
-	private Rect mRectRight;
-	
-	private Bitmap mHudBottomImage;
-	private Bitmap mHudTopImage;
 
 	public ThiefTurnState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
 		super(ps, gameObjects, gameStaticObjects, grid, index);
@@ -33,10 +26,7 @@ public class ThiefTurnState extends PlayOrderState {
 		
 		this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue());
 		this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue());
-		this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue());
-		
-		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageThieves();
-		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();		
+		this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue());		
 	}
 	
 	@Override
@@ -50,61 +40,26 @@ public class ThiefTurnState extends PlayOrderState {
 		}
 		}
 		
-		
-		this.drawHud(c, mZoom);
-		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
 		{
-			
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
-			
-		//	Log.i("THIEF ROLL DICE", " NODEWALKER THIEF: "+currentObject.getMovePath().size());
-			
 		}
-		
-
-		
-	}
-
-	
-	public void drawHud(Canvas c, float mZoom){
-
-		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
-		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
-		int thickness = (int) Math.floor(48/mZoom);
-		
-		mRectLeft = new Rect(0, 0, canvasWidth, thickness);
-		mRectRight = new Rect(0, canvasHeight-thickness, canvasWidth, canvasHeight);
-		
-		c.drawBitmap(mHudBottomImage, null, mRectRight, null);
-	 
-		c.drawBitmap(mHudTopImage, null, mRectLeft, null);
 	}
 	
 public void drawSplashScreen(Canvas c, Context context) {
 
-		
-		Bitmaps.instance(context);
-		Bitmap bankSplash = Bitmaps.getCopturnsplash();
+		Bitmap bankSplash = Bitmaps.instance(context).getCopturnsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect copTurnRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(bankSplash, null, copTurnRect, null);
 		
-		
-		
 	}
-	
 	
 	public void doTouch(View v, MotionEvent event) {
 		
-		if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
-		{
-		currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
 		
-		Log.i("Thief turn state"," move path size" + currentObject.getMovePath().size());
-		Log.i("Thief turn state"," dice value" + currentObject.getCurrentDiceValue());
-		}
+		
 		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
@@ -112,7 +67,8 @@ public void drawSplashScreen(Canvas c, Context context) {
 		
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
-		
+			mPlayState.setActiveObject(currentObject);
+			
 			//kollar om alla tjuvar har gått
 		
 			if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
@@ -122,24 +78,18 @@ public void drawSplashScreen(Canvas c, Context context) {
 			
 	
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
-				
-					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
+				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
 					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))) {
 						hasMoved = true;
 						lastSelected.setMovePath(paths);
 						lastSelected.isMoving = true;
 						lastSelected.setCurrentDiceValue(0);
 						setCurrentObjectSelected(lastSelected.getName());
-						
-						
-						
 					}
 					
 				}
 				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
-					
 					drawSplashThief = true;
-					
 				}
 				
 			}
@@ -147,8 +97,6 @@ public void drawSplashScreen(Canvas c, Context context) {
 				lastSelected = currentObject;
 			}	
 		}
-		
-	
 	}
 	
 	
