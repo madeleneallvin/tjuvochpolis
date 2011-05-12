@@ -110,19 +110,6 @@ public class CopTurnState extends PlayOrderState {
 				lastSelected = currentObject;
 			}
 		}
-		else{ // Fifflar på HUD:en
-		
-//			float x = event.getX();
-//			float y = event.getY();
-//			int thickness = mRectCop1.width();
-//
-//			if(x > 0 && x < thickness && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-//				Log.i("Cop", "1");
-//			else if(x > thickness*2 && x < thickness*3 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-//				Log.i("Cop", "2");
-//			else if(x > thickness*4 && x < thickness*5 && y > v.getHeight()-thickness && y < v.getHeight()) // Porträtt 1
-//				Log.i("Cop", "3");
-		}
 
 	}
 	
@@ -137,6 +124,7 @@ public class CopTurnState extends PlayOrderState {
 		else if(everythingHasMoved == true){
 			drawSplashCop = false;
 			everythingHasMoved=false;
+			
 			return mPlayState.getThiefRollDiceState();
 
 		} 

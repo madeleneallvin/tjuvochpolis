@@ -21,6 +21,9 @@ public abstract class GameStaticObject {
 	
 	public abstract void drawSplashScreen(Canvas c, float mZoom, Context context);
 
+	
+	
+	
 	public void setParentNode(GridNode parentNode) {
 		this.mParentNode = parentNode;
 	}
