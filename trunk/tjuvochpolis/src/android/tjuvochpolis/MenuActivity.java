@@ -22,10 +22,18 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.menustate);
         activity = this;
         Button btnPlay = (Button)findViewById(R.id.Button01);
-        Button btnExit = (Button)findViewById(R.id.Button02);
+        Button btnContinue = (Button)findViewById(R.id.Button02);
+        Button btnExit = (Button)findViewById(R.id.Button03);
        
         btnPlay.setOnClickListener(new OnClickListener() {
-			
+			public void onClick(View v) {
+		        
+				Intent intent = new Intent(activity, GameActivity.class);
+				startActivity(intent);
+			}
+		});
+        
+        btnContinue.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
 				Intent intent = new Intent(activity, GameActivity.class);
@@ -44,8 +52,8 @@ public class MenuActivity extends Activity {
               
         
         
-        // avkommentera när saved states blir aktuellt
-        /*// get handles to the GameView from XML, and its GameThread
+       /* // avkommentera när saved states blir aktuellt
+       // get handles to the GameView from XML, and its GameThread
         mGameView = (GameView) findViewById(R.id.tjuvochpolis);
         mGameThread = mGameView.getThread();
 
