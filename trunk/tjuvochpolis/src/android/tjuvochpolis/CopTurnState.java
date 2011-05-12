@@ -60,9 +60,20 @@ public class CopTurnState extends PlayOrderState {
 		c.drawBitmap(bankSplash, null, copTurnRect, null);
 	}
 
-	public void doTouch(View v, MotionEvent event){
-		
-		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
+	public void doTouch(View v, MotionEvent event)
+	{
+		if(event.getY() > v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
+		{
+			if(event.getX() <= v.getWidth()*0.333)
+				currentObject = mPlayState.getGameObject(mObjectIndex.COP1);
+			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666)
+				currentObject = mPlayState.getGameObject(mObjectIndex.COP2);
+			else
+				currentObject = mPlayState.getGameObject(mObjectIndex.COP3);
+			
+			lastSelected = currentObject;
+		}
+		else if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
 			//om x och y är giltiga destinationer
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
@@ -83,10 +94,6 @@ public class CopTurnState extends PlayOrderState {
 						lastSelected.setMovePath(paths);
 						lastSelected.isMoving = true;
 						lastSelected.setCurrentDiceValue(0);
-						
-						
-					
-						
 						
 						//sätt att en polis har tagit en tjuv och sen att tjuven är tagen, för att använda i CopMoveState
 						if(currentObject != null && currentObject.getClass().equals(ThiefObject.class)){
@@ -110,6 +117,8 @@ public class CopTurnState extends PlayOrderState {
 				lastSelected = currentObject;
 			}
 		}
+		
+		
 
 	}
 	
