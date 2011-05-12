@@ -88,6 +88,15 @@ public class ThiefObject extends GameObject{
 	@Override
 	public boolean isWalkable(GridNode node) {
 		int type = node.getType();
+		
+		if(node.getGameObject() != null){
+			if(this.hasMoney() && node.getGameObject().getClass().equals(CopObject.class)){
+				Log.i("polis", this.name+" har pengar");
+				return false;
+			}
+		}
+		
+		
 		if(type == GridNode.STREET || type == GridNode.THIEF_NEST || type == GridNode.BANK) {
 			return true;
 		}
