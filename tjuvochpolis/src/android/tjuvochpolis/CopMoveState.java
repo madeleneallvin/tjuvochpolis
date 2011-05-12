@@ -40,13 +40,19 @@ public class CopMoveState extends PlayOrderState {
 				if(currentCop.name.equalsIgnoreCase("cop1")){
 					policeCol = 11;
 					policeRow = 9;
-				}else{
+				}else if(currentCop.name.equalsIgnoreCase("cop2")){
 					policeCol = 11;
 					policeRow = 8;
+				}else{
+					policeCol = 12;
+					policeRow = 9;
 				}
 				if(currentThief.name.equalsIgnoreCase("thief1")){
 					thiefCol = 9;
 					thiefRow = 8;
+				}else if(currentThief.name.equalsIgnoreCase("thief2")){
+					thiefCol = 8;
+					thiefRow = 9;
 				}else{
 					thiefCol = 9;
 					thiefRow = 9;

@@ -34,6 +34,7 @@ public class CopTurnState extends PlayOrderState {
 		
 		this.mGameObjects.get(mObjectIndex.COP1.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue());
 		this.mGameObjects.get(mObjectIndex.COP2.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue());
+		this.mGameObjects.get(mObjectIndex.COP3.getIndex()).doNodeWalker(this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getParentNode(), this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue());
 		
 		mHudBottomImage = Bitmaps.instance(ps.getContext()).getHudBottomImageCops();
 		mHudTopImage = Bitmaps.instance(ps.getContext()).getHudTopImage();
@@ -121,12 +122,12 @@ public class CopTurnState extends PlayOrderState {
 			GridNode clickedNode =	mGrid.getGridNode(row, col);
 			currentObject =	clickedNode.getGameObject();
 			
-			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
+			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0  ){
 				everythingHasMoved = true;
 				
 			}
 			
-			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0){
+			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
 				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
 					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
 						hasMoved = true;
@@ -149,7 +150,7 @@ public class CopTurnState extends PlayOrderState {
 
 				}
 				
-				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0){
+				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
 					
 					drawSplashCop = true;
 					
