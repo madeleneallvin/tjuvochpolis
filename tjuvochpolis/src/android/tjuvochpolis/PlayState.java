@@ -57,7 +57,8 @@ public class PlayState implements GameState {
         POLICESTATION1(12),
         POLICESTATION2(13),
         JAIL1(14),
-        JAIL2(15);
+        JAIL2(15),
+        JAIL3(16);
     
         private final int index;
         mObjectStaticIndex(int index) {
@@ -82,7 +83,7 @@ public class PlayState implements GameState {
     protected EventState eventState;
     
     protected int mFrame;
-    
+	
     private float mPrevX;
     private float mPrevY;
     private float mStartX;
@@ -105,6 +106,9 @@ public class PlayState implements GameState {
 	private boolean zoomOut = false;
 	private boolean moveAction = false;
 	private float distance = 0.0f;
+	
+
+	
 	
 	public PlayState(Context context) {
 		mGrid = new Grid(context);
@@ -156,6 +160,7 @@ public class PlayState implements GameState {
 		//Jails
 		mObjectStaticArray.add(new JailObject("JAIL1",mGrid.mGridArray[8][11]));
 		mObjectStaticArray.add(new JailObject("JAIL2",mGrid.mGridArray[9][11]));
+		mObjectStaticArray.add(new JailObject("JAIL3",mGrid.mGridArray[9][12]));
 		
 		
 		// Create the states
