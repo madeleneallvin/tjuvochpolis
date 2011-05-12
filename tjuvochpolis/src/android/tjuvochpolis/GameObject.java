@@ -61,15 +61,18 @@ public abstract class GameObject {
 		// Tar fram alla möjliga noder man kan gå till från currentNode
 		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
 
-		// Kolla gameobjects
-		if(nextNodes.size() != 0 && this.canStopHere(currentNode))
-		{
-			// Save the node
+		// Kolla gameobjects		
+		if(this.canStopHere(currentNode)) {
+			// Save the node	
 			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
-			//path.remove(path.size()-1);
-			//return;
+			
+			//om det är en återvändsgränd
+			if(nextNodes.size() == 0) {
+				path.remove(path.size()-1);
+				return;
+			}
 		}
-
+		
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
 			// Sparar undan en möjlig väg

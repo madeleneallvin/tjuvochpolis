@@ -89,8 +89,7 @@ public class CopObject extends GameObject{
 	
 	public boolean isWalkable(GridNode node){
 		int type = node.getType();
-
-		if(type == GridNode.STREET || type == GridNode.POLICE_STATION || type == GridNode.TELEGRAPH)
+		if(type == GridNode.STREET || type == GridNode.POLICE_STATION)
 		{
 			return true;
 		}
