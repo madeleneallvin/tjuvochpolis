@@ -3,6 +3,9 @@ package android.tjuvochpolis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +23,12 @@ public class MenuActivity extends Activity {
         activity = this;
         Button btnPlay = (Button)findViewById(R.id.Button01);
         Button btnExit = (Button)findViewById(R.id.Button02);
+       
+        //Canvas canvas = new Canvas();
+                
+        //View ma = findViewById(R.id.tjuvochpolis);
+        
+        //this.draw(canvas);
         
         btnPlay.setOnClickListener(new OnClickListener() {
 			
@@ -38,7 +47,7 @@ public class MenuActivity extends Activity {
 			}
 		});
         
-               
+              
         
         
         // avkommentera när saved states blir aktuellt
@@ -60,5 +69,16 @@ public class MenuActivity extends Activity {
     }
     
     
+    public void draw(Canvas c)
+	{
+		//Bitmaps.instance(context);
+		Bitmap menuImage = Bitmaps.instance(context).getMenuImage();
+		
+		//int left = c.getWidth()/6;
+		//int top = c.getHeight()/2 - (c.getWidth()/6)*2;
+		Rect startRect = new Rect(0, 0, c.getWidth(), c.getHeight());
+		c.drawBitmap(menuImage, null, startRect, null);
+		
+	}
     
 }
