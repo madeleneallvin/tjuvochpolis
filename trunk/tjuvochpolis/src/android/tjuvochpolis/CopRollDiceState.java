@@ -13,18 +13,19 @@ import android.view.View;
 
 public class CopRollDiceState extends PlayOrderState {
 
+	private boolean oneTimeShot = true;
 	public CopRollDiceState(PlayState ps, ArrayList<GameObject> gameObjects, ArrayList<GameStaticObject> gameStaticObjects, Grid grid, int index) {
 		super(ps, gameObjects, gameStaticObjects, grid, index);
 		this.mNextState = this;
 	}
 	
-	boolean oneTimeShot;
+	
 
 	@Override
 	public void doTouch(View v, MotionEvent event) {
 		this.mNextState = mPlayState.copTurnState;
 	}
-	
+
 	public void doDraw(Canvas c, float mZoom){
 	
 	if (oneTimeShot = true){

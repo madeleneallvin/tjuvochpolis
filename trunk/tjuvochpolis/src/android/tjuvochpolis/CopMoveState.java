@@ -39,10 +39,10 @@ public class CopMoveState extends PlayOrderState {
 				//hårdkodade positioner för tjuvarnas och polisernas platser i fängelset och polisstationen :P
 				if(currentCop.name.equalsIgnoreCase("cop1")){
 					policeCol = 11;
-					policeRow = 9;
+					policeRow = 8;
 				}else if(currentCop.name.equalsIgnoreCase("cop2")){
 					policeCol = 11;
-					policeRow = 8;
+					policeRow = 9;
 				}else{
 					policeCol = 12;
 					policeRow = 9;
