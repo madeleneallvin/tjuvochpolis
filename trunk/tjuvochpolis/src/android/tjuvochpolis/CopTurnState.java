@@ -15,7 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class CopTurnState extends PlayOrderState {
-
+	
+	int turnSelect;
 	boolean hasMoved = false;
 	private boolean drawSplashCop = false;
 	boolean everythingHasMoved = false;
@@ -64,6 +65,9 @@ public class CopTurnState extends PlayOrderState {
 		{
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
+		
+	
+			
 	
 		
 			
@@ -91,6 +95,8 @@ public class CopTurnState extends PlayOrderState {
 	
 		
 	}
+	
+
 	
 	public void drawHud(Canvas c, float mZoom){
 		
