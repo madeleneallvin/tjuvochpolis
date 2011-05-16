@@ -15,13 +15,19 @@ public class Bitmaps {
 	private Bitmap mHudBottomImage;
 	private Bitmap mHudBottomImageCops;
 	private Bitmap mHudBottomImageThieves;
-	private Bitmap mHudTopImage;
+	private Bitmap mHudTopImageCops;
+	private Bitmap mHudTopImageThieves;
 	private Bitmap mHudBottomCopBg;
 	private Bitmap mHudBottomThiefBg;
 	private Bitmap mHudCopPlayerIcon;
 	private Bitmap mHudThiefPlayerIcon;
 	private Bitmap mHudDiceImage;
+	private Bitmap mHudCoin;
+	private Bitmap mHudCopSprite;
+	private Bitmap mHudThiefSprite;
 	
+	private Bitmap copImage;
+	private Bitmap thiefImage;
 	private Bitmap nestSplash;
 	private Bitmap bankSplash;
 	private Bitmap copturnsplash;
@@ -31,8 +37,6 @@ public class Bitmaps {
 	private Bitmap poliswin;
 	private Bitmap thiefwin;
 	
-	private Bitmap mCopImage;
-	private Bitmap mThiefImage;
 	private Bitmap mBackgroundImage;
 	private Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
 	private Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
@@ -42,16 +46,25 @@ public class Bitmaps {
 	private Bitmaps(Context context) {
 
 		Resources res = context.getResources();
+		
 		setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
 		setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
-		setHudTopImage(BitmapFactory.decodeResource(res, R.drawable.htc_top_bakgrund_256));
-		setCopImage(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
-		setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
+		setHudTopImageCops(BitmapFactory.decodeResource(res, R.drawable.hud_top_cop));
+		setHudTopImageThieves(BitmapFactory.decodeResource(res, R.drawable.hud_top_tjuv));
 		setHudBottomCopBg(BitmapFactory.decodeResource(res, R.drawable.copbottom));
 		setHudBottomThiefBg(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv));
-		setHudCopPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.police_walk_down_animate));
-		setHudThiefPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.buse1_walk_down_animate));
+		
+		setHudCopSprite(BitmapFactory.decodeResource(res, R.drawable.hud_polis));
+		setHudThiefSprite(BitmapFactory.decodeResource(res, R.drawable.hud_tjuv));
+		
+		setHudCopPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.hud_cop_face));
+		setHudThiefPlayerIcon(BitmapFactory.decodeResource(res, R.drawable.hud_tjuv_face));
 		setHudDiceImage(BitmapFactory.decodeResource(res, R.drawable.dices));
+		setHudCoin(BitmapFactory.decodeResource(res, R.drawable.hud_coin));
+		
+		setCopImage(BitmapFactory.decodeResource(res, R.drawable.polis_standing));
+		setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
+		
 		setBankSplash(BitmapFactory.decodeResource(res, R.drawable.banksplash));
 		setNestSplash(BitmapFactory.decodeResource(res, R.drawable.nestsplash));
 		setCopturnsplash(BitmapFactory.decodeResource(res, R.drawable.copturnsplash));
@@ -100,30 +113,22 @@ public class Bitmaps {
 		return mHudBottomImageCops;
 	}
 
-	private void setHudTopImage(Bitmap hudTopImage) {
-		this.mHudTopImage = hudTopImage;
+	private void setHudTopImageCops(Bitmap hudTopImage) {
+		this.mHudTopImageCops = hudTopImage;
 	}
 
-	public Bitmap getHudTopImage() {
-		return mHudTopImage;
+	public Bitmap getHudTopImageCops() {
+		return mHudTopImageCops;
 	}
 
-	private void setCopImage(Bitmap copImage) {
-		this.mCopImage = copImage;
+	private void setHudTopImageThieves(Bitmap hudTopImage) {
+		this.mHudTopImageThieves = hudTopImage;
 	}
 
-	public Bitmap getCopImage() {
-		return mCopImage;
+	public Bitmap getHudTopImageThieves() {
+		return mHudTopImageThieves;
 	}
-
-	private void setThiefImage(Bitmap thiefImage) {
-		this.mThiefImage = thiefImage;
-	}
-
-	public Bitmap getThiefImage() {
-		return mThiefImage;
-	}
-
+	
 	private void setHudBottomImageThieves(Bitmap hudBottomImageThieves) {
 		this.mHudBottomImageThieves = hudBottomImageThieves;
 	}
@@ -198,6 +203,22 @@ public class Bitmaps {
 		return mHudDiceImage;
 	}
 	
+	public void setHudCopSprite(Bitmap mHudCopSprite) {
+		this.mHudCopSprite = mHudCopSprite;
+	}
+
+	public Bitmap getHudCopSprite() {
+		return mHudCopSprite;
+	}
+	
+	public void setHudThiefSprite(Bitmap mHudThiefSprite) {
+		this.mHudThiefSprite = mHudThiefSprite;
+	}
+
+	public Bitmap getHudThiefSprite() {
+		return mHudThiefSprite;
+	}
+	
 	public  Bitmap getBankSplash(){
 		return bankSplash;
 	}
@@ -260,5 +281,29 @@ public class Bitmaps {
 
 	public Bitmap getThiefwin() {
 		return thiefwin;
+	}
+
+	public void setHudCoin(Bitmap mHudCoin) {
+		this.mHudCoin = mHudCoin;
+	}
+
+	public Bitmap getHudCoin() {
+		return mHudCoin;
+	}
+
+	public void setCopImage(Bitmap copImage) {
+		this.copImage = copImage;
+	}
+
+	public Bitmap getCopImage() {
+		return copImage;
+	}
+
+	public void setThiefImage(Bitmap thiefImage) {
+		this.thiefImage = thiefImage;
+	}
+
+	public Bitmap getThiefImage() {
+		return thiefImage;
 	}
 }
