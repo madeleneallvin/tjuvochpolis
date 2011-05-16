@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public abstract class AbstractHudFactory {
 
@@ -18,9 +19,16 @@ public abstract class AbstractHudFactory {
 	protected Bitmap mPlayerIcon;
 	protected Bitmap mBottomHudBackgroundImage;
 	protected Bitmap mTopHud;
+	protected Bitmap mSpriteActive;
+	protected Bitmap mSpriteInactive;
+	protected Bitmap mCoin;
 	
 	protected Canvas mDiceCanvas;
 	protected Canvas mBottomCanvas;
+	protected Canvas mTopCanvas;
+	
+	protected Paint paintText;
+	protected Paint shadePaint;
 	
 	protected int mScreenWidth = 0;
 	protected int mScreenHeight = 0;
@@ -29,12 +37,21 @@ public abstract class AbstractHudFactory {
 	{
 		mScreenWidth = c.getWidth();
 		mScreenHeight = c.getHeight();
+		
+		paintText = new Paint();
+		paintText.setARGB(255, 255, 255, 255);
+
+		shadePaint = new Paint();
+		shadePaint.setARGB(150, 150, 150, 150);
+		
 		mPs = ps;
 		mDiceImage = Bitmaps.instance(ps.getContext()).getHudDiceImage();
-		mBottomHud = Bitmap.createBitmap(mScreenWidth, Grid.GRID_SIZE, Bitmap.Config.ARGB_8888);
+		mCoin = Bitmaps.instance(ps.getContext()).getHudCoin();
 		
-		int wid = mDiceImage.getWidth();
-		int hei = mDiceImage.getHeight();
+		mTopHud = Bitmap.createBitmap(mScreenWidth, Grid.GRID_SIZE, Bitmap.Config.ARGB_8888);
+		mBottomHud = Bitmap.createBitmap(mScreenWidth, Grid.GRID_SIZE, Bitmap.Config.ARGB_8888);
+		mBottomCanvas = new Canvas(mBottomHud);
+		mTopCanvas = new Canvas(mTopHud);
 
 		mDiceSegments = new ArrayList<Bitmap>();
 		
@@ -44,8 +61,7 @@ public abstract class AbstractHudFactory {
 			mDiceSegments.add(Bitmap.createBitmap(mDiceImage, x, 0, 30, 30));
 			x += 30;
 		}
-		
-		mBottomCanvas = new Canvas(mBottomHud);
+
 	}
 	
 	public Bitmap getBottomHud(PlayState ps, Canvas c)
@@ -57,10 +73,13 @@ public abstract class AbstractHudFactory {
 	
 	public Bitmap getTopHud(PlayState ps, Canvas c)
 	{
-		mTopHud = Bitmaps.instance(ps.getContext()).getHudTopImage();
+		//mTopHud = Bitmaps.instance(ps.getContext()).getHudTopImage();
+		generateTopHud();
 		return mTopHud;
 	}
 	
 	public abstract void generateBottomHud();
+	
+	public abstract void generateTopHud();
 	
 }
