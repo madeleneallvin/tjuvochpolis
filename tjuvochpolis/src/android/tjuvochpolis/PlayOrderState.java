@@ -145,7 +145,10 @@ public abstract class PlayOrderState {
 
 		paint.setARGB(110, 0, 10, 200);
 		
+		
+		
 		for(GridNode node : normalSquares) {
+		
 			int xPos = node.getX() + OffsetX;
 			int yPos = node.getY() + OffsetY;
 			Rect rec = new Rect(xPos, yPos, xPos + Grid.GRID_SIZE, yPos + Grid.GRID_SIZE);

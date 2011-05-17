@@ -80,12 +80,22 @@ public class CopTurnState extends PlayOrderState {
 		{
 			if(event.getX() <= v.getWidth()*0.333) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP1);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.COP2).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.COP3).isActive = false;
+				
 			}
 			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP2);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.COP1).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.COP3).isActive = false;
 			}
 			else {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP3);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.COP2).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.COP1).isActive = false;
 			}
 			
 			if(currentObject != null && currentObject.getCurrentDiceValue() != 0) {	

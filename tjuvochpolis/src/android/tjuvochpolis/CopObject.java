@@ -74,18 +74,34 @@ public class CopObject extends GameObject{
 			//this.invalidate();
 		}
 		else{
-			Resources res = context.getResources();
-			copIm = Bitmaps.instance(context).getCopImage();
-			rectCop = new Rect(xPos, yPos, right, bottom);
-			canvas.drawBitmap(copIm, null, rectCop, null);
-			direction = Bitmaps.DOWN;
+				//grå
+				if(this.getCurrentDiceValue() ==0 ){
+				
+				Bitmap copIm = Bitmaps.instance(context).getCopGray();
+				rectCop = new Rect(xPos, yPos, right,bottom);
+				canvas.drawBitmap(copIm,null,rectCop, null);
+				direction = Bitmaps.DOWN;
+				}
+				
+			  //markerad
+				else if(this.isActive){
+							
+					Bitmap copIm  = Bitmaps.instance(context).getCopMarked();
+				rectCop = new Rect(xPos, yPos, right,bottom);
+				canvas.drawBitmap(copIm,null,rectCop, null);
+				direction = Bitmaps.DOWN;
+				}		
+				
+				//vanlig
+				else if (this.isActive == false){
+				Bitmap copIm = Bitmaps.instance(context).getCopImage();
+				rectCop = new Rect(xPos, yPos, right, bottom);
+				canvas.drawBitmap(copIm, null, rectCop, null);
+				direction = Bitmaps.DOWN;
+				}
+			}
 		}
-		
-		
-		/*copIm = Bitmaps.instance(context).getCopImage();
-		rectCop = new Rect(left, top, right, bottom);
-		canvas.drawBitmap(copIm, null, rectCop, null);*/
-	}
+
 	
 	public boolean isWalkable(GridNode node){
 		int type = node.getType();

@@ -34,15 +34,15 @@ public class ThiefTurnState extends PlayOrderState {
 	public void handleState(int frame) {
 		
 		
-		if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).setCurrentDiceValue(0);
 		}
 		
-		if(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).setCurrentDiceValue(0);
 		}
 		
-		if(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).setCurrentDiceValue(0);
 		}
 		
@@ -56,12 +56,17 @@ public class ThiefTurnState extends PlayOrderState {
 		}
 		
 		if(currentObject != null && lastSelected.getCurrentDiceValue() != 0)
+			
 		{
+			
+			
 			drawHighlightSquare(currentObject, c, mPlayState.getOffsetX(), mPlayState.getOffsetY());
 		}
 	}
 	
-	public void drawSplashScreen(Canvas c, Context context) {
+
+	
+public void drawSplashScreen(Canvas c, Context context) {
 
 		Bitmap bankSplash = Bitmaps.instance(context).getCopturnsplash();
 		int left = c.getWidth()/6;
@@ -77,18 +82,29 @@ public class ThiefTurnState extends PlayOrderState {
 		{
 			if(event.getX() <= v.getWidth()*0.333) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF1);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.THIEF2).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.THIEF3).isActive = false;
 			}
 			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666){
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF2);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.THIEF1).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.THIEF3).isActive = false;
 			}
 			else{
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF3);
+				currentObject.isActive = true;
+				mPlayState.getGameObject(mObjectIndex.THIEF1).isActive = false;
+				mPlayState.getGameObject(mObjectIndex.THIEF2).isActive = false;
 			}
 			
 			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
 			{
 				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
 			}
+			
+			
 			
 			float x =  - (currentObject.getParentNode().getX() - v.getWidth()/2);
 			float y =  - (currentObject.getParentNode().getY() - (v.getHeight()/2 - 48));
