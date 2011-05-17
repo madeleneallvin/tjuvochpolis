@@ -25,15 +25,11 @@ public class EventState extends PlayOrderState {
 
 	@Override
 	public void doTouch(View v, MotionEvent event) {
-		
-		Log.i("EventState", "handleState");
-		
 		hasBeenTouched = staticObject.handleEvent(event, context);
-		
 	}
 	
 	
-public void drawHud(Canvas c, float mZoom){
+	public void drawHud(Canvas c, float mZoom){
 		
 		int canvasWidth = (int) Math.ceil((c.getWidth()/mZoom));
 		int canvasHeight = (int) Math.ceil((c.getHeight()/mZoom));
@@ -50,6 +46,11 @@ public void drawHud(Canvas c, float mZoom){
 	public PlayOrderState getNextState() {
 		if(hasBeenTouched) {
 			hasBeenTouched = false;
+			
+			if(mPlayState.calculateThiefTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
+				return mPlayState.getWinState();
+			}
+			
 			return mPlayState.mPreviousState;
 		}
 		return this;
@@ -59,10 +60,9 @@ public void drawHud(Canvas c, float mZoom){
 	 * Draw the splash screen
 	 */
 	public void drawSplash(Canvas c, float mZoom) {
-		this.drawHud(c, mZoom);
 		
+		this.drawHud(c, mZoom);
 		staticObject = mGameObjects.get(mObjectIndex.valueOf(getCurrentObjectSelected()).getIndex()).getParentNode().getGameStaticObject();
-
 		staticObject.drawSplashScreen(c, mZoom, context);
 		
 	

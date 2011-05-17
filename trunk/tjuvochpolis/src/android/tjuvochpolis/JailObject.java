@@ -47,17 +47,5 @@ public class JailObject extends GameStaticObject {
 
 
 		arrestButton = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
-		/*
-		Paint paint = new Paint();
-		paint.setColor(Color.GREEN);
-		Rect rect = new Rect(50, 300, 430, 500);
-		c.drawRect(rect, paint);		
-		paint.setColor(Color.RED);
-		c.drawText("Jail", 75, 325, paint);
-		paint.setColor(Color.BLUE);
-		Rect button = new Rect(100, 350, 150, 400);
-		c.drawRect(button, paint);		
-		
-		rob = new SplashButton(100,350, 50,50);*/
 	}
 }

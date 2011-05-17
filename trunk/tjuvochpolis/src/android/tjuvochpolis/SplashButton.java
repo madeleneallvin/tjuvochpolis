@@ -20,8 +20,6 @@ public class SplashButton {
 	
 	public boolean hasBeenClicked(MotionEvent event)
 	{
-		
-		Log.i("event click :", " X"+event.getX() + "Y" +event.getY() );
 		if(event.getX() > button.left && event.getX() < button.right
 				&& event.getY() > button.top && event.getY() < button.bottom) {
 			return true;	

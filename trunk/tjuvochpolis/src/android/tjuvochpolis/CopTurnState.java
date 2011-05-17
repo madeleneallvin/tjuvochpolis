@@ -15,6 +15,7 @@ public class CopTurnState extends PlayOrderState {
 	int turnSelect;
 	boolean hasMoved = false;
 	private boolean drawSplashCop = false;
+	private boolean drawWin = false;
 	boolean everythingHasMoved = false;
 	GameObject currentObject, lastSelected = null;
 
@@ -38,7 +39,7 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void doDraw(Canvas c, float mZoom){
-
+		
 		if (lastSelected != null){
 			if(drawSplashCop == true && lastSelected.isMoving == false){
 				drawSplashScreen(c , mPlayState.getContext());
@@ -52,7 +53,7 @@ public class CopTurnState extends PlayOrderState {
 	}
 
 	public void drawSplashScreen(Canvas c, Context context) {
-
+		
 		Bitmap bankSplash = Bitmaps.instance(context).getThiefturnsplash();
 		int left = c.getWidth()/6;
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
@@ -108,6 +109,10 @@ public class CopTurnState extends PlayOrderState {
 				
 				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
 					
+					if(mPlayState.calculateCopTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
+						drawWin = true;
+					}
+					
 					drawSplashCop = true;
 					
 				}
@@ -117,9 +122,6 @@ public class CopTurnState extends PlayOrderState {
 				lastSelected = currentObject;
 			}
 		}
-		
-		
-
 	}
 	
 	public PlayOrderState getNextState() {
@@ -133,11 +135,8 @@ public class CopTurnState extends PlayOrderState {
 		else if(everythingHasMoved == true){
 			drawSplashCop = false;
 			everythingHasMoved=false;
-			
 			return mPlayState.getThiefRollDiceState();
-
 		} 
-
 		return this;
 	}
 }

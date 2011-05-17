@@ -66,20 +66,20 @@ public class CopMoveState extends PlayOrderState {
 				this.mGameStaticObjects.get(mObjectStaticIndex.POLICESTATION1.getIndex()).setObjectMoney(this.mGameStaticObjects.get(mObjectStaticIndex.POLICESTATION1.getIndex()).getObjectMoney() + currentThief.getObjectMoney()/2);
 				currentThief.setObjectMoney(0);
 				
+				// Check if the cops have won
+				if(mPlayState.calculateCopTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
+					return mPlayState.getWinState();
+				}
+				
 				int wait = Dice.getDice().rollDice();
 				currentCop.setWaitingLeft(wait-1); // -1 är för att polisen ska få komma ut en omgång före tjuven
 				currentThief.setWaitingLeft(wait);
 				Log.i("wait...", ""+wait);
 				
-				//currentCop.setDrawXPos(mGrid.GRID_SIZE*policeCol); currentCop.setDrawYPos(mGrid.GRID_SIZE*policeRow);
-				//currentThief.setDrawXPos(mGrid.GRID_SIZE*8); currentThief.setDrawYPos(mGrid.GRID_SIZE*8);
-				
-				Log.i("cop name", currentCop.name);
-				Log.i("thief name", currentThief.name);
-				
 				//reset, låt detta stå efter alla ställen vi försöker accessa aktuell tjuv och polis
 				currentThief.setCaught(false);
 				currentCop.setThiefCaught(null);
+				
 				mPlayState.mPreviousState = mPlayState.getCopTurnState();
 				return mPlayState.getEventState();
 			}
@@ -92,13 +92,7 @@ public class CopMoveState extends PlayOrderState {
 				return mPlayState.getEventState();
 				
 			}
-			/* SPARA UTIFALL VI SKULLE VILJA HA SENARE
-			else if(currentNode.getType() == GridNode.TELEGRAPH)
-			{
-				mPlayState.mPreviousState = mPlayState.getCopTurnState();
-				//return mPlayState.getEventState();
-			}
-			*/
+
 			return mPlayState.getCopTurnState();
 		}
 	}
