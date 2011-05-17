@@ -17,9 +17,9 @@ public class NestObject extends GameStaticObject {
 	private SplashButton takeMoneyButton,leaveMoneyButton;
 	
 	
-	public NestObject(String name, GridNode parentNode) {
+	public NestObject(String name, GridNode parentNode, int objectMoney) {
 		super(name, parentNode);
-		this.setObjectMoney(0);
+		this.setObjectMoney(objectMoney);
 	}
 
 	/*

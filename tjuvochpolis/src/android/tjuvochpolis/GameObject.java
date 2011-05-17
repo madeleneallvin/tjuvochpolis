@@ -28,13 +28,14 @@ public abstract class GameObject {
 	protected boolean objectFinishedMoving = false;
 	private int waitingLeft = 0;
 	
-	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int mRolledDiceValue, int objectMoney) {
+	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int mRolledDiceValue, int objectMoney, int waitingleft) {
 		this.setParentNode(parentNode);
 		this.name = name;
 		
 		this.mCurrentDiceValue = mCurrentdiceValue;
 		this.mRolledDiceValue = mRolledDiceValue;
 		this.objectMoney = objectMoney;
+		this.waitingLeft = waitingleft;
 		
 		this.getParentNode().setGameObject(this);
 	}
@@ -259,6 +260,7 @@ public abstract class GameObject {
 		ed.putInt(name + "_money", objectMoney);
 		ed.putInt(name + "_diceValue", mCurrentDiceValue);
 		ed.putInt(name + "_rolledDiceValue", mRolledDiceValue);
+		ed.putInt(name + "_waitingLeft", waitingLeft);
 		
 		ed.commit();
 	}

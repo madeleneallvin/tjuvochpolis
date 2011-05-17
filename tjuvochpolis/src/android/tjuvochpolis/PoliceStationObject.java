@@ -15,8 +15,9 @@ public class PoliceStationObject extends GameStaticObject {
 	private Bitmap stationSplash;
 	private SplashButton stationButton;
 	
-	public PoliceStationObject(String name, GridNode parentNode) {
+	public PoliceStationObject(String name, GridNode parentNode, int objectMoney) {
 		super(name, parentNode);
+		this.setObjectMoney(objectMoney);
 	}
 
 	//@Override
