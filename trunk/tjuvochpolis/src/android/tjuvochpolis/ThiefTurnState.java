@@ -32,6 +32,20 @@ public class ThiefTurnState extends PlayOrderState {
 	
 	@Override
 	public void handleState(int frame) {
+		
+		
+		if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).setCurrentDiceValue(0);
+		}
+		
+		if(this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).setCurrentDiceValue(0);
+		}
+		
+		if(this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).setCurrentDiceValue(0);
+		}
+		
 	}
 
 	public void doDraw(Canvas c, float mZoom) {
@@ -75,13 +89,7 @@ public void drawSplashScreen(Canvas c, Context context) {
 				Log.i("thiefTurnState ", "everythingHasMoved = true");
 			}	
 			
-			if(currentObject != null && currentObject.getClass().equals(ThiefObject.class ) && currentObject.getPossiblePaths().size() <= 1){
-				
-			
-				currentObject.setCurrentDiceValue(0);
-						
-				
-			}
+		
 			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
 					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
