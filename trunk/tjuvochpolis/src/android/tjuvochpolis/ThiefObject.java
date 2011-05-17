@@ -12,7 +12,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class ThiefObject extends GameObject{
-
+	
 	private Rect rectThief;
 	private Bitmap thiefIm;
 	private long moviestart;
@@ -102,6 +102,15 @@ public class ThiefObject extends GameObject{
 		}
 	}
 	
+	public boolean isNodeOccupied(GridNode node) {
+		if(node.getGameObject() == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	public boolean canStopHere(GridNode node) {
 		if(node.getType() == GridNode.THIEF_NEST || node.getType() == GridNode.BANK){
 			return true;
@@ -133,7 +142,7 @@ public class ThiefObject extends GameObject{
 		
 		ed.commit();
 	}
-	
+
 	public void setCaught(boolean isCaught) {
 		this.isCaught = isCaught;
 	}

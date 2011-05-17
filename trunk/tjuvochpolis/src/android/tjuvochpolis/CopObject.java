@@ -99,6 +99,20 @@ public class CopObject extends GameObject{
 			return false;
 		}
 	}
+	
+	public boolean isNodeOccupied(GridNode node) {
+		if(node.getGameObject() == null) {
+			return false;
+		}
+		else {
+			if(node.getGameObject().getClass() == CopObject.class || !node.getGameObject().hasMoney()){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
 
 	public boolean canStopHere(GridNode node)
 	{

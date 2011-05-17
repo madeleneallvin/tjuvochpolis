@@ -61,7 +61,7 @@ public class ThiefTurnState extends PlayOrderState {
 		}
 	}
 	
-public void drawSplashScreen(Canvas c, Context context) {
+	public void drawSplashScreen(Canvas c, Context context) {
 
 		Bitmap bankSplash = Bitmaps.instance(context).getCopturnsplash();
 		int left = c.getWidth()/6;
@@ -120,37 +120,35 @@ public void drawSplashScreen(Canvas c, Context context) {
 				Log.i("thiefTurnState ", "everythingHasMoved = true");
 			}	
 			
-		
+			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
+			{
+				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
+				
+				Log.i("Thief turn state"," move path size" + currentObject.getMovePath().size());
+				Log.i("Thief turn state"," possible path size" + currentObject.getPossiblePaths().size());
+				Log.i("Thief turn state"," dice value" + currentObject.getCurrentDiceValue());
+			}
 			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
 					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
 						if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))) {
-							Log.i("thiefTurnState ", "gå med tjuven");
 							hasMoved = true;
 							lastSelected.setMovePath(paths);
 							lastSelected.isMoving = true;
 							lastSelected.setCurrentDiceValue(0);
 							setCurrentObjectSelected(lastSelected.getName());
-							
-						}
-						
-					}
-					
-					
-					
-					
-					if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
-						drawSplashThief = true;
 					}
 					
 				}
-				else{
-					Log.i("thiefTurnState ", "lastSelected = currentObject");
-					lastSelected = currentObject;
-				}	
+				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
+					drawSplashThief = true;
+				}
+				
 			}
-		
-			
+			else{
+				lastSelected = currentObject;
+			}	
+		}
 	}
 	
 	
