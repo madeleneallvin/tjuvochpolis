@@ -70,11 +70,14 @@ public class CopMoveState extends PlayOrderState {
 				if(mPlayState.calculateCopTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
 					return mPlayState.getWinState();
 				}
+				// Check if all thiefs are captured
+				else if(mPlayState.allThiefsCaptured() == true){
+					return mPlayState.getWinState();
+				}
 				
 				int wait = Dice.getDice().rollDice();
 				currentCop.setWaitingLeft(wait-1); // -1 är för att polisen ska få komma ut en omgång före tjuven
 				currentThief.setWaitingLeft(wait);
-				Log.i("wait...", ""+wait);
 				
 				//reset, låt detta stå efter alla ställen vi försöker accessa aktuell tjuv och polis
 				currentThief.setCaught(false);

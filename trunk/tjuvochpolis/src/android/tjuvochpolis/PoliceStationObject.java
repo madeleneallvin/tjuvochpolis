@@ -22,7 +22,6 @@ public class PoliceStationObject extends GameStaticObject {
 
 	//@Override
 	public boolean handleEvent(MotionEvent e, Context context) {
-		
 		return true;
 	}
 

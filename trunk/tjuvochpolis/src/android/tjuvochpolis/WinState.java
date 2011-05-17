@@ -35,6 +35,9 @@ public class WinState extends PlayOrderState{
 		else if(mPlayState.calculateThiefTeamMoney() > PlayState.AMOUNT_TO_WIN){
 			winSplash = Bitmaps.instance(this.mPlayState.getContext()).getThiefwin();
 		}
+		else if(mPlayState.allThiefsCaptured() == true){
+			winSplash = Bitmaps.instance(this.mPlayState.getContext()).getThiefcapturewin();
+		}
 		
 		Rect winRect = new Rect(0, PlayState.HUD_TOP_HEIGHT, c.getWidth(),c.getHeight()-PlayState.HUD_BOTTOM_HEIGHT);
 		c.drawBitmap(winSplash, null, winRect, null);

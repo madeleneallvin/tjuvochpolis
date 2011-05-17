@@ -18,7 +18,7 @@ public class PlayState implements GameState {
 	public static int HUD_TOP_HEIGHT = 48;
 	public static int HUD_BOTTOM_HEIGHT = 48;
 	
-	public static int AMOUNT_TO_WIN = 2000;
+	public static int AMOUNT_TO_WIN = 20000;
 	
 	protected Grid mGrid;
     
@@ -373,6 +373,20 @@ public class PlayState implements GameState {
 			}
 		}
 		return teamMoney;
+	}
+	
+	public boolean allThiefsCaptured() {
+		int thiefCount = 0;
+		for(int i = 0; i<mObjectStaticArray.size(); i++){
+			
+			if(mObjectStaticArray.get(i).getClass() == JailObject.class && mObjectStaticArray.get(i).getParentNode().getGameObject() != null){
+				thiefCount += 1;
+			}
+		}
+		if(thiefCount == 3){
+			return true;
+		}
+		return false;
 	}
 	
 	public PlayOrderState getCurrentPlayOrderState()

@@ -36,6 +36,7 @@ public class Bitmaps {
 	private Bitmap fikaSplash;
 	private Bitmap poliswin;
 	private Bitmap thiefwin;
+	private Bitmap thiefcapturewin;
 	
 	private Bitmap mBackgroundImage;
 	private Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
@@ -74,6 +75,7 @@ public class Bitmaps {
 		setFikaSplash(BitmapFactory.decodeResource(res, R.drawable.fika));
 		setPoliswin(BitmapFactory.decodeResource(res, R.drawable.poliswin));
 		setThiefwin(BitmapFactory.decodeResource(res, R.drawable.thiefwin));
+		setThiefcapturewin(BitmapFactory.decodeResource(res, R.drawable.thiefcapturewin));
 		
 		//Lägg alla movies i en indexerbar array.
 		movieThiefRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse1_walk_right_animate));
@@ -305,5 +307,13 @@ public class Bitmaps {
 
 	public Bitmap getThiefImage() {
 		return thiefImage;
+	}
+
+	private void setThiefcapturewin(Bitmap thiefcapturewin) {
+		this.thiefcapturewin = thiefcapturewin;
+	}
+
+	public Bitmap getThiefcapturewin() {
+		return thiefcapturewin;
 	}
 }
