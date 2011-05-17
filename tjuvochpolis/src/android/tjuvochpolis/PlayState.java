@@ -18,6 +18,8 @@ public class PlayState implements GameState {
 	public static int HUD_TOP_HEIGHT = 48;
 	public static int HUD_BOTTOM_HEIGHT = 48;
 	
+	public static int AMOUNT_TO_WIN = 2000;
+	
 	protected Grid mGrid;
     
     protected ArrayList<GameObject> mObjectArray;
@@ -80,6 +82,7 @@ public class PlayState implements GameState {
     protected PlayOrderState thiefMoveState;
     
     protected EventState eventState;
+    private PlayOrderState winState;
     
     protected int mFrame;
     
@@ -168,6 +171,7 @@ public class PlayState implements GameState {
 		thiefMoveState = new ThiefMoveState(this, mObjectArray, mObjectStaticArray, mGrid, 5);
 		
 		setEventState(new EventState(this, mObjectArray, mObjectStaticArray, mGrid, 6));
+		setWinState(new WinState(this, mObjectArray, mObjectStaticArray, mGrid, 7));
 		
 		// Set current state
 		int currentState = mPrefs.getInt("currentState", 2);
@@ -194,8 +198,11 @@ public class PlayState implements GameState {
 			case 5:
 				this.mCurrentState = getThiefMoveState();
 				break;
-			default:
+			case 6:
 				this.mCurrentState = getCopRollDiceState();
+				break;
+			default:
+				this.mCurrentState = getWinState();
 				break;
 		}
 		//this.mCurrentState = getCopRollDiceState();
@@ -240,17 +247,6 @@ public class PlayState implements GameState {
 		if(this.mCurrentState.getClass() == EventState.class){
 			((EventState)mCurrentState).drawSplash(c, mZoom);
 		}
-		
-		//rita splash för CopTurnState och thiefTurnState
-		
-		//	if(this.mCurrentState.getClass() == CopTurnState.class){
-		//		((CopTurnState)mCurrentState).drawSplash = true;
-		//	}
-			
-		/*	if(this.mCurrentState.getClass() == ThiefTurnState.class){
-				((ThiefTurnState)mCurrentState).drawSplash(c, mZoom);
-			}*/
-		
 		this.drawHud(c,mZoom);
 	}
 	
@@ -364,14 +360,7 @@ public class PlayState implements GameState {
 	}
 	
 	public int calculateCopTeamMoney(){
-		int teamMoney = 0;
-		for(int i = 0; i<mObjectStaticArray.size(); i++){
-			
-			if(mObjectStaticArray.get(i).getClass() == PoliceStationObject.class){
-				teamMoney += mObjectStaticArray.get(i).getObjectMoney();
-			}
-		}
-		
+		int teamMoney = this.mObjectStaticArray.get(mObjectStaticIndex.POLICESTATION1.getIndex()).getObjectMoney();
 		return teamMoney;
 	}
 	
@@ -383,7 +372,6 @@ public class PlayState implements GameState {
 				teamMoney += mObjectStaticArray.get(i).getObjectMoney();
 			}
 		}
-		
 		return teamMoney;
 	}
 	
@@ -459,8 +447,6 @@ public class PlayState implements GameState {
 	
 	public void saveState()
 	{
-		Log.i("PlayState", "savestate");
-		
 		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
 		
 		SharedPreferences.Editor ed = mPrefs.edit();
@@ -542,5 +528,13 @@ public class PlayState implements GameState {
 
 		c.drawBitmap(HudFactory.getBottomHud(this, c), null, mRectBottom, null);
 		c.drawBitmap(HudFactory.getTopHud(this, c), null, mRectTop, null);
+	}
+
+	public void setWinState(PlayOrderState winState) {
+		this.winState = winState;
+	}
+
+	public PlayOrderState getWinState() {
+		return winState;
 	}
 }

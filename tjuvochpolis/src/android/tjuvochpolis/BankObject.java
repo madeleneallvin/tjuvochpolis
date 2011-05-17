@@ -61,8 +61,6 @@ public class BankObject extends GameStaticObject {
 		{ int thiefMoney = this.getParentNode().getGameObject().getObjectMoney();
 			this.getParentNode().getGameObject().setObjectMoney(thiefMoney+this.getObjectMoney());
 			this.setObjectMoney(getBankMoney());
-			Log.i("NestObject", "ThiefMoney : " +thiefMoney);
-			Log.i("NestObject", "bankMoney : " +this.getObjectMoney());
 			tempBool = true;
 			
 		}

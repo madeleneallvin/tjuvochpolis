@@ -35,12 +35,7 @@ public class PoliceStationObject extends GameStaticObject {
 		int top = c.getHeight()/2 - (c.getWidth()/6)*2;
 		Rect stationRect = new Rect(left, top, left+4*left, top+left*4);
 		c.drawBitmap(stationSplash, null, stationRect, null);
-		
-
-		
-
 		stationButton = new SplashButton((int)(1.5*left),top+2*left, 3*left,left);
-		
 	}
 
 }
