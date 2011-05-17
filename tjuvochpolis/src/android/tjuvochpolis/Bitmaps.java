@@ -48,12 +48,12 @@ public class Bitmaps {
 
 		Resources res = context.getResources();
 		
-		setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
-		setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
+		//setHudBottomImageCops(BitmapFactory.decodeResource(res, R.drawable.htc_police_bottom_small));
+		//setHudBottomImageThieves(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv_small));
 		setHudTopImageCops(BitmapFactory.decodeResource(res, R.drawable.hud_top_cop));
 		setHudTopImageThieves(BitmapFactory.decodeResource(res, R.drawable.hud_top_tjuv));
-		setHudBottomCopBg(BitmapFactory.decodeResource(res, R.drawable.copbottom));
-		setHudBottomThiefBg(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv));
+		//setHudBottomCopBg(BitmapFactory.decodeResource(res, R.drawable.copbottom));
+		//setHudBottomThiefBg(BitmapFactory.decodeResource(res, R.drawable.htc_desire_tjuv));
 		
 		setHudCopSprite(BitmapFactory.decodeResource(res, R.drawable.hud_polis));
 		setHudThiefSprite(BitmapFactory.decodeResource(res, R.drawable.hud_tjuv));
@@ -95,7 +95,7 @@ public class Bitmaps {
 		copmovies.add(RIGHT, movieCopRight);
 		copmovies.add(DOWN, movieCopDown);
 		copmovies.add(LEFT, movieCopLeft);
-		setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.map_1008));  
+		setBackgroundImage(BitmapFactory.decodeResource(res, R.drawable.final_map));  
 		
 	}
 	
