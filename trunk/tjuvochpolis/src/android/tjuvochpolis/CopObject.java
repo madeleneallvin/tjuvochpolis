@@ -18,8 +18,8 @@ public class CopObject extends GameObject{
 	private int direction;
 	private ThiefObject thiefCaught = null;
 	
-	public CopObject(String name,GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney) {
-		super(name, parentNode, diceValue, rolledDiceValue, objectMoney);
+	public CopObject(String name,GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney, int waitingleft) {
+		super(name, parentNode, diceValue, rolledDiceValue, objectMoney, waitingleft);
 		
 		this.isMoving = false;
 		this.setDrawXPos(this.getParentNode().getX());

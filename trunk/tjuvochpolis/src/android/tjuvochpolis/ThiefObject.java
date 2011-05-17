@@ -19,8 +19,8 @@ public class ThiefObject extends GameObject{
 	private int direction;
 	private boolean isCaught = false;
 	
-	public ThiefObject(String name, GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney) {
-		super(name, parentNode, diceValue, rolledDiceValue, objectMoney);
+	public ThiefObject(String name, GridNode parentNode, int diceValue, int rolledDiceValue, int objectMoney, int waitingleft) {
+		super(name, parentNode, diceValue, rolledDiceValue, objectMoney, waitingleft);
 		
 		this.objectMoney = objectMoney;
 		this.isMoving = false;

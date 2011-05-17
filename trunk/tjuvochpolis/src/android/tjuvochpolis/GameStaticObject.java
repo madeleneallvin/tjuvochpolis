@@ -1,6 +1,7 @@
 package android.tjuvochpolis;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
@@ -43,8 +44,16 @@ public abstract class GameStaticObject {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getName() {
 		return name;
+	}
+	
+	public void saveState(Context mContext) {
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
+		
+		SharedPreferences.Editor ed = mPrefs.edit();
+		ed.putInt(name + "_objectStaticMoney", objectMoney);
+		ed.commit();
 	}
 }
