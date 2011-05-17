@@ -82,6 +82,26 @@ public void drawSplashScreen(Canvas c, Context context) {
 			else
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF3);
 			
+			float x =  - (currentObject.getParentNode().getX() - v.getWidth()/2);
+			float y =  - (currentObject.getParentNode().getY() - (v.getHeight()/2 - 48));
+			
+			if(x > 0) {
+				x = 0;
+			}
+			else if(x < (int) -(Bitmaps.instance(mPlayState.getContext()).getBackgroundImage().getWidth() - v.getWidth())) {
+				x = (int) -(Bitmaps.instance(mPlayState.getContext()).getBackgroundImage().getWidth() - v.getWidth());
+			}
+			
+			if(y > 0){
+				y = 0;
+			}
+			else if(y < - ((Bitmaps.instance(mPlayState.getContext()).getBackgroundImage().getHeight() - v.getHeight())  + 48*2)) {
+				y = -((Bitmaps.instance(mPlayState.getContext()).getBackgroundImage().getHeight() - v.getHeight())  + 48*2);
+			}
+			
+			mPlayState.setOffsetX((int)x);
+			mPlayState.setOffsetY((int)y);
+			
 			lastSelected = currentObject;
 		}
 		else if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
