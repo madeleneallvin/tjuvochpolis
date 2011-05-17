@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -58,18 +59,7 @@ public void drawSplashScreen(Canvas c, Context context) {
 	
 	public void doTouch(View v, MotionEvent event) {
 		
-		if(event.getY() > v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
-		{
-			if(event.getX() <= v.getWidth()*0.333)
-				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF1);
-			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666)
-				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF2);
-			else
-				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF3);
-			
-			lastSelected = currentObject;
-		}
-		else if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
+		if(event.getY() > PlayState.HUD_TOP_HEIGHT && event.getY() < v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT){
 			// Get clicked row and col
 			int row = GridNode.getRow(event, mPlayState.getOffsetY());
 			int col = GridNode.getCol(event, mPlayState.getOffsetX());
@@ -82,30 +72,46 @@ public void drawSplashScreen(Canvas c, Context context) {
 		
 			if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
 				everythingHasMoved = true;
+				Log.i("thiefTurnState ", "everythingHasMoved = true");
 			}	
 			
+			if(currentObject != null && currentObject.getClass().equals(ThiefObject.class ) && currentObject.getPossiblePaths().size() <= 1){
+				
 			
-	
+				currentObject.setCurrentDiceValue(0);
+						
+				
+			}
+			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {
-				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
-					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))) {
-						hasMoved = true;
-						lastSelected.setMovePath(paths);
-						lastSelected.isMoving = true;
-						lastSelected.setCurrentDiceValue(0);
-						setCurrentObjectSelected(lastSelected.getName());
+					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()) {
+						if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))) {
+							Log.i("thiefTurnState ", "gå med tjuven");
+							hasMoved = true;
+							lastSelected.setMovePath(paths);
+							lastSelected.isMoving = true;
+							lastSelected.setCurrentDiceValue(0);
+							setCurrentObjectSelected(lastSelected.getName());
+							
+						}
+						
+					}
+					
+					
+					
+					
+					if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
+						drawSplashThief = true;
 					}
 					
 				}
-				if(this.mGameObjects.get(mObjectIndex.THIEF1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.THIEF3.getIndex()).getCurrentDiceValue() == 0){
-					drawSplashThief = true;
-				}
-				
+				else{
+					Log.i("thiefTurnState ", "lastSelected = currentObject");
+					lastSelected = currentObject;
+				}	
 			}
-			else{
-				lastSelected = currentObject;
-			}	
-		}
+		
+			
 	}
 	
 	

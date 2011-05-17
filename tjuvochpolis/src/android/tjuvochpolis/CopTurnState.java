@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -88,26 +89,31 @@ public class CopTurnState extends PlayOrderState {
 				everythingHasMoved = true;
 			}
 			
-			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
-				for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
-					if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
-						hasMoved = true;
-						lastSelected.setMovePath(paths);
-						lastSelected.isMoving = true;
-						lastSelected.setCurrentDiceValue(0);
-						
-						//sätt att en polis har tagit en tjuv och sen att tjuven är tagen, för att använda i CopMoveState
-						if(currentObject != null && currentObject.getClass().equals(ThiefObject.class)){
-							((CopObject)lastSelected).setThiefCaught((ThiefObject)currentObject);
-							((ThiefObject)currentObject).setCaught(true);
-						}
-						
-						setCurrentObjectSelected(lastSelected.getName());
-					}
-
-				}
+			
+			if(currentObject != null && currentObject.getClass().equals(CopObject.class ) && currentObject.getPossiblePaths().size() <= 1){
 				
-				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
+				
+				currentObject.setCurrentDiceValue(0);
+				
+			}
+		
+			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
+					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
+						if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
+							hasMoved = true;
+							lastSelected.setMovePath(paths);
+							lastSelected.isMoving = true;
+							lastSelected.setCurrentDiceValue(0);
+							
+							//sätt att en polis har tagit en tjuv och sen att tjuven är tagen, för att använda i CopMoveState
+							if(currentObject != null && currentObject.getClass().equals(ThiefObject.class)){
+								((CopObject)lastSelected).setThiefCaught((ThiefObject)currentObject);
+								((ThiefObject)currentObject).setCaught(true);
+							}
+							setCurrentObjectSelected(lastSelected.getName());
+						}
+					}
+					if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
 					
 					if(mPlayState.calculateCopTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
 						drawWin = true;
@@ -116,12 +122,13 @@ public class CopTurnState extends PlayOrderState {
 					drawSplashCop = true;
 					
 				}
-
+				}
+				else
+				{
+					lastSelected = currentObject;
+				}
 			}
-			else{
-				lastSelected = currentObject;
-			}
-		}
+		
 	}
 	
 	public PlayOrderState getNextState() {
