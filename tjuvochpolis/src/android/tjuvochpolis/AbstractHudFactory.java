@@ -28,6 +28,9 @@ public abstract class AbstractHudFactory {
 	protected Canvas mTopCanvas;
 	
 	protected Paint paintText;
+	protected Paint paintBigText;
+	protected Paint paintWaitingLeft;
+	
 	protected Paint shadePaint;
 	
 	protected int mScreenWidth = 0;
@@ -37,12 +40,9 @@ public abstract class AbstractHudFactory {
 	{
 		mScreenWidth = c.getWidth();
 		mScreenHeight = c.getHeight();
-		
-		paintText = new Paint();
-		paintText.setARGB(255, 255, 255, 255);
 
 		shadePaint = new Paint();
-		shadePaint.setARGB(150, 150, 150, 150);
+		shadePaint.setARGB(180, 150, 150, 150);
 		
 		mPs = ps;
 		mDiceImage = Bitmaps.instance(ps.getContext()).getHudDiceImage();
@@ -61,7 +61,20 @@ public abstract class AbstractHudFactory {
 			mDiceSegments.add(Bitmap.createBitmap(mDiceImage, x, 0, 30, 30));
 			x += 30;
 		}
-
+		
+		paintText = new Paint();
+		paintText.setARGB(255, 255, 255, 0);
+		
+		paintBigText = new Paint();
+		paintBigText.setARGB(255, 255, 255, 0);
+		paintBigText.setTextSize((float) (mTopCanvas.getHeight()*0.4));
+		paintBigText.setTextScaleX((float)1.15);
+		
+		paintWaitingLeft = new Paint();
+		paintWaitingLeft.setARGB(255, 255, 10, 20);
+		paintWaitingLeft.setTextSize((float) (mBottomCanvas.getHeight()*0.8));
+		paintWaitingLeft.setTextScaleX((float)1.25);
+		
 	}
 	
 	public Bitmap getBottomHud(PlayState ps, Canvas c)

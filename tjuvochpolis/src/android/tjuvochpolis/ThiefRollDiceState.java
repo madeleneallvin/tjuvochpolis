@@ -32,25 +32,31 @@ public class ThiefRollDiceState extends PlayOrderState {
 		if(thief1.getWaitingLeft() != 0){
 			thief1.setCurrentDiceValue(0);
 			thief1.setWaitingLeft(thief1.getWaitingLeft()-1);
+			thief1.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+thief1.getWaitingLeft());
 		}else{
 			thief1.setRolledDiceValue(Dice.getDice().rollDice());
+			thief1.setDrawWaitingLeft(false);
 		}
 		
 		if(thief2.getWaitingLeft() != 0){
 			thief2.setCurrentDiceValue(0);
 			thief2.setWaitingLeft(thief2.getWaitingLeft()-1);
+			thief2.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+thief2.getWaitingLeft());
 		}else{
 			thief2.setRolledDiceValue(Dice.getDice().rollDice());
+			thief2.setDrawWaitingLeft(false);
 		}
 		
 		if(thief3.getWaitingLeft() != 0){
 			thief3.setCurrentDiceValue(0);
 			thief3.setWaitingLeft(thief3.getWaitingLeft()-1);
+			thief3.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+thief3.getWaitingLeft());
 		}else{
 			thief3.setRolledDiceValue(Dice.getDice().rollDice());
+			thief3.setDrawWaitingLeft(false);
 		}
 		
 		//Calculate the nodeWalker

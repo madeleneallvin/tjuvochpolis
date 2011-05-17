@@ -37,10 +37,6 @@ public class CopHudFactory extends AbstractHudFactory {
 		//if(cop1.isActive && cop1.getCurrentDiceValue() != 0) {
 			mBottomCanvas.drawBitmap(mSpriteActive, 0, 0, null);
 		}
-		else if(cop1.getCurrentDiceValue() == 0) {
-			mBottomCanvas.drawBitmap(mSpriteInactive, 0, 0,  null);
-			mBottomCanvas.drawRect(new Rect(0, 0, cwidth,cheight), shadePaint);
-		}
 		else {
 			mBottomCanvas.drawBitmap(mSpriteInactive, 0, 0,  null);
 		}
@@ -48,20 +44,12 @@ public class CopHudFactory extends AbstractHudFactory {
 		if(mPs.getCopTurnState().currentObject == cop2 && cop2.getCurrentDiceValue() != 0){
 			mBottomCanvas.drawBitmap(mSpriteActive, cwidth, 0, null);
 		}
-		else if(cop2.getCurrentDiceValue() == 0) {
-			mBottomCanvas.drawBitmap(mSpriteInactive, cwidth, 0,  null);
-			mBottomCanvas.drawRect(new Rect(cwidth, 0, 2*cwidth,cheight), shadePaint);
-		}
 		else {
 			mBottomCanvas.drawBitmap(mSpriteInactive, cwidth, 0,  null);
 		}
 		
 		if(mPs.getCopTurnState().currentObject == cop3 && cop3.getCurrentDiceValue() != 0){
 			mBottomCanvas.drawBitmap(mSpriteActive, cwidth*2, 0, null);
-		}
-		else if(cop3.getCurrentDiceValue() == 0) {
-			mBottomCanvas.drawBitmap(mSpriteInactive, cwidth*2, 0,  null);
-			mBottomCanvas.drawRect(new Rect(2*cwidth, 0, 3*cwidth,cheight), shadePaint);
 		}
 		else {
 			mBottomCanvas.drawBitmap(mSpriteInactive, cwidth*2, 0,  null);
@@ -73,26 +61,56 @@ public class CopHudFactory extends AbstractHudFactory {
 		mBottomCanvas.drawBitmap(mDiceSegments.get(cop2.getRolledDiceValue() - 1), (float) (cwidth*0.68) + cwidth, dicey, null);
 		mBottomCanvas.drawBitmap(mDiceSegments.get(cop3.getRolledDiceValue() - 1), (float) (cwidth*0.68) + 2*cwidth, dicey, null);
 
-		mBottomCanvas.drawText(""+cop1.getObjectMoney(), (float) (cwidth*0.45), Grid.GRID_SIZE-dicey, paintText);
-		mBottomCanvas.drawText(""+cop2.getObjectMoney(), (float) (cwidth*0.45 + cwidth), Grid.GRID_SIZE-dicey, paintText);
-		mBottomCanvas.drawText(""+cop3.getObjectMoney(), (float) (cwidth*0.45 + 2*cwidth), Grid.GRID_SIZE-dicey, paintText);
+		//mBottomCanvas.drawText(""+cop1.getObjectMoney(), (float) (cwidth*0.45), Grid.GRID_SIZE-dicey, paintText);
+		//mBottomCanvas.drawText(""+cop2.getObjectMoney(), (float) (cwidth*0.45 + cwidth), Grid.GRID_SIZE-dicey, paintText);
+		//mBottomCanvas.drawText(""+cop3.getObjectMoney(), (float) (cwidth*0.45 + 2*cwidth), Grid.GRID_SIZE-dicey, paintText);
 		
-		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.05), 0, null);
-		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.05 + cwidth), 0, null);
-		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.05 + 2*cwidth), 0, null);
+		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.15), 0, null);
+		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.15 + cwidth), 0, null);
+		mBottomCanvas.drawBitmap(mPlayerIcon, (float) (cwidth*0.15 + 2*cwidth), 0, null);
 		
-		mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45), dicey, null);
-		mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45 + cwidth), dicey, null);
-		mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45 + 2*cwidth), dicey, null);
+		//mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45), dicey, null);
+		//mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45 + cwidth), dicey, null);
+		//mBottomCanvas.drawBitmap(mCoin, (float) (cwidth*0.45 + 2*cwidth), dicey, null);
 		
+		if(cop1.getCurrentDiceValue() == 0 || cop1.getWaitingLeft() != 0) {
+			mBottomCanvas.drawRect(new Rect(0, 0, cwidth,cheight), shadePaint);
+		}
+		if(cop2.getCurrentDiceValue() == 0 || cop2.getWaitingLeft() != 0) {
+			mBottomCanvas.drawRect(new Rect(cwidth, 0, 2*cwidth,cheight), shadePaint);
+		}
+		if(cop3.getCurrentDiceValue() == 0 || cop3.getWaitingLeft() != 0) {
+			mBottomCanvas.drawRect(new Rect(2*cwidth, 0, 3*cwidth,cheight), shadePaint);
+		}
+		
+		if(cop1.isDrawWaitingLeft())
+		{
+			mBottomCanvas.drawText(""+(cop1.getWaitingLeft() + 1),
+									(float) (cwidth/2 - paintWaitingLeft.getTextSize()*0.3), 
+									(float) (cheight - cheight*0.2),
+									paintWaitingLeft);
+		}
+		if(cop2.isDrawWaitingLeft())
+		{
+			mBottomCanvas.drawText(""+(cop2.getWaitingLeft() + 1),
+									(float) (cwidth/2 - paintWaitingLeft.getTextSize()*0.3) + cwidth, 
+									(float) (cheight - cheight*0.2),
+									paintWaitingLeft);
+		}	
+		if(cop3.isDrawWaitingLeft())
+		{
+			mBottomCanvas.drawText(""+(cop3.getWaitingLeft() + 1),
+									(float) (cwidth/2 - paintWaitingLeft.getTextSize()*0.3) + cwidth*2, 
+									(float) (cheight - cheight*0.2),
+									paintWaitingLeft);
+		}
 	}
 
 	public void generateTopHud() 
 	{
 		int cwidth = mTopHud.getWidth();
 		int cheight = mTopHud.getHeight();
-		String totalPoints = "" + 3560;
 		mTopCanvas.drawBitmap(Bitmaps.instance(mPs.getContext()).getHudTopImageCops(), 0, 0, null);
-		mTopCanvas.drawText(totalPoints, (float) (cwidth*0.85), (float) (cheight*0.60), paintText);
+		mTopCanvas.drawText(mPs.calculateCopTeamMoney() + "", (float) (cwidth*0.83), (float) (cheight/2 + paintBigText.getTextSize()/2), paintBigText);
 	}
 }
