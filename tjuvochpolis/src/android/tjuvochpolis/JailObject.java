@@ -30,7 +30,6 @@ public class JailObject extends GameStaticObject {
 	
 	@Override
 	public boolean handleEvent(MotionEvent e, Context c) {
-		Log.i("handleEvent", "jailobject");
 		return true;
 	}
 	

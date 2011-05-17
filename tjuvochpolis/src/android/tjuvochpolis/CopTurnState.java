@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -101,14 +100,6 @@ public class CopTurnState extends PlayOrderState {
 				everythingHasMoved = true;
 			}
 			
-			
-	//		if(currentObject != null && currentObject.getClass().equals(CopObject.class ) && currentObject.getPossiblePaths().size() <= 1){
-				
-				
-		//		currentObject.setCurrentDiceValue(0);
-				
-		//	}
-		
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
 					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
 						if(paths.get(paths.size() - 1).equals(mGrid.getGridNode(row, col))){ 	
@@ -125,12 +116,12 @@ public class CopTurnState extends PlayOrderState {
 							setCurrentObjectSelected(lastSelected.getName());
 						}
 					}
-					if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
+				// All Cops has moved
+				if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0 ){
 					
-					if(mPlayState.calculateCopTeamMoney() >= mPlayState.AMOUNT_TO_WIN){
+					if(mPlayState.calculateCopTeamMoney() >= PlayState.AMOUNT_TO_WIN){
 						drawWin = true;
 					}
-					
 					drawSplashCop = true;
 					
 				}
@@ -144,12 +135,15 @@ public class CopTurnState extends PlayOrderState {
 	}
 	
 	public PlayOrderState getNextState() {
-
+		
 		if(hasMoved && everythingHasMoved == false){
 			hasMoved = false;
 
 			return mPlayState.copMoveState;
 
+		}
+		else if(drawWin == true){
+			return mPlayState.getWinState();
 		}
 		else if(everythingHasMoved == true){
 			drawSplashCop = false;
