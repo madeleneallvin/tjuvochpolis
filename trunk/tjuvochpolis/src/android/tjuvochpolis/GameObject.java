@@ -27,6 +27,7 @@ public abstract class GameObject {
 	protected boolean isMoving = true;
 	protected boolean objectFinishedMoving = false;
 	private int waitingLeft = 0;
+	private boolean drawWaitingLeft = false;
 	
 	public GameObject(String name,GridNode parentNode, int mCurrentdiceValue, int mRolledDiceValue, int objectMoney, int waitingleft) {
 		this.setParentNode(parentNode);
@@ -271,6 +272,14 @@ public abstract class GameObject {
 
 	public int getWaitingLeft() {
 		return waitingLeft;
+	}
+
+	protected void setDrawWaitingLeft(boolean drawWaitingLeft) {
+		this.drawWaitingLeft = drawWaitingLeft;
+	}
+
+	protected boolean isDrawWaitingLeft() {
+		return drawWaitingLeft;
 	}
 }
 	

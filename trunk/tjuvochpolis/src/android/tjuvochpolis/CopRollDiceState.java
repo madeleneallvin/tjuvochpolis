@@ -43,30 +43,35 @@ public class CopRollDiceState extends PlayOrderState {
 		CopObject cop2 = (CopObject) this.mGameObjects.get(mObjectIndex.COP2.getIndex());
 		CopObject cop3 = (CopObject) this.mGameObjects.get(mObjectIndex.COP3.getIndex());
 		
-		
 		//Slå tärning för poliserna.
 		if(cop1.getWaitingLeft() != 0){
 			cop1.setCurrentDiceValue(0);
 			cop1.setWaitingLeft(cop1.getWaitingLeft()-1);
+			cop1.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+cop1.getWaitingLeft());
 		}else{
 			cop1.setRolledDiceValue(Dice.getDice().rollDice());
+			cop1.setDrawWaitingLeft(false);
 		}
 		
 		if(cop2.getWaitingLeft() != 0){
 			cop2.setCurrentDiceValue(0);
 			cop2.setWaitingLeft(cop2.getWaitingLeft()-1);
+			cop2.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+cop2.getWaitingLeft());
 		}else{
 			cop2.setRolledDiceValue(Dice.getDice().rollDice());
+			cop2.setDrawWaitingLeft(false);
 		}
 		
 		if(cop3.getWaitingLeft() != 0){
 			cop3.setCurrentDiceValue(0);
 			cop3.setWaitingLeft(cop3.getWaitingLeft()-1);
+			cop3.setDrawWaitingLeft(true);
 			Log.i("waiting left:", ""+cop3.getWaitingLeft());
 		}else{
 			cop3.setRolledDiceValue(Dice.getDice().rollDice());
+			cop3.setDrawWaitingLeft(false);
 		}
 		
 		//Calculate the nodeWalker
