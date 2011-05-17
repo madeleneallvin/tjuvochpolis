@@ -127,6 +127,7 @@ public abstract class PlayOrderState {
 				}
 			}
 		}
+		normalSquares.remove(0); //removes node that object is standing on at first
 
 		paint.setARGB(128, 0, 255, 0);
 		
