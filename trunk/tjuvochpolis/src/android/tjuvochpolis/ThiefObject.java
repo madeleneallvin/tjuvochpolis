@@ -1,5 +1,7 @@
 package android.tjuvochpolis;
 
+import java.util.Currency;
+
 import android.graphics.Canvas;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,8 +14,8 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class ThiefObject extends GameObject{
-	
-	private Rect rectThief;
+
+	private Rect rectThief,rectMarkedThief,rectGreyThief;
 	private Bitmap thiefIm;
 	private long moviestart;
 	private int direction;
@@ -70,16 +72,78 @@ public class ThiefObject extends GameObject{
 				}
 			}
 			
-			int relTime = (int)((now - moviestart) % Bitmaps.instance(context).getThiefmovies(direction).duration()) ;
-			Bitmaps.instance(context).getThiefmovies(direction).setTime(relTime);
-			Bitmaps.instance(context).getThiefmovies(direction).draw(canvas,xPos, yPos, paint);
+			if(this.hasMoney()){
+				int relTime = (int)((now - moviestart) % Bitmaps.instance(context).getThiefMoneyMovies(direction).duration()) ;
+				Bitmaps.instance(context).getThiefMoneyMovies(direction).setTime(relTime);
+				Bitmaps.instance(context).getThiefMoneyMovies(direction).draw(canvas,xPos, yPos, paint);
+				
+			}else{
+				int relTime = (int)((now - moviestart) % Bitmaps.instance(context).getThiefmovies(direction).duration()) ;
+				Bitmaps.instance(context).getThiefmovies(direction).setTime(relTime);
+				Bitmaps.instance(context).getThiefmovies(direction).draw(canvas,xPos, yPos, paint);
+			}
+			
 			//this.invalidate();
 		}
-		else{
+		else if(this.hasMoney()){
+			
+			if(this.getCurrentDiceValue() == 0 ){
+				
+			Bitmap thiefGrey = Bitmaps.instance(context).getThiefMoneyGrey();
+			rectGreyThief = new Rect(xPos, yPos, right,bottom);
+			canvas.drawBitmap(thiefGrey,null,rectGreyThief, null);
+			direction = Bitmaps.DOWN;
+			}
+								
+			else if(this.isActive){
+				
+			Bitmap thiefGold = Bitmaps.instance(context).getThiefMoneyMarked();
+			rectMarkedThief = new Rect(xPos, yPos, right,bottom);
+			canvas.drawBitmap(thiefGold,null,rectMarkedThief, null);
+			direction = Bitmaps.DOWN;
+			}
+			
+			
+			//har pengar
+			else if (this.isActive == false){
+			thiefIm = Bitmaps.instance(context).getThiefMoney();
+			rectThief = new Rect(xPos, yPos, right, bottom);
+			canvas.drawBitmap(thiefIm, null, rectThief, null);
+			direction = Bitmaps.DOWN;
+			}
+			
+					}
+		
+		else {
+			
+			if(this.getCurrentDiceValue() ==0 ){
+				
+			Bitmap thiefGrey = Bitmaps.instance(context).getThiefgray();
+			rectGreyThief = new Rect(xPos, yPos, right,bottom);
+			canvas.drawBitmap(thiefGrey,null,rectGreyThief, null);
+			direction = Bitmaps.DOWN;
+			}
+			
+		  
+			else if(this.isActive){
+						
+			Bitmap thiefGold = Bitmaps.instance(context).getThiefMarked();
+			rectMarkedThief = new Rect(xPos, yPos, right,bottom);
+			canvas.drawBitmap(thiefGold,null,rectMarkedThief, null);
+			direction = Bitmaps.DOWN;
+			}
+				
+			
+			else if (this.isActive == false){
 			thiefIm = Bitmaps.instance(context).getThiefImage();
 			rectThief = new Rect(xPos, yPos, right, bottom);
 			canvas.drawBitmap(thiefIm, null, rectThief, null);
 			direction = Bitmaps.DOWN;
+			}
+			
+			
+			
+			
 		}
 	}
 

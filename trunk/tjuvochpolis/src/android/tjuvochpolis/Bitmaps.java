@@ -26,8 +26,8 @@ public class Bitmaps {
 	private Bitmap mHudCopSprite;
 	private Bitmap mHudThiefSprite;
 	
-	private Bitmap copImage;
-	private Bitmap thiefImage;
+
+
 	private Bitmap nestSplash;
 	private Bitmap bankSplash;
 	private Bitmap copturnsplash;
@@ -36,13 +36,26 @@ public class Bitmaps {
 	private Bitmap fikaSplash;
 	private Bitmap poliswin;
 	private Bitmap thiefwin;
-	private Bitmap thiefcapturewin;
 	
+	private Bitmap copImage;
+	private Bitmap copGray;
+	private Bitmap copMarked;
+	
+	
+	private Bitmap thiefImage;
+	private Bitmap thiefgray;
+	private Bitmap thiefMarked;
+	private Bitmap thiefMoney;
+	private Bitmap thiefMoneyGrey;
+	private Bitmap thiefMoneyMarked;
+	
+	private Bitmap thiefcapturewin;
 	private Bitmap mBackgroundImage;
 	private Movie movieThiefLeft,movieThiefRight,movieThiefUp,movieThiefDown;
 	private Movie movieCopLeft,movieCopRight,movieCopUp,movieCopDown;
+	private Movie movieThiefMoneyRight,movieThiefMoneyLeft,movieThiefMoneyUp,movieThiefMoneyDown;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
-	private ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4), copmovies = new ArrayList<Movie>(4);
+	private ArrayList<Movie> thiefmovies = new ArrayList<Movie>(4), copmovies = new ArrayList<Movie>(4), thiefMoneyMovies = new ArrayList<Movie>(4);
 	
 	private Bitmaps(Context context) {
 
@@ -64,7 +77,21 @@ public class Bitmaps {
 		setHudCoin(BitmapFactory.decodeResource(res, R.drawable.hud_coin));
 		
 		setCopImage(BitmapFactory.decodeResource(res, R.drawable.polis_standing));
-		setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse1_standing));
+		setCopMarked(BitmapFactory.decodeResource(res, R.drawable.polis_markerad_1));
+		setCopGray(BitmapFactory.decodeResource(res, R.drawable.polis_gray_small));
+		
+		setThiefImage(BitmapFactory.decodeResource(res, R.drawable.buse_small));
+		
+		setThiefMarked(BitmapFactory.decodeResource(res, R.drawable.tjuv_markerad));
+		
+		
+		setThiefgray(BitmapFactory.decodeResource(res, R.drawable.tjuv_gray));
+	
+		setThiefMoneyGrey(BitmapFactory.decodeResource(res, R.drawable.tjuv_gray_money));
+		
+		setThiefMoneyMarked(BitmapFactory.decodeResource(res, R.drawable.tjuv_markerad_money));
+		setThiefMoney(BitmapFactory.decodeResource(res, R.drawable.buse_small_money));
+		
 		
 		setBankSplash(BitmapFactory.decodeResource(res, R.drawable.banksplash));
 		setNestSplash(BitmapFactory.decodeResource(res, R.drawable.nestsplash));
@@ -86,6 +113,18 @@ public class Bitmaps {
 		thiefmovies.add(RIGHT, movieThiefRight);
 		thiefmovies.add(DOWN, movieThiefDown);
 		thiefmovies.add(LEFT, movieThiefLeft);
+		
+		movieThiefMoneyRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse_side_r_money));
+		movieThiefMoneyLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse_side_l_money));
+		movieThiefMoneyUp=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse_back_money));
+		movieThiefMoneyDown=Movie.decodeStream(context.getResources().openRawResource(R.drawable.buse_front_money_1));
+		
+		thiefMoneyMovies.add(UP, movieThiefMoneyUp);
+		thiefMoneyMovies.add(RIGHT, movieThiefMoneyRight);
+		thiefMoneyMovies.add(DOWN, movieThiefMoneyDown);
+		thiefMoneyMovies.add(LEFT, movieThiefMoneyLeft);
+		
+		
 		
 		movieCopRight=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_right_animate));
 		movieCopLeft=Movie.decodeStream(context.getResources().openRawResource(R.drawable.police_walk_left_animate));
@@ -160,6 +199,10 @@ public class Bitmaps {
 	
 	public Movie getThiefmovies(int index) {
 		return thiefmovies.get(index);
+	}
+	
+	public Movie getThiefMoneyMovies(int index) {
+		return thiefMoneyMovies.get(index);
 	}
 	public Movie getCopmovies(int index) {
 		return copmovies.get(index);
@@ -309,11 +352,66 @@ public class Bitmaps {
 		return thiefImage;
 	}
 
-	private void setThiefcapturewin(Bitmap thiefcapturewin) {
+	public void setCopGray(Bitmap copgray) {
+		this.copGray = copgray;
+	}
+
+	public Bitmap getCopGray() {
+		return copGray;
+	}
+
+	public void setCopMarked(Bitmap copMarked) {
+		this.copMarked = copMarked;
+	}
+
+	public Bitmap getCopMarked() {
+		return copMarked;
+	}
+
+	public void setThiefgray(Bitmap thiefgray) {
+		this.thiefgray = thiefgray;
+	}
+
+	public Bitmap getThiefgray() {
+		return thiefgray;
+	}
+
+	public void setThiefMarked(Bitmap thiefMarked) {
+		this.thiefMarked = thiefMarked;
+	}
+
+	public Bitmap getThiefMarked() {
+		return thiefMarked;
+	}
+		private void setThiefcapturewin(Bitmap thiefcapturewin) {
 		this.thiefcapturewin = thiefcapturewin;
 	}
 
 	public Bitmap getThiefcapturewin() {
 		return thiefcapturewin;
+	}
+
+	public void setThiefMoney(Bitmap thiefMoney) {
+		this.thiefMoney = thiefMoney;
+	}
+
+	public Bitmap getThiefMoney() {
+		return thiefMoney;
+	}
+
+	public void setThiefMoneyGrey(Bitmap thiefMoneyGrey) {
+		this.thiefMoneyGrey = thiefMoneyGrey;
+	}
+
+	public Bitmap getThiefMoneyGrey() {
+		return thiefMoneyGrey;
+	}
+
+	public void setThiefMoneyMarked(Bitmap thiefMoneyMarked) {
+		this.thiefMoneyMarked = thiefMoneyMarked;
+	}
+
+	public Bitmap getThiefMoneyMarked() {
+		return thiefMoneyMarked;
 	}
 }
