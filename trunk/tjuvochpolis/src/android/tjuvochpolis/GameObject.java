@@ -250,7 +250,7 @@ public abstract class GameObject {
 
 	public void saveState(Context mContext)
 	{
-		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
 	
 		SharedPreferences.Editor ed = mPrefs.edit();
 	

@@ -117,7 +117,7 @@ public class PlayState implements GameState {
 		mPrevDistance = 0.0f;		
 		mZoom = 1.0f;
 		
-		SharedPreferences mPrefs = context.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		SharedPreferences mPrefs = context.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
 		
 		//GameObjects
 		mObjectArray = new ArrayList<GameObject>();
@@ -461,7 +461,7 @@ public class PlayState implements GameState {
 	{
 		Log.i("PlayState", "savestate");
 		
-		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
 		
 		SharedPreferences.Editor ed = mPrefs.edit();
 		

@@ -125,7 +125,7 @@ public class ThiefObject extends GameObject{
 	{
 		super.saveState(mContext);
 		
-		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_PRIVATE);
+		SharedPreferences mPrefs = mContext.getSharedPreferences("gamePrefs", Context.MODE_WORLD_READABLE);
 		
 		SharedPreferences.Editor ed = mPrefs.edit();
 	

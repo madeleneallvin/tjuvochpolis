@@ -3,6 +3,7 @@ package android.tjuvochpolis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -15,6 +16,8 @@ public class MenuActivity extends Activity {
     /** Called when the activity is first created. */
 	Context context;
 	Activity activity;
+	SharedPreferences mPrefs;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,9 +28,13 @@ public class MenuActivity extends Activity {
         Button btnContinue = (Button)findViewById(R.id.Button02);
         Button btnExit = (Button)findViewById(R.id.Button03);
        
+        mPrefs = this.getSharedPreferences("gamePrefs", MODE_WORLD_READABLE);
+        
         btnPlay.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-		        
+				SharedPreferences.Editor ed = mPrefs.edit();
+				ed.clear();
+				ed.commit();
 				Intent intent = new Intent(activity, GameActivity.class);
 				startActivity(intent);
 			}
