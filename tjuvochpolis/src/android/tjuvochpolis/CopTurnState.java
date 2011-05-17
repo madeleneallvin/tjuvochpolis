@@ -36,7 +36,19 @@ public class CopTurnState extends PlayOrderState {
 	}
 	@Override
 	public void handleState(int frame){
-
+		if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.COP1.getIndex()).setCurrentDiceValue(0);
+		}
+		
+		if(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.COP2.getIndex()).setCurrentDiceValue(0);
+		}
+		
+		if(this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getPossiblePaths().size() <= 1){
+			this.mGameObjects.get(mObjectIndex.COP3.getIndex()).setCurrentDiceValue(0);
+		}
+		
+		
 	}
 
 	public void doDraw(Canvas c, float mZoom){
@@ -90,12 +102,12 @@ public class CopTurnState extends PlayOrderState {
 			}
 			
 			
-			if(currentObject != null && currentObject.getClass().equals(CopObject.class ) && currentObject.getPossiblePaths().size() <= 1){
+	//		if(currentObject != null && currentObject.getClass().equals(CopObject.class ) && currentObject.getPossiblePaths().size() <= 1){
 				
 				
-				currentObject.setCurrentDiceValue(0);
+		//		currentObject.setCurrentDiceValue(0);
 				
-			}
+		//	}
 		
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
 					for(ArrayList<GridNode> paths : lastSelected.getPossiblePaths()){
