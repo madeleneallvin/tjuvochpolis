@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.tjuvochpolis.PlayState.mObjectIndex;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -118,6 +119,14 @@ public class CopTurnState extends PlayOrderState {
 			
 			if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getCurrentDiceValue() == 0 && this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getCurrentDiceValue() == 0  ){
 				everythingHasMoved = true;
+			}
+			
+			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
+			{	
+				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
+				
+				Log.i("Cop turn state"," possible path size" + currentObject.getPossiblePaths().size());
+				Log.i("Cop turn state"," dice value" + currentObject.getCurrentDiceValue());
 			}
 			
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){

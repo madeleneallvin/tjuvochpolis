@@ -65,10 +65,10 @@ public abstract class GameObject {
 		// Tar fram alla möjliga noder man kan gå till från currentNode
 		ArrayList<GridNode> nextNodes = this.getNextNodes(currentNode, previousNode);
 
-		// Kolla gameobjects		
+		// Kolla om man ska kunna stanna, även om inte tärningsslagen är slut		
 		if(this.canStopHere(currentNode)) {
-			// Save the node	
-			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
+			//Kollar om noden inte är parentNode eller inte redan finns och lägger till dess path 
+			checkPathsAndAddIfOkay(currentNode);
 			
 			//om det är en återvändsgränd
 			if(nextNodes.size() == 0) {
@@ -76,12 +76,14 @@ public abstract class GameObject {
 				return;
 			}
 		}
-
+		
 		//Om tärningen visar 0, lägg till aktuella noden, och hoppa ur.
 		if(diceValue == 0) {
-			// Sparar undan en möjlig väg
-			mPossiblePaths.add((ArrayList<GridNode>) path.clone());
-
+			if(!this.isNodeOccupied(currentNode)) {
+				//Kollar om noden inte är parentNode eller inte redan finns och lägger till dess path 
+				checkPathsAndAddIfOkay(currentNode);
+			}
+			
 			// Rensar vägen
 			path.remove(path.size()-1);
 			return;
@@ -102,6 +104,27 @@ public abstract class GameObject {
 		return;
 	}
 
+	public abstract boolean isNodeOccupied(GridNode node);
+
+	private void checkPathsAndAddIfOkay(GridNode currentNode) {
+		if(!currentNode.equals(this.getParentNode())){
+			if(mPossiblePaths.isEmpty()){
+				mPossiblePaths.add((ArrayList<GridNode>) path.clone());
+			}
+			else{
+				boolean doesExist = false;
+				for(ArrayList<GridNode> paths : mPossiblePaths) {				
+					if(paths.contains(currentNode)) {
+						doesExist = true;
+						break;
+					}
+				}
+				if(!doesExist) {
+					mPossiblePaths.add((ArrayList<GridNode>) path.clone());
+				}
+			}
+		}
+	}
 
 	private ArrayList<GridNode> getNextNodes(GridNode currentNode, GridNode previousNode){
 		// hämta alla noder runt current
