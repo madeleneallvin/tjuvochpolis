@@ -75,12 +75,20 @@ public class ThiefTurnState extends PlayOrderState {
 		
 		if(event.getY() > v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
-			if(event.getX() <= v.getWidth()*0.333)
+			if(event.getX() <= v.getWidth()*0.333) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF1);
-			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666)
+			}
+			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666){
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF2);
-			else
+			}
+			else{
 				currentObject = mPlayState.getGameObject(mObjectIndex.THIEF3);
+			}
+			
+			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
+			{
+				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
+			}
 			
 			float x =  - (currentObject.getParentNode().getX() - v.getWidth()/2);
 			float y =  - (currentObject.getParentNode().getY() - (v.getHeight()/2 - 48));
@@ -123,10 +131,6 @@ public class ThiefTurnState extends PlayOrderState {
 			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
 			{
 				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
-				
-				Log.i("Thief turn state"," move path size" + currentObject.getMovePath().size());
-				Log.i("Thief turn state"," possible path size" + currentObject.getPossiblePaths().size());
-				Log.i("Thief turn state"," dice value" + currentObject.getCurrentDiceValue());
 			}
 			
 			if(currentObject == null && lastSelected != null && lastSelected.getClass() == ThiefObject.class && lastSelected.getCurrentDiceValue() != 0) {

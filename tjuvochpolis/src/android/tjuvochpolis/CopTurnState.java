@@ -36,15 +36,15 @@ public class CopTurnState extends PlayOrderState {
 	}
 	@Override
 	public void handleState(int frame){
-		if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.COP1.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.COP1.getIndex()).setCurrentDiceValue(0);
 		}
 		
-		if(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.COP2.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.COP2.getIndex()).setCurrentDiceValue(0);
 		}
 		
-		if(this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getPossiblePaths().size() <= 1){
+		if(this.mGameObjects.get(mObjectIndex.COP3.getIndex()).getPossiblePaths().size() < 1){
 			this.mGameObjects.get(mObjectIndex.COP3.getIndex()).setCurrentDiceValue(0);
 		}
 		
@@ -78,12 +78,19 @@ public class CopTurnState extends PlayOrderState {
 	{
 		if(event.getY() > v.getHeight() - PlayState.HUD_BOTTOM_HEIGHT)
 		{
-			if(event.getX() <= v.getWidth()*0.333)
+			if(event.getX() <= v.getWidth()*0.333) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP1);
-			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666)
+			}
+			else if(event.getX() > v.getWidth()*0.333 && event.getX() <= v.getWidth()*0.666) {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP2);
-			else
+			}
+			else {
 				currentObject = mPlayState.getGameObject(mObjectIndex.COP3);
+			}
+			
+			if(currentObject != null && currentObject.getCurrentDiceValue() != 0) {	
+				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
+			}
 			
 			float x =  - (currentObject.getParentNode().getX() - v.getWidth()/2);
 			float y =  - (currentObject.getParentNode().getY() - (v.getHeight()/2 - 48));
@@ -121,12 +128,8 @@ public class CopTurnState extends PlayOrderState {
 				everythingHasMoved = true;
 			}
 			
-			if(currentObject != null && currentObject.getCurrentDiceValue() != 0)
-			{	
+			if(currentObject != null && currentObject.getCurrentDiceValue() != 0) {	
 				currentObject.doNodeWalker(currentObject.getParentNode(), currentObject.getParentNode(), currentObject.getCurrentDiceValue());
-				
-				Log.i("Cop turn state"," possible path size" + currentObject.getPossiblePaths().size());
-				Log.i("Cop turn state"," dice value" + currentObject.getCurrentDiceValue());
 			}
 			
 			if((currentObject == null || currentObject.getClass().equals(ThiefObject.class) && currentObject.hasMoney()) && lastSelected != null && lastSelected.getClass() == CopObject.class && lastSelected.getCurrentDiceValue() != 0 ){
