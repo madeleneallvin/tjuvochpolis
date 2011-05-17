@@ -48,18 +48,18 @@ public class PlayState implements GameState {
         BANK3 (2),
         BANK4 (3),
         BANK5 (4),
-        BANK6 (5),
-        BANK7 (6),
-        BANK8 (7),
-        NEST1 (8),
-        NEST2 (9),
-        NEST3 (10),
-        NEST4 (11),
-        POLICESTATION1(12),
-        POLICESTATION2(13),
-        JAIL1(14),
-        JAIL2(15),
-        JAIL3(16);
+        //BANK6 (5),
+        BANK7 (5),
+        //BANK8 (6),
+        NEST1 (6),
+        NEST2 (7),
+        NEST3 (8),
+        NEST4 (9),
+        POLICESTATION1(10),
+        POLICESTATION2(11),
+        JAIL1(12),
+        JAIL2(13),
+        JAIL3(14);
     
         private final int index;
         mObjectStaticIndex(int index) {
